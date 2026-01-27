@@ -1,0 +1,15 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# Lokale Testdaten (falls du lokal mit dem Skript spielst)
+test_payload.json
+
+# Falls du später eine lokale Python-Umgebung nutzt
+venv/
+.venv/
