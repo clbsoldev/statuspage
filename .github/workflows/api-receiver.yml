@@ -1,0 +1,34 @@
+name: Status Update Receiver
+on:
+  repository_dispatch:
+    types: [nagios_update]
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Execute Update Logic
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python3 update_status.py '${{ toJson(github.event.client_payload) }}'
+
+      - name: Commit and Push Changes
+        run: |
+          git config user.name "Status Bot"
+          git config user.email "bot@github.com"
+          git add status/ history/
+          git commit -m "status update: ${{ github.event.client_payload.host }}" || exit 0
+          git pull --rebase
+          git push
