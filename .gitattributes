@@ -1,8 +1,13 @@
 # Globale Einstellungen für Zeilenenden (verhindert CRLF vs LF Probleme)
 * text=auto
 
+# These files are text and should be normalized (Convert crlf => lf)
+*.gitattributes text
+.gitignore      text
+*.md            text diff=markdown
+
 # JSON Dateien explizit als Text markieren
-*.json text
+*.json text linguist-language=JSON-with-Comments
 
 # Sicherstellen, dass Shell-Skripte oder Python-Skripte LF (Linux) Zeilenenden behalten
 *.py text eol=lf
@@ -12,3 +17,5 @@
 # wenn sie ohnehin komplett überschrieben werden
 status/*.json merge=union
 history/*.json merge=union
+
+config.json linguist-generated=true
