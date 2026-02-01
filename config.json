@@ -2,31 +2,31 @@
   "hosts": [
                                                                                                                                                                                                                                                                 {
       "id": "ansible",
-      "display_name": "Ansible Control Node"
+      "display_name": "Ansible Control Node",
       "group": "standalone",
       "assignee": "strfl89",
       "services": [{"name": "Runner-Service", "impact": "major"}]
     },        {
       "id": "hau-hyp01",
-      "display_name": "hau-hyp01-LOC"
-      "group": "standalone",
-      "assignee": "admin",
-      "services": []
+      "display_name": "hau-hyp01",
+      "group": "proxmox",
+      "assignee": "strfl89",
+      "services": [{"name": "Nginx", "impact": "critical"}, {"name": "SSL-Cert", "impact": "minor"}]
     },        {
       "id": "hau-hyp02",
-      "display_name": "hau-hyp02-LOC"
-      "group": "standalone",
-      "assignee": "admin",
-      "services": []
+      "display_name": "hau-hyp02",
+      "group": "proxmox",
+      "assignee": "strfl89",
+      "services": [{"name": "Nginx", "impact": "critical"}, {"name": "SSL-Cert", "impact": "minor"}]
     },        {
       "id": "hau-qnode01",
-      "display_name": "hau-qnode01-LOC"
+      "display_name": "hau-qnode01",
       "group": "standalone",
       "assignee": "admin",
       "services": []
     },        {
       "id": "nagios",
-      "display_name": "nagios-LOC"
+      "display_name": "nagios",
       "group": "standalone",
       "assignee": "strfl89",
       "services": [{"name": "Runner-Service", "impact": "major"}]
@@ -35,6 +35,9 @@
                                         {
             "id": "standalone",
             "name": "Standalone"
-          },                                                                                                                                                                                                                                                                                      ],
+          },                                                                                                    {
+            "id": "proxmox",
+            "name": "Proxmox"
+          },                                                                                                                                                                                                              ],
   "display_order": ["standalone", "proxmox"]
 }
