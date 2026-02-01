@@ -1,1 +1,43 @@
-
+{
+  "hosts": [
+                                                                                                                                                                                                                                                                {
+      "id": "ansible",
+      "display_name": "ansible",
+      "group": "management",
+      "assignee": "strfl89",
+      "services": [{"name": "Runner-Service", "impact": "major"}]
+    },        {
+      "id": "hau-hyp01",
+      "display_name": "hau-hyp01",
+      "group": "standalone",
+      "assignee": "admin",
+      "services": []
+    },        {
+      "id": "hau-hyp02",
+      "display_name": "hau-hyp02",
+      "group": "standalone",
+      "assignee": "admin",
+      "services": []
+    },        {
+      "id": "hau-qnode01",
+      "display_name": "hau-qnode01",
+      "group": "standalone",
+      "assignee": "admin",
+      "services": []
+    },        {
+      "id": "nagios",
+      "display_name": "nagios",
+      "group": "management",
+      "assignee": "strfl89",
+      "services": [{"name": "Runner-Service", "impact": "major"}]
+    }      ],
+  "groups": [
+                                        {
+            "id": "management",
+            "name": "Management"
+          },                                                                                                    {
+            "id": "standalone",
+            "name": "Standalone"
+          },                                                                                                                                                                                                              ],
+  "display_order": ["management", "standalone"]
+}
