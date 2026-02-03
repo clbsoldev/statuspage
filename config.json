@@ -5,7 +5,7 @@
       "display_name": "Ansible Control Node",
       "group": "standalone",
       "assignee": "strfl89",
-      "services": [{"name": "Runner-Service", "impact": "major"}]
+      "services": [{"name": "CPU Temperature", "impact": "minor"}, {"name": "GitHub Runner", "impact": "critical"}, {"name": "Linux Kernel Version", "impact": "minor"}]
     },        {
       "id": "hau-hyp01",
       "display_name": "hau-hyp01",
@@ -29,7 +29,7 @@
       "display_name": "nagios",
       "group": "standalone",
       "assignee": "strfl89",
-      "services": [{"name": "Runner-Service", "impact": "major"}]
+      "services": [{"name": "GitHub Runner", "impact": "major"}, {"name": "Heartbeat", "impact": "critical"}, {"name": "Linux Kernel Version", "impact": "minor"}, {"name": "SSL Certificate", "impact": "critical"}, {"name": "Uptime", "impact": "critical"}]
     }      ],
   "groups": [
                                         {
