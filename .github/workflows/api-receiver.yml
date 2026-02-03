@@ -1,34 +1,50 @@
-name: Status Update Receiver
+name: Update Status Page
 on:
   repository_dispatch:
-    types: [nagios_update]
+    types: [nagios_notification]
 
 jobs:
-  update:
+  process:
     runs-on: ubuntu-latest
     permissions:
       contents: write
       issues: write
     steps:
-      - name: Checkout Repository
+      - name: Checkout Main Branch
         uses: actions/checkout@v4
+        with:
+          path: main
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
+      - name: Checkout GH-Pages Branch
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          path: gh-pages
+        continue-on-error: true # Falls der Branch noch nicht existiert
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
         with:
           python-version: '3.x'
 
-      - name: Execute Update Logic
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          python3 update_status.py '${{ toJson(github.event.client_payload) }}'
+      - name: Install Dependencies
+        run: pip install requests
 
-      - name: Commit and Push Changes
+      - name: Process Update
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PAYLOAD: ${{ toJson(github.event.client_payload) }}
+        run: |
+          # Wir führen das Skript aus dem Main-Branch aus, 
+          # aber es soll die status.json im gh-pages Verzeichnis lesen/schreiben
+          export STATUS_JSON_PATH="gh-pages/status.json"
+          export CONFIG_JSON_PATH="main/config.json"
+          python3 main/scripts/process_update.py
+
+      - name: Commit & Push to GH-Pages
+        working-directory: gh-pages
         run: |
           git config user.name "Statuspage Bot"
           git config user.email "statuspage@clb-sol.dev"
-          git add status/ history/
-          git commit -m "status update: ${{ github.event.client_payload.host }}" || exit 0
-          git pull --rebase
-          git push
+          git add status.json
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Update status for ${{ github.event.client_payload.host }}" && git push origin gh-pages)
