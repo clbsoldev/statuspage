@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Status</title>
+    <style>
+        body { font-family: sans-serif; line-height: 1.6; max-width: 800px; margin: 40px auto; padding: 0 20px; background: #f4f4f9; }
+        .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        .host-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #eee; pb: 10px; }
+        .service { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #eee; }
+        .status-pill { padding: 4px 12px; border-radius: 20px; font-size: 0.8em; font-weight: bold; text-transform: uppercase; }
+        .ok { background: #d4edda; color: #155724; }
+        .critical { background: #f8d7da; color: #721c24; }
+        .warning { background: #fff3cd; color: #856404; }
+        .output { font-size: 0.85em; color: #666; display: block; }
+    </style>
+</head>
+<body>
+    <h1>System Status</h1>
+    <div id="status-container">Lade Status...</div>
+
+    <script>
+        async function loadStatus() {
+            try {
+                const response = await fetch('status.json');
+                const data = await response.json();
+                const container = document.getElementById('status-container');
+                container.innerHTML = '';
+
+                for (const [host, services] of Object.entries(data)) {
+                    let hostHtml = `<div class="card">
+                        <div class="host-header"><h2>${host}</h2></div>`;
+                    
+                    for (const [service, details] of Object.entries(services)) {
+                        const statusClass = details.status.toLowerCase();
+                        hostHtml += `
+                            <div class="service">
+                                <div>
+                                    <strong>${service}</strong>
+                                    <span class="output">${details.output}</span>
+                                </div>
+                                <span class="status-pill ${statusClass}">${details.status}</span>
+                            </div>`;
+                    }
+                    hostHtml += `</div>`;
+                    container.innerHTML += hostHtml;
+                }
+            } catch (e) {
+                document.getElementById('status-container').innerHTML = 'Keine Status-Daten verfügbar.';
+            }
+        }
+        loadStatus();
+        setInterval(loadStatus, 30000); // Alle 30 Sek. aktualisieren
+    </script>
+</body>
+</html>
