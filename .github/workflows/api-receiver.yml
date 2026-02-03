@@ -26,8 +26,8 @@ jobs:
 
       - name: Commit and Push Changes
         run: |
-          git config user.name "Status Bot"
-          git config user.email "bot@github.com"
+          git config user.name "Statuspage Bot"
+          git config user.email "statuspage@clb-sol.dev"
           git add status/ history/
           git commit -m "status update: ${{ github.event.client_payload.host }}" || exit 0
           git pull --rebase
