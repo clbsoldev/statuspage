@@ -1,6 +1,6 @@
 {
   "id": "nagios",
-  "display_name": "nagios",
+  "display_name": "Monitoring",
   "is_group": false,
   "entries": {
     "nagios:Host": {
