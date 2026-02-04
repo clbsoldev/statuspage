@@ -1,6 +1,11 @@
 {
+  "ui_config": {
+    "columns": 2,
+    "refresh_interval_ms": 60000
+  },
+  "display_order": ["standalone", "proxmox"],
   "hosts": [
-                                                                                                                                                                                                                                                                {
+                                                                  {
       "id": "ansible",
       "display_name": "Ansible Control Node",
       "group": "standalone",
@@ -32,12 +37,11 @@
       "services": [{"name": "GitHub Runner", "impact": "major"}, {"name": "Heartbeat", "impact": "critical"}, {"name": "Linux Kernel Version", "impact": "minor"}, {"name": "SSL Certificate", "impact": "critical"}, {"name": "Uptime", "impact": "critical"}]
     }      ],
   "groups": [
-                                                                                                                                                                                                                                                                                                                                            {
+                                                                                                                            {
       "id": "standalone",
       "name": "Standalone"
     },        {
       "id": "proxmox",
       "name": "Proxmox"
-    }      ],
-  "display_order": ["standalone", "proxmox"]
+    }      ]
 }
