@@ -13,14 +13,12 @@ def manage_issues(host_id, service, status, output, host_config):
         "Accept": "application/vnd.github.v3+json"
     }
 
-    # Suche nach offenem Issue (exakt für diesen Host/Service)
     search_url = f"https://api.github.com/search/issues?q=repo:{repo}+type:issue+state:open+in:title+\"{issue_title}\""
     try:
         search_res = requests.get(search_url, headers=headers).json()
         items = search_res.get('items', [])
         existing_issue = items[0] if items else None
 
-        # Incident erstellen
         if status in ['CRITICAL', 'DOWN', 'WARNING'] and not existing_issue:
             issue_data = {
                 "title": issue_title,
@@ -29,14 +27,11 @@ def manage_issues(host_id, service, status, output, host_config):
                 "labels": ["incident", status.lower()]
             }
             requests.post(f"https://api.github.com/repos/{repo}/issues", json=issue_data, headers=headers)
-            print(f"Issue erstellt für {host_id}:{service}")
         
-        # Incident auflösen
         elif status in ['OK', 'UP'] and existing_issue:
             num = existing_issue['number']
             requests.patch(f"https://api.github.com/repos/{repo}/issues/{num}", json={"state": "closed"}, headers=headers)
             requests.post(f"https://api.github.com/repos/{repo}/issues/{num}/comments", json={"body": f"Resolved: {status}\nOutput: {output}"}, headers=headers)
-            print(f"Issue #{num} geschlossen.")
     except Exception as e:
         print(f"Fehler im Issue-Management: {e}")
 
@@ -55,10 +50,8 @@ def main():
     host_config = next((h for h in config.get('hosts', []) if h['id'] == host_id), None)
     if not host_config: return
 
-    # 1. ISSUE MANAGEMENT (Individuell)
     manage_issues(host_id, service, status, output, host_config)
 
-    # 2. STATUS AGGREGATION (Gruppiert für UI)
     group_id = host_config.get('group', 'standalone')
     target_id = host_id if group_id == 'standalone' else group_id
     
@@ -71,7 +64,12 @@ def main():
     else:
         display_name = host_config['display_name'] if group_id == 'standalone' else \
                        next((g['name'] for g in config['groups'] if g['id'] == group_id), group_id)
+        # WICHTIG: Hier muss "entries" stehen, damit die index.html es findet
         data = {"id": target_id, "display_name": display_name, "is_group": group_id != 'standalone', "entries": {}}
+
+    # Wir stellen sicher, dass wir "entries" nutzen, auch wenn die Datei alt ist
+    if "services" in data and "entries" not in data:
+        data["entries"] = data.pop("services")
 
     data["entries"][f"{host_id}:{service}"] = {
         "host": host_id,
@@ -81,13 +79,14 @@ def main():
         "last_update": datetime.utcnow().isoformat() + "Z"
     }
 
-    # Schweregrad berechnen
     severity = 0
     for key, info in data["entries"].items():
         h_conf = next((h for h in config['hosts'] if h['id'] == info['host']), {})
-        s_conf = next((s for s in h_conf.get('services', []) if s['name'] == info['service']), {"impact": "minor"})
+        s_list = h_conf.get('services', [])
+        s_conf = next((s for s in s_list if s['name'] == info['service']), {"impact": "minor"})
+        
         if info['status'] in ['CRITICAL', 'DOWN']:
-            severity = max(severity, 2 if s_conf['impact'] == 'critical' else 1)
+            severity = max(severity, 2 if s_conf.get('impact') == 'critical' else 1)
         elif info['status'] == 'WARNING':
             severity = max(severity, 1)
 
