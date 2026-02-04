@@ -1,24 +1,28 @@
 import os
 import json
 import requests
-from datetime import datetime
+from datetime import datetime, timezone
 
 def manage_issues(host_id, service, status, output, host_config):
     token = os.getenv('GH_TOKEN')
     repo = os.getenv('GITHUB_REPOSITORY')
     assignee = host_config.get('assignee', 'admin')
+    
+    # Eindeutiger Titel für das GitHub Issue
     issue_title = f"Alert: {host_id} - {service}"
     headers = {
         "Authorization": f"token {token}",
         "Accept": "application/vnd.github.v3+json"
     }
 
-    search_url = f"https://api.github.com/search/issues?q=repo:{repo}+type:issue+state:open+in:title+\"{issue_title}\""
     try:
+        # Suche nach existierenden offenen Issues mit diesem Titel
+        search_url = f"https://api.github.com/search/issues?q=repo:{repo}+type:issue+state:open+in:title+\"{issue_title}\""
         search_res = requests.get(search_url, headers=headers).json()
         items = search_res.get('items', [])
         existing_issue = items[0] if items else None
 
+        # Erstelle Issue bei Fehlern (CRITICAL, DOWN, WARNING)
         if status in ['CRITICAL', 'DOWN', 'WARNING'] and not existing_issue:
             issue_data = {
                 "title": issue_title,
@@ -28,6 +32,7 @@ def manage_issues(host_id, service, status, output, host_config):
             }
             requests.post(f"https://api.github.com/repos/{repo}/issues", json=issue_data, headers=headers)
         
+        # Schließe Issue, wenn der Status wieder OK/UP ist
         elif status in ['OK', 'UP'] and existing_issue:
             num = existing_issue['number']
             requests.patch(f"https://api.github.com/repos/{repo}/issues/{num}", json={"state": "closed"}, headers=headers)
@@ -48,10 +53,14 @@ def main():
         config = json.load(f)
 
     host_config = next((h for h in config.get('hosts', []) if h['id'] == host_id), None)
-    if not host_config: return
+    if not host_config: 
+        print(f"Host {host_id} nicht in config.json gefunden.")
+        return
 
+    # Issue Management aufrufen
     manage_issues(host_id, service, status, output, host_config)
 
+    # Dateipfad bestimmen (Aggregation in Gruppen-JSON falls konfiguriert)
     group_id = host_config.get('group', 'standalone')
     target_id = host_id if group_id == 'standalone' else group_id
     
@@ -63,31 +72,34 @@ def main():
             data = json.load(f)
     else:
         display_name = host_config['display_name'] if group_id == 'standalone' else \
-                       next((g['name'] for g in config['groups'] if g['id'] == group_id), group_id)
-        # WICHTIG: Hier muss "entries" stehen, damit die index.html es findet
+                       next((g['name'] for g in config.get('groups', []) if g['id'] == group_id), group_id)
         data = {"id": target_id, "display_name": display_name, "is_group": group_id != 'standalone', "entries": {}}
 
-    # Wir stellen sicher, dass wir "entries" nutzen, auch wenn die Datei alt ist
+    # Migration alter Datenstrukturen
     if "services" in data and "entries" not in data:
         data["entries"] = data.pop("services")
 
+    # Update des Eintrags (Nutzt jetzt die moderne timezone-aware datetime)
     data["entries"][f"{host_id}:{service}"] = {
         "host": host_id,
         "service": service,
         "status": status,
         "output": output,
-        "last_update": datetime.utcnow().isoformat() + "Z"
+        "last_update": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
     }
 
+    # Berechnung des Gesamtstatus (Severity Logic)
     severity = 0
     for key, info in data["entries"].items():
-        h_conf = next((h for h in config['hosts'] if h['id'] == info['host']), {})
+        curr_status = info.get('status', 'OK')
+        # Finde Impact in der config.json
+        h_conf = next((h for h in config.get('hosts', []) if h['id'] == info['host']), {})
         s_list = h_conf.get('services', [])
         s_conf = next((s for s in s_list if s['name'] == info['service']), {"impact": "minor"})
         
-        if info['status'] in ['CRITICAL', 'DOWN']:
-            severity = max(severity, 2 if s_conf.get('impact') == 'critical' else 1)
-        elif info['status'] == 'WARNING':
+        if curr_status in ['CRITICAL', 'DOWN']:
+            severity = max(severity, 2 if s_conf.get('impact') == 'critical' or info['service'] == 'Host' else 1)
+        elif curr_status == 'WARNING':
             severity = max(severity, 1)
 
     data["overall_status"] = {0: "operational", 1: "impaired", 2: "critical"}[severity]
