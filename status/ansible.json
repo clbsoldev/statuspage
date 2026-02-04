@@ -9,6 +9,13 @@
       "status": "UP",
       "output": "PING OK - Packet loss = 0%, RTA = 1.07 ms",
       "last_update": "2026-02-04T06:59:54.007668Z"
+    },
+    "ansible:GitHub Runner": {
+      "host": "ansible",
+      "service": "GitHub Runner",
+      "status": "OK",
+      "output": "OCSP - OK: Service github-runner.ansible is running!",
+      "last_update": "2026-02-04T07:00:09.733787Z"
     }
   },
   "overall_status": "operational"
