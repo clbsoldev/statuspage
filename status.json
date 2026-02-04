@@ -1,0 +1,9 @@
+{
+  "ansible": {
+    "Host": {
+      "status": "UP",
+      "output": "PING OK - Packet loss = 0%, RTA = 2.25 ms",
+      "last_update": "2026-02-04T05:34:38.321328Z"
+    }
+  }
+}
