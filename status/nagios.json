@@ -1,0 +1,15 @@
+{
+  "id": "nagios",
+  "display_name": "nagios",
+  "is_group": false,
+  "entries": {
+    "nagios:Host": {
+      "host": "nagios",
+      "service": "Host",
+      "status": "UP",
+      "output": "Heartbeat OK from MGMT-Pi-Home",
+      "last_update": "2026-02-04T12:21:29.742105Z"
+    }
+  },
+  "overall_status": "operational"
+}
