@@ -3,68 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>System Status Dashboard</title>
+    <title>Status Dashboard</title>
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="manifest" href="manifest.json">
+    
     <style>
-        :root { --bg: #f6f8fa; --border: #d0d7de; --text: #24292f; }
-        body { font-family: -apple-system, system-ui, sans-serif; background: var(--bg); color: var(--text); padding: 20px; margin: 0; }
-        .container { max-width: 1200px; margin: 0 auto; }
+        :root { --bg: #f6f8fa; --border: #d0d7de; --text: #24292f; --muted: #656d76; }
+        body { font-family: -apple-system, system-ui, sans-serif; background: var(--bg); color: var(--text); padding: 20px; margin: 0; display: flex; flex-direction: column; min-height: 100vh; }
+        .container { max-width: 1200px; margin: 0 auto; flex: 1; width: 100%; }
         
-        /* Grid-Logik */
-        .grid { 
-            display: grid; 
-            gap: 20px; 
-            /* Standard: Mobile ist immer 1-spaltig */
-            grid-template-columns: 1fr; 
-        }
+        header { text-align: center; margin-bottom: 30px; border-bottom: 1px solid var(--border); padding-bottom: 10px; }
+        h1 { font-weight: 300; margin: 0; font-size: 28px; }
 
-        /* Desktop-Ansicht: Nutze die Spalten aus der config.json */
+        .grid { display: grid; gap: 20px; grid-template-columns: 1fr; }
         @media (min-width: 769px) {
-            .grid { 
-                grid-template-columns: repeat(var(--cols, 2), 1fr); 
-            }
+            .grid { grid-template-columns: repeat(var(--cols, 2), 1fr); }
             body { padding: 40px 20px; }
         }
 
         .card { background: white; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; height: fit-content; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
-        .header { padding: 16px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: background 0.2s; }
-        .header:hover { background: #f3f4f6; }
+        .header-card { padding: 16px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: background 0.2s; }
+        .header-card:hover { background: #f3f4f6; }
         
         .pill { padding: 3px 10px; border-radius: 12px; font-size: 11px; font-weight: 600; text-transform: uppercase; border: 1px solid transparent; }
         .operational, .ok, .up { background: #dafbe1; color: #1a7f37; border-color: #1a7f3733; }
         .impaired, .warning { background: #fff8c5; color: #9a6700; border-color: #9a670033; }
         .critical, .down { background: #ffebe9; color: #cf222e; border-color: #cf222e33; }
-        .pending { background: #eee; color: #666; }
 
         .details { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; background: #fafafa; }
         .card.open .details { max-height: 2000px; border-top: 1px solid var(--border); }
         
         .svc-row { padding: 10px 16px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; font-size: 14px; }
-        .svc-row:last-child { border-bottom: none; }
-        .host-tag { font-size: 10px; color: #888; text-transform: uppercase; display: block; margin-bottom: 2px; }
-        h1 { margin-bottom: 30px; font-weight: 300; border-bottom: 1px solid var(--border); padding-bottom: 10px; font-size: 24px; }
+        .host-tag { font-size: 10px; color: var(--muted); text-transform: uppercase; display: block; margin-bottom: 2px; }
+        
+        /* Bereich für Zeitstempel unter den Karten */
+        .info-area { text-align: center; margin-top: 30px; color: var(--muted); font-size: 13px; }
+        
+        footer { margin-top: 30px; padding: 20px 0; border-top: 1px solid var(--border); color: var(--muted); font-size: 12px; text-align: center; }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>System Status</h1>
-        <div id="dashboard" class="grid">Lade Dashboard...</div>
+        <header>
+            <h1>System Status</h1>
+        </header>
+        
+        <div id="dashboard" class="grid">Lade Systeme...</div>
+
+        <div class="info-area" id="global-last-update">
+            Initialisiere...
+        </div>
     </div>
+
+    <footer>
+        &copy; 2026 clb-sol.dev | System Status Dashboard | Monitoring via Nagios
+    </footer>
 
     <script>
         let refreshTimer = null;
 
+        function formatLocaleDate(dateObj) {
+            if (!dateObj || isNaN(dateObj.getTime()) || dateObj.getTime() === 0) return "Warten auf Daten...";
+            return "Letzte Aktualisierung: " + dateObj.toLocaleString('de-DE', { 
+                day: '2-digit', month: '2-digit', year: 'numeric', 
+                hour: '2-digit', minute: '2-digit', second: '2-digit' 
+            });
+        }
+
         async function updateDashboard() {
             try {
-                // 1. Config laden
                 const configRes = await fetch('https://raw.githubusercontent.com/clb-sol-dev/statuspage/main/config.json?t=' + Date.now());
-                if (!configRes.ok) throw new Error("Config konnte nicht geladen werden");
                 const config = await configRes.json();
-
                 const dash = document.getElementById('dashboard');
-                // Setze die CSS-Variable für die Desktop-Spalten
                 dash.style.setProperty('--cols', config.ui_config.columns || 2);
                 
-                // 2. Ziel-IDs bestimmen
                 let targets = [];
                 (config.display_order || []).forEach(orderId => {
                     if (orderId === 'standalone') {
@@ -75,21 +87,28 @@
                     }
                 });
 
-                // 3. Karten rendern
                 let cardsHtml = '';
+                let globalLatestDate = new Date(0);
+
                 for (const target of targets) {
                     const res = await fetch(`status/${target.id}.json?t=${Date.now()}`).catch(() => null);
                     if (!res || !res.ok) continue;
                     const data = await res.json();
                     
-                    const entries = data.entries || data.services || {};
+                    const entries = data.entries || {};
                     const entryList = Object.values(entries)
                                             .filter(e => e.service !== 'Host')
                                             .sort((a,b) => a.service.localeCompare(b.service));
 
+                    // Finde den neuesten Zeitstempel
+                    Object.values(entries).forEach(e => {
+                        const d = new Date(e.last_update);
+                        if (d > globalLatestDate) globalLatestDate = d;
+                    });
+
                     cardsHtml += `
                         <div class="card">
-                            <div class="header" onclick="this.parentElement.classList.toggle('open')">
+                            <div class="header-card" onclick="this.parentElement.classList.toggle('open')">
                                 <strong>${data.display_name || target.title}</strong>
                                 <span class="pill ${data.overall_status}">${data.overall_status}</span>
                             </div>
@@ -108,17 +127,12 @@
                 }
 
                 dash.innerHTML = cardsHtml || '<div class="card" style="padding:16px;">Warte auf Daten...</div>';
+                document.getElementById('global-last-update').innerText = formatLocaleDate(globalLatestDate);
 
-                // 4. Timer initialisieren
                 if (!refreshTimer) {
-                    const ms = config.ui_config.refresh_interval_ms || 60000;
-                    refreshTimer = setInterval(updateDashboard, ms);
+                    refreshTimer = setInterval(updateDashboard, config.ui_config.refresh_interval_ms || 60000);
                 }
-
-            } catch (e) {
-                console.error("Dashboard Error:", e);
-                document.getElementById('dashboard').innerHTML = 'Fehler beim Laden der Daten.';
-            }
+            } catch (e) { console.error(e); }
         }
 
         updateDashboard();
