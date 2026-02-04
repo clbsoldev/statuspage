@@ -42,7 +42,7 @@ jobs:
         working-directory: gh-pages
         run: |
           git config user.name "Statuspage Bot"
-          git config user.email "bot@statuspage.io"
+          git config user.email "statuspage@clb-sol.dev"
           mkdir -p status
           git add status/*.json
           if ! git diff --cached --quiet; then
