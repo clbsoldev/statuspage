@@ -55,9 +55,11 @@
                     if (!res || !res.ok) continue;
                     const data = await res.json();
                     
-                    // Fallback: Falls die Datei noch "services" statt "entries" nutzt
                     const entries = data.entries || data.services || {};
-                    const entryList = Object.values(entries);
+                    // Filter: Wir zeigen keine Services an, die exakt "Host" heißen
+                    const entryList = Object.values(entries)
+                                            .filter(e => e.service !== 'Host')
+                                            .sort((a,b) => a.service.localeCompare(b.service));
 
                     const card = document.createElement('div');
                     card.className = 'card';
@@ -75,7 +77,7 @@
                                     </div>
                                     <span class="pill ${(e.status || 'unknown').toLowerCase()}">${e.status || '???'}</span>
                                 </div>
-                            `).join('') : '<div class="svc-row">Keine Daten verfügbar</div>'}
+                            `).join('') : '<div class="svc-row">Alle Services sind operational</div>'}
                         </div>`;
                     dash.appendChild(card);
                 }
