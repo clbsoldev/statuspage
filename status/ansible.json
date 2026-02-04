@@ -20,9 +20,9 @@
     "ansible:Linux Kernel Version": {
       "host": "ansible",
       "service": "Linux Kernel Version",
-      "status": "WARNING",
-      "output": "OCSP - WARNING - Reboot required. Running kernel 6.12.47 rpt-rpi-v8 is too old, newest kernel on disk is 6.12.62 rpt-rpi-v8",
-      "last_update": "2026-02-04T07:05:43.000516Z"
+      "status": "OK",
+      "output": "OCSP - OK - Running kernel 6.12.62 rpt-rpi-v8 is most recent on disk kernel",
+      "last_update": "2026-02-04T10:55:01.652620Z"
     },
     "ansible:CPU Temperature": {
       "host": "ansible",
@@ -32,5 +32,5 @@
       "last_update": "2026-02-04T07:05:59.141491Z"
     }
   },
-  "overall_status": "impaired"
+  "overall_status": "operational"
 }
