@@ -2,75 +2,90 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <title>System Status</title>
+    <title>System Status Dashboard</title>
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; background: #f6f8fa; color: #24292f; margin: 0; padding: 40px 20px; }
-        .container { max-width: 900px; margin: 0 auto; }
-        .host-card { background: white; border: 1px solid #d0d7de; border-radius: 6px; margin-bottom: 16px; overflow: hidden; }
+        :root { --bg: #f6f8fa; --border: #d0d7de; --text: #24292f; }
+        body { font-family: -apple-system, system-ui, sans-serif; background: var(--bg); color: var(--text); padding: 40px 20px; margin: 0; }
+        .container { max-width: 1100px; margin: 0 auto; }
+        
+        .grid { display: grid; gap: 20px; grid-template-columns: repeat(var(--cols, 2), 1fr); }
+        @media (max-width: 768px) { .grid { grid-template-columns: 1fr; } }
+
+        .card { background: white; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; height: fit-content; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
         .header { padding: 16px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: background 0.2s; }
         .header:hover { background: #f3f4f6; }
-        .pill { padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; text-transform: uppercase; }
-        .operational { background: #dafbe1; color: #1a7f37; }
-        .impaired { background: #fff8c5; color: #9a6700; }
-        .critical { background: #ffebe9; color: #cf222e; }
+        
+        .pill { padding: 3px 10px; border-radius: 12px; font-size: 11px; font-weight: 600; text-transform: uppercase; border: 1px solid transparent; }
+        .operational, .ok, .up { background: #dafbe1; color: #1a7f37; border-color: #1a7f3733; }
+        .impaired, .warning { background: #fff8c5; color: #9a6700; border-color: #9a670033; }
+        .critical, .down { background: #ffebe9; color: #cf222e; border-color: #cf222e33; }
+        .pending { background: #eee; color: #666; }
+
         .details { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; background: #fafafa; }
-        .host-card.open .details { max-height: 1000px; border-top: 1px solid #d0d7de; }
-        .svc-row { padding: 12px 16px; border-bottom: 1px solid #eee; display: flex; flex-direction: column; }
-        .svc-main { display: flex; justify-content: space-between; }
-        .output { font-size: 12px; color: #57606a; margin-top: 4px; font-family: monospace; }
-        h1 { border-bottom: 1px solid #d0d7de; padding-bottom: 10px; }
+        .card.open .details { max-height: 1200px; border-top: 1px solid var(--border); }
+        
+        .svc-row { padding: 10px 16px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; font-size: 14px; }
+        .svc-row:last-child { border-bottom: none; }
+        .host-tag { font-size: 10px; color: #888; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px; display: block; }
+        h1 { margin-bottom: 30px; font-weight: 300; }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>System Status</h1>
-        <div id="status-list">Lade Systeme...</div>
+        <div id="dashboard" class="grid">Lade Systeme...</div>
     </div>
 
     <script>
-        async function loadStatus() {
+        async function updateDashboard() {
             try {
-                // 1. Config aus Main Branch holen
-                const configRes = await fetch('https://raw.githubusercontent.com/clb-sol-dev/statuspage/main/config.json');
-                const config = await configRes.json();
-                const list = document.getElementById('status-list');
-                list.innerHTML = '';
-
-                for (const host of config.hosts) {
-                    const card = document.createElement('div');
-                    card.className = 'host-card';
-                    
-                    try {
-                        const sRes = await fetch(`status/${host.id}.json?t=${Date.now()}`);
-                        const s = await sRes.json();
-                        
-                        card.innerHTML = `
-                            <div class="header" onclick="this.parentElement.classList.toggle('open')">
-                                <strong>${s.display_name}</strong>
-                                <span class="pill ${s.overall_status}">${s.overall_status}</span>
-                            </div>
-                            <div class="details">
-                                ${Object.entries(s.services).map(([name, data]) => `
-                                    <div class="svc-row">
-                                        <div class="svc-main">
-                                            <span>${name}</span>
-                                            <strong>${data.status}</strong>
-                                        </div>
-                                        <div class="output">${data.output}</div>
-                                    </div>
-                                `).join('')}
-                            </div>`;
-                    } catch (e) {
-                        card.innerHTML = `<div class="header"><strong>${host.display_name}</strong><span class="pill">No Data</span></div>`;
+                const config = await (await fetch('https://raw.githubusercontent.com/clb-sol-dev/statuspage/main/config.json?t=' + Date.now())).json();
+                const dash = document.getElementById('dashboard');
+                dash.style.setProperty('--cols', config.ui_config.columns || 2);
+                
+                // Wir bauen die Liste der erwarteten IDs (Gruppen oder Standalone Hosts)
+                let targets = [];
+                config.display_order.forEach(orderId => {
+                    if (orderId === 'standalone') {
+                        config.hosts.filter(h => h.group === 'standalone').forEach(h => targets.push({id: h.id, type: 'host'}));
+                    } else {
+                        targets.push({id: orderId, type: 'group'});
                     }
-                    list.appendChild(card);
+                });
+
+                dash.innerHTML = '';
+                for (const target of targets) {
+                    const res = await fetch(`status/${target.id}.json?t=${Date.now()}`).catch(() => null);
+                    if (!res || !res.ok) continue;
+                    const data = await res.json();
+                    
+                    const card = document.createElement('div');
+                    card.className = 'card';
+                    card.innerHTML = `
+                        <div class="header" onclick="this.parentElement.classList.toggle('open')">
+                            <strong>${data.display_name}</strong>
+                            <span class="pill ${data.overall_status}">${data.overall_status}</span>
+                        </div>
+                        <div class="details">
+                            ${Object.values(data.entries).sort((a,b) => a.service.localeCompare(b.service)).map(e => `
+                                <div class="svc-row">
+                                    <div>
+                                        ${data.is_group ? `<span class="host-tag">${e.host}</span>` : ''}
+                                        <span>${e.service}</span>
+                                    </div>
+                                    <span class="pill ${e.status.toLowerCase()}">${e.status}</span>
+                                </div>
+                            `).join('')}
+                        </div>`;
+                    dash.appendChild(card);
                 }
-            } catch (err) {
-                document.getElementById('status-list').innerHTML = 'Konfiguration konnte nicht geladen werden.';
+            } catch (e) {
+                console.error("Dashboard Error:", e);
             }
         }
-        loadStatus();
-        setInterval(loadStatus, 60000);
+
+        updateDashboard();
+        setInterval(updateDashboard, 60000);
     </script>
 </body>
 </html>
