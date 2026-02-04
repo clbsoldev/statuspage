@@ -1,0 +1,15 @@
+{
+  "name": "Status Dashboard clb-sol.dev",
+  "short_name": "Status",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#f6f8fa",
+  "theme_color": "#24292f",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/1152/1152912.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
