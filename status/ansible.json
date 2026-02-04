@@ -1,0 +1,12 @@
+{
+  "id": "ansible",
+  "display_name": "Ansible Control Node",
+  "services": {
+    "Host": {
+      "status": "UP",
+      "output": "PING OK - Packet loss = 0%, RTA = 1.11 ms",
+      "last_update": "2026-02-04T06:04:00.249805Z"
+    }
+  },
+  "overall_status": "operational"
+}
