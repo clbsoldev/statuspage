@@ -45,10 +45,9 @@ jobs:
           git config user.email "bot@statuspage.io"
           mkdir -p status
           git add status/*.json
-          # Nur pushen wenn sich wirklich was geändert hat
           if ! git diff --cached --quiet; then
             git commit -m "Update status for ${{ github.event.client_payload.host }}"
             git push origin gh-pages
           else
-            echo "Keine Änderungen zum Committen."
+            echo "Keine Änderungen für die Webseite."
           fi
