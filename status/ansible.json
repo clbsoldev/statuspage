@@ -16,7 +16,14 @@
       "status": "OK",
       "output": "OCSP - OK: Service github-runner.ansible is running!",
       "last_update": "2026-02-04T07:00:09.733787Z"
+    },
+    "ansible:Linux Kernel Version": {
+      "host": "ansible",
+      "service": "Linux Kernel Version",
+      "status": "WARNING",
+      "output": "OCSP - WARNING - Reboot required. Running kernel 6.12.47 rpt-rpi-v8 is too old, newest kernel on disk is 6.12.62 rpt-rpi-v8",
+      "last_update": "2026-02-04T07:05:43.000516Z"
     }
   },
-  "overall_status": "operational"
+  "overall_status": "impaired"
 }
