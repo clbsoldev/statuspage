@@ -9,7 +9,7 @@
         .container { max-width: 1100px; margin: 0 auto; }
         
         .grid { display: grid; gap: 20px; grid-template-columns: repeat(var(--cols, 2), 1fr); }
-        @media (max-width: 768px) { .grid { grid-template-columns: 1fr; } }
+        @media (max-width: 768px) { .grid { grid-template-columns: 1fr !important; } }
 
         .card { background: white; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; height: fit-content; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
         .header { padding: 16px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: background 0.2s; }
@@ -27,23 +27,29 @@
         .svc-row { padding: 10px 16px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; font-size: 14px; }
         .svc-row:last-child { border-bottom: none; }
         .host-tag { font-size: 10px; color: #888; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px; display: block; }
-        h1 { margin-bottom: 30px; font-weight: 300; }
+        h1 { margin-bottom: 30px; font-weight: 300; border-bottom: 1px solid var(--border); padding-bottom: 10px; }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>System Status</h1>
-        <div id="dashboard" class="grid">Lade Systeme...</div>
+        <div id="dashboard" class="grid">Lade Dashboard...</div>
     </div>
 
     <script>
+        let refreshTimer = null;
+
         async function updateDashboard() {
             try {
-                const config = await (await fetch('https://raw.githubusercontent.com/clb-sol-dev/statuspage/main/config.json?t=' + Date.now())).json();
+                // 1. Config laden
+                const configRes = await fetch('https://raw.githubusercontent.com/clb-sol-dev/statuspage/main/config.json?t=' + Date.now());
+                if (!configRes.ok) throw new Error("Config nicht gefunden");
+                const config = await configRes.json();
+
                 const dash = document.getElementById('dashboard');
                 dash.style.setProperty('--cols', config.ui_config.columns || 2);
                 
-                // Wir bauen die Liste der erwarteten IDs (Gruppen oder Standalone Hosts)
+                // 2. Ziel-IDs bestimmen (Gruppen oder Standalone Hosts)
                 let targets = [];
                 config.display_order.forEach(orderId => {
                     if (orderId === 'standalone') {
@@ -53,6 +59,7 @@
                     }
                 });
 
+                // 3. Karten rendern
                 dash.innerHTML = '';
                 for (const target of targets) {
                     const res = await fetch(`status/${target.id}.json?t=${Date.now()}`).catch(() => null);
@@ -79,13 +86,22 @@
                         </div>`;
                     dash.appendChild(card);
                 }
+
+                // 4. Timer initialisieren falls noch nicht geschehen
+                if (!refreshTimer) {
+                    const ms = config.ui_config.refresh_interval_ms || 60000;
+                    refreshTimer = setInterval(updateDashboard, ms);
+                    console.log("Refresh Intervall gesetzt auf:", ms, "ms");
+                }
+
             } catch (e) {
                 console.error("Dashboard Error:", e);
+                document.getElementById('dashboard').innerHTML = 'Fehler beim Laden der Daten.';
             }
         }
 
+        // Erster Aufruf
         updateDashboard();
-        setInterval(updateDashboard, 60000);
     </script>
 </body>
 </html>
