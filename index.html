@@ -28,79 +28,100 @@
         .svc-row:last-child { border-bottom: none; }
         .host-tag { font-size: 10px; color: #888; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px; display: block; }
         h1 { margin-bottom: 30px; font-weight: 300; border-bottom: 1px solid var(--border); padding-bottom: 10px; }
+        .error-box { background: #ffebe9; color: #cf222e; padding: 16px; border-radius: 6px; border: 1px solid #cf222e33; margin-bottom: 20px; }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>System Status</h1>
-        <div id="dashboard" class="grid">Lade Dashboard...</div>
+        <div id="error-display"></div>
+        <div id="dashboard" class="grid">Initialisiere...</div>
     </div>
 
     <script>
         let refreshTimer = null;
 
         async function updateDashboard() {
+            const dash = document.getElementById('dashboard');
+            const errorDisplay = document.getElementById('error-display');
+            
             try {
                 // 1. Config laden
-                const configRes = await fetch('https://raw.githubusercontent.com/clb-sol-dev/statuspage/main/config.json?t=' + Date.now());
-                if (!configRes.ok) throw new Error("Config nicht gefunden");
-                const config = await configRes.json();
-
-                const dash = document.getElementById('dashboard');
-                dash.style.setProperty('--cols', config.ui_config.columns || 2);
+                const configUrl = 'https://raw.githubusercontent.com/clb-sol-dev/statuspage/main/config.json?t=' + Date.now();
+                const configRes = await fetch(configUrl);
+                if (!configRes.ok) throw new Error(`Konnte config.json nicht laden (Status ${configRes.status})`);
                 
-                // 2. Ziel-IDs bestimmen (Gruppen oder Standalone Hosts)
+                const config = await configRes.json();
+                dash.style.setProperty('--cols', config.ui_config.columns || 2);
+                errorDisplay.innerHTML = ''; // Fehler löschen falls vorhanden
+
+                // 2. Ziel-IDs bestimmen
                 let targets = [];
-                config.display_order.forEach(orderId => {
+                const displayOrder = config.display_order || [];
+                
+                displayOrder.forEach(orderId => {
                     if (orderId === 'standalone') {
-                        config.hosts.filter(h => h.group === 'standalone').forEach(h => targets.push({id: h.id, type: 'host'}));
+                        const standaloneHosts = config.hosts.filter(h => h.group === 'standalone');
+                        standaloneHosts.forEach(h => targets.push({ id: h.id, title: h.display_name }));
                     } else {
-                        targets.push({id: orderId, type: 'group'});
+                        const groupInfo = config.groups.find(g => g.id === orderId);
+                        if (groupInfo) {
+                            targets.push({ id: groupInfo.id, title: groupInfo.name });
+                        }
                     }
                 });
 
                 // 3. Karten rendern
-                dash.innerHTML = '';
+                let cardsHtml = '';
                 for (const target of targets) {
-                    const res = await fetch(`status/${target.id}.json?t=${Date.now()}`).catch(() => null);
-                    if (!res || !res.ok) continue;
-                    const data = await res.json();
-                    
-                    const card = document.createElement('div');
-                    card.className = 'card';
-                    card.innerHTML = `
-                        <div class="header" onclick="this.parentElement.classList.toggle('open')">
-                            <strong>${data.display_name}</strong>
-                            <span class="pill ${data.overall_status}">${data.overall_status}</span>
-                        </div>
-                        <div class="details">
-                            ${Object.values(data.entries).sort((a,b) => a.service.localeCompare(b.service)).map(e => `
-                                <div class="svc-row">
-                                    <div>
-                                        ${data.is_group ? `<span class="host-tag">${e.host}</span>` : ''}
-                                        <span>${e.service}</span>
-                                    </div>
-                                    <span class="pill ${e.status.toLowerCase()}">${e.status}</span>
+                    try {
+                        const res = await fetch(`status/${target.id}.json?t=${Date.now()}`);
+                        if (!res.ok) {
+                            console.warn(`Status für ${target.id} noch nicht vorhanden.`);
+                            continue; 
+                        }
+                        
+                        const data = await res.json();
+                        const entries = Object.values(data.entries || {}).sort((a,b) => a.service.localeCompare(b.service));
+
+                        cardsHtml += `
+                            <div class="card">
+                                <div class="header" onclick="this.parentElement.classList.toggle('open')">
+                                    <strong>${data.display_name || target.title}</strong>
+                                    <span class="pill ${data.overall_status || 'pending'}">${data.overall_status || 'pending'}</span>
                                 </div>
-                            `).join('')}
-                        </div>`;
-                    dash.appendChild(card);
+                                <div class="details">
+                                    ${entries.length > 0 ? entries.map(e => `
+                                        <div class="svc-row">
+                                            <div>
+                                                ${data.is_group ? `<span class="host-tag">${e.host}</span>` : ''}
+                                                <span>${e.service}</span>
+                                            </div>
+                                            <span class="pill ${e.status.toLowerCase()}">${e.status}</span>
+                                        </div>
+                                    `).join('') : '<div class="svc-row">Keine Services gemeldet</div>'}
+                                </div>
+                            </div>`;
+                    } catch (e) {
+                        console.error(`Fehler beim Laden von ${target.id}:`, e);
+                    }
                 }
 
-                // 4. Timer initialisieren falls noch nicht geschehen
+                dash.innerHTML = cardsHtml || '<div class="card" style="padding:16px;">Warte auf erste Status-Daten...</div>';
+
+                // 4. Timer setzen
                 if (!refreshTimer) {
-                    const ms = config.ui_config.refresh_interval_ms || 60000;
-                    refreshTimer = setInterval(updateDashboard, ms);
-                    console.log("Refresh Intervall gesetzt auf:", ms, "ms");
+                    const interval = config.ui_config.refresh_interval_ms || 60000;
+                    refreshTimer = setInterval(updateDashboard, interval);
                 }
 
-            } catch (e) {
-                console.error("Dashboard Error:", e);
-                document.getElementById('dashboard').innerHTML = 'Fehler beim Laden der Daten.';
+            } catch (err) {
+                console.error("Dashboard Global Error:", err);
+                errorDisplay.innerHTML = `<div class="error-box"><strong>Fehler:</strong> ${err.message}</div>`;
+                dash.innerHTML = '';
             }
         }
 
-        // Erster Aufruf
         updateDashboard();
     </script>
 </body>
