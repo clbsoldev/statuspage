@@ -9,8 +9,23 @@
     
     <style>
         :root { --bg: #f6f8fa; --border: #d0d7de; --text: #24292f; --muted: #656d76; }
-        body { font-family: -apple-system, system-ui, sans-serif; background: var(--bg); color: var(--text); padding: 20px; margin: 0; display: flex; flex-direction: column; min-height: 100vh; }
-        .container { max-width: 1200px; margin: 0 auto; flex: 1; width: 100%; }
+        
+        /* Das ist der Trick: Der Body wird zum Flex-Container über die volle Höhe */
+        html, body { height: 100%; margin: 0; }
+        body { 
+            font-family: -apple-system, system-ui, sans-serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            display: flex; 
+            flex-direction: column; 
+        }
+
+        .main-content { 
+            padding: 20px; 
+            flex: 1 0 auto; /* Lässt diesen Bereich wachsen, aber nicht schrumpfen */
+        }
+        
+        .container { max-width: 1200px; margin: 0 auto; width: 100%; }
         
         header { text-align: center; margin-bottom: 30px; border-bottom: 1px solid var(--border); padding-bottom: 10px; }
         h1 { font-weight: 300; margin: 0; font-size: 28px; }
@@ -18,7 +33,7 @@
         .grid { display: grid; gap: 20px; grid-template-columns: 1fr; }
         @media (min-width: 769px) {
             .grid { grid-template-columns: repeat(var(--cols, 2), 1fr); }
-            body { padding: 40px 20px; }
+            .main-content { padding: 40px 20px; }
         }
 
         .card { background: white; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; height: fit-content; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
@@ -36,27 +51,40 @@
         .svc-row { padding: 10px 16px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; font-size: 14px; }
         .host-tag { font-size: 10px; color: var(--muted); text-transform: uppercase; display: block; margin-bottom: 2px; }
         
-        /* Bereich für Zeitstempel unter den Karten */
         .info-area { text-align: center; margin-top: 30px; color: var(--muted); font-size: 13px; }
         
-        footer { margin-top: 30px; padding: 20px 0; border-top: 1px solid var(--border); color: var(--muted); font-size: 12px; text-align: center; }
+        /* Footer bleibt unten, wenn wenig Text, rückt aber nach, wenn viel Text */
+        footer { 
+            flex-shrink: 0; /* Verhindert das Quetschen des Footers */
+            padding: 20px 0; 
+            border-top: 1px solid var(--border); 
+            color: var(--muted); 
+            font-size: 12px; 
+            text-align: center; 
+            background: var(--bg);
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>System Status</h1>
-        </header>
-        
-        <div id="dashboard" class="grid">Lade Systeme...</div>
+    <div class="main-content">
+        <div class="container">
+            <header>
+                <h1>System Status</h1>
+            </header>
+            
+            <div id="dashboard" class="grid">Lade Systeme...</div>
 
-        <div class="info-area" id="global-last-update">
-            Initialisiere...
+            <div class="info-area" id="global-last-update">
+                Initialisiere...
+            </div>
         </div>
     </div>
 
     <footer>
-        &copy; 2026 clb-sol.dev | System Status Dashboard | Monitoring via Nagios
+        <div class="container">
+            &copy; 2026 clb-sol.dev | System Status Dashboard | Monitoring via Nagios
+        </div>
     </footer>
 
     <script>
@@ -100,7 +128,6 @@
                                             .filter(e => e.service !== 'Host')
                                             .sort((a,b) => a.service.localeCompare(b.service));
 
-                    // Finde den neuesten Zeitstempel
                     Object.values(entries).forEach(e => {
                         const d = new Date(e.last_update);
                         if (d > globalLatestDate) globalLatestDate = d;
