@@ -31,7 +31,7 @@
       "services": []
     },        {
       "id": "nagios",
-      "display_name": "nagios",
+      "display_name": "Monitoring",
       "group": "standalone",
       "assignee": "strfl89",
       "services": [{"name": "GitHub Runner", "impact": "major"}, {"name": "Heartbeat", "impact": "critical"}, {"name": "Linux Kernel Version", "impact": "minor"}, {"name": "SSL Certificate", "impact": "critical"}, {"name": "Uptime", "impact": "critical"}]
