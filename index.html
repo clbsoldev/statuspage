@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Status Dashboard</title>
-    <meta name="mobile-web-app-capable" content="yes">
-    <link rel="manifest" href="manifest.json">
     <style>
         :root { --bg: #f6f8fa; --border: #d0d7de; --text: #24292f; --muted: #656d76; }
         html, body { height: 100%; margin: 0; }
@@ -27,7 +25,6 @@
         .details { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; background: #fafafa; }
         .card.open .details { max-height: 2000px; border-top: 1px solid var(--border); }
         .svc-row { padding: 10px 16px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; font-size: 14px; }
-        .host-tag { font-size: 10px; color: var(--muted); text-transform: uppercase; display: block; }
         .info-area { text-align: center; margin-top: 30px; color: var(--muted); font-size: 13px; }
         footer { flex-shrink: 0; padding: 20px 0; border-top: 1px solid var(--border); color: var(--muted); font-size: 12px; text-align: center; margin-top: 20px; }
     </style>
@@ -36,14 +33,23 @@
     <div class="main-content">
         <div class="container">
             <header><h1>System Status</h1></header>
-            <div id="dashboard" class="grid">Lade Systeme...</div>
-            <div class="info-area" id="global-last-update">Initialisiere...</div>
+            <div id="dashboard" class="grid">Lade Dashboard...</div>
+            <div id="global-last-update" class="info-area">Warte auf Daten...</div>
         </div>
     </div>
-    <footer>&copy; 2026 clb-sol.dev | Status Dashboard</footer>
+    <footer>&copy; 2026 clb-sol.dev | System Status</footer>
 
     <script>
-        const getStatusText = (s) => s === 'pending' ? 'No Data' : s;
+        const getStatusText = (s) => s.toLowerCase() === 'pending' ? 'No Data' : s;
+        
+        // Hilfsfunktion zur Ermittlung des schlechtesten Status für die Aggregation
+        const getWorstStatus = (statuses) => {
+            const s = statuses.map(v => v.toLowerCase());
+            if (s.includes('critical') || s.includes('down')) return 'critical';
+            if (s.includes('warning') || s.includes('impaired')) return 'impaired';
+            if (s.includes('pending')) return 'pending';
+            return 'operational';
+        };
 
         async function updateDashboard() {
             try {
@@ -52,10 +58,9 @@
                 const dash = document.getElementById('dashboard');
                 dash.style.setProperty('--cols', config.ui_config.columns || 2);
                 
-                let targets = [];
-                (config.display_order || []).forEach(o => {
-                    if (o === 'standalone') config.hosts.filter(h => h.group === 'standalone').forEach(h => targets.push({id: h.id}));
-                    else { const g = config.groups.find(gr => gr.id === o); if(g) targets.push({id: g.id}); }
+                let targets = (config.display_order || []).flatMap(o => {
+                    if (o === 'standalone') return config.hosts.filter(h => h.group === 'standalone').map(h => ({id: h.id}));
+                    return {id: o};
                 });
 
                 let cardsHtml = '';
@@ -66,8 +71,18 @@
                     if (!res || !res.ok) continue;
                     const data = await res.json();
                     
-                    const entryList = Object.values(data.entries).sort((a,b) => a.service.localeCompare(b.service));
-                    entryList.forEach(e => { if(e.last_update) { const d = new Date(e.last_update); if(d > globalLatestDate) globalLatestDate = d; }});
+                    // AGGREGATION: Services nach Namen gruppieren
+                    const aggregated = {};
+                    Object.values(data.entries).forEach(e => {
+                        if (!aggregated[e.service]) aggregated[e.service] = [];
+                        aggregated[e.service].push(e.status);
+                        if(e.last_update) {
+                            const d = new Date(e.last_update);
+                            if(d > globalLatestDate) globalLatestDate = d;
+                        }
+                    });
+
+                    const sortedServices = Object.keys(aggregated).sort();
 
                     cardsHtml += `
                         <div class="card">
@@ -76,21 +91,21 @@
                                 <span class="pill ${data.overall_status}">${getStatusText(data.overall_status)}</span>
                             </div>
                             <div class="details">
-                                ${entryList.map(e => `
-                                    <div class="svc-row">
-                                        <div>
-                                            ${data.is_group ? `<span class="host-tag">${e.host}</span>` : ''}
-                                            <span>${e.service}</span>
-                                        </div>
-                                        <span class="pill ${e.status.toLowerCase()}">${getStatusText(e.status)}</span>
-                                    </div>
-                                `).join('')}
+                                ${sortedServices.map(svcName => {
+                                    const worst = getWorstStatus(aggregated[svcName]);
+                                    return `
+                                        <div class="svc-row">
+                                            <span>${svcName}</span>
+                                            <span class="pill ${worst}">${getStatusText(worst)}</span>
+                                        </div>`;
+                                }).join('')}
                             </div>
                         </div>`;
                 }
                 dash.innerHTML = cardsHtml;
-                document.getElementById('global-last-update').innerText = globalLatestDate.getTime() > 0 ? 
-                    "Letzte Aktualisierung: " + globalLatestDate.toLocaleString('de-DE') : "Warte auf erste Daten...";
+                if (globalLatestDate.getTime() > 0) {
+                    document.getElementById('global-last-update').innerText = "Letzte Aktualisierung: " + globalLatestDate.toLocaleString('de-DE');
+                }
             } catch (e) { console.error(e); }
         }
         updateDashboard();
