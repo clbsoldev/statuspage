@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Status Dashboard</title>
-    <meta name="mobile-web-app-capable" content="yes">
-    <link rel="manifest" href="manifest.json">
     <style>
         :root { --bg: #f6f8fa; --border: #d0d7de; --text: #24292f; --muted: #656d76; }
         html, body { height: 100%; margin: 0; }
@@ -39,7 +37,7 @@
             <div id="global-last-update" class="info-area">Warte auf Daten...</div>
         </div>
     </div>
-    <footer>&copy; 2026 clb-sol.dev | System Status</footer>
+    <footer>&copy; 2026 clb-sol.dev | Status Dashboard</footer>
 
     <script>
         const getStatusText = (s) => s.toLowerCase() === 'pending' ? 'No Data' : s;
@@ -50,6 +48,14 @@
             if (s.includes('warning') || s.includes('impaired')) return 'impaired';
             if (s.includes('pending')) return 'pending';
             return 'operational';
+        };
+
+        // Hilfsfunktion für Formatierung mit führenden Nullen
+        const formatLongDate = (date) => {
+            return date.toLocaleString('de-DE', {
+                day: '2-digit', month: '2-digit', year: 'numeric',
+                hour: '2-digit', minute: '2-digit', second: '2-digit'
+            });
         };
 
         async function updateDashboard() {
@@ -74,16 +80,16 @@
                     
                     const aggregated = {};
                     Object.values(data.entries).forEach(e => {
-                        // FILTER: Host-Service nicht in die Detail-Liste aufnehmen
-                        if (e.service === 'Host') return;
-
-                        if (!aggregated[e.service]) aggregated[e.service] = [];
-                        aggregated[e.service].push(e.status);
-                        
+                        // Zeitstempel IMMER prüfen (auch für Host-Service!)
                         if(e.last_update) {
                             const d = new Date(e.last_update);
                             if(d > globalLatestDate) globalLatestDate = d;
                         }
+
+                        if (e.service === 'Host') return;
+
+                        if (!aggregated[e.service]) aggregated[e.service] = [];
+                        aggregated[e.service].push(e.status);
                     });
 
                     const sortedServices = Object.keys(aggregated).sort();
@@ -102,13 +108,13 @@
                                             <span>${svcName}</span>
                                             <span class="pill ${worst}">${getStatusText(worst)}</span>
                                         </div>`;
-                                }).join('') : '<div class="svc-row">Alle Systeme operational</div>'}
+                                }).join('') : '<div class="svc-row">Nur Host-Monitoring aktiv</div>'}
                             </div>
                         </div>`;
                 }
                 dash.innerHTML = cardsHtml;
                 if (globalLatestDate.getTime() > 0) {
-                    document.getElementById('global-last-update').innerText = "Letzte Aktualisierung: " + globalLatestDate.toLocaleString('de-DE');
+                    document.getElementById('global-last-update').innerText = "Letzte Aktualisierung: " + formatLongDate(globalLatestDate);
                 }
             } catch (e) { console.error(e); }
         }
