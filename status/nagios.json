@@ -28,9 +28,16 @@
       "status": "pending",
       "output": "Warte auf Daten...",
       "last_update": null
+    },
+    "nagios:Host": {
+      "host": "nagios",
+      "service": "Host",
+      "status": "UP",
+      "output": "Heartbeat OK from MGMT-Pi-Home",
+      "last_update": "2026-02-05T21:17:40.935234Z"
     }
   },
-  "overall_status": "pending",
+  "overall_status": "operational",
   "display_name": "Monitoring Server",
   "is_group": false
 }
