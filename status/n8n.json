@@ -1,0 +1,15 @@
+{
+  "id": "n8n",
+  "display_name": "n8n",
+  "is_group": false,
+  "entries": {
+    "n8n:HTTPS": {
+      "host": "n8n",
+      "service": "HTTPS",
+      "status": "OK",
+      "output": "HTTP OK: HTTP/1.1 200 OK - 14833 bytes in 0.415 second response time",
+      "last_update": "2026-02-05T13:12:25.260522Z"
+    }
+  },
+  "overall_status": "operational"
+}
