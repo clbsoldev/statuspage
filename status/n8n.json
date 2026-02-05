@@ -1,6 +1,13 @@
 {
   "id": "n8n",
   "entries": {
+    "n8n:Host": {
+      "host": "n8n",
+      "service": "Host",
+      "status": "pending",
+      "output": "Warte auf Daten...",
+      "last_update": null
+    },
     "n8n:HTTPS": {
       "host": "n8n",
       "service": "HTTPS",

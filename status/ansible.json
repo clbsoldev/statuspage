@@ -1,6 +1,13 @@
 {
   "id": "ansible",
   "entries": {
+    "ansible:Host": {
+      "host": "ansible",
+      "service": "Host",
+      "status": "pending",
+      "output": "Warte auf Daten...",
+      "last_update": null
+    },
     "ansible:CPU Temperature": {
       "host": "ansible",
       "service": "CPU Temperature",

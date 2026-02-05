@@ -1,6 +1,13 @@
 {
   "id": "proxmox",
   "entries": {
+    "hau-hyp01:Host": {
+      "host": "hau-hyp01",
+      "service": "Host",
+      "status": "pending",
+      "output": "Warte auf Daten...",
+      "last_update": null
+    },
     "hau-hyp01:HTTPS": {
       "host": "hau-hyp01",
       "service": "HTTPS",
@@ -11,6 +18,13 @@
     "hau-hyp01:SSL-Cert": {
       "host": "hau-hyp01",
       "service": "SSL-Cert",
+      "status": "pending",
+      "output": "Warte auf Daten...",
+      "last_update": null
+    },
+    "hau-hyp02:Host": {
+      "host": "hau-hyp02",
+      "service": "Host",
       "status": "pending",
       "output": "Warte auf Daten...",
       "last_update": null
