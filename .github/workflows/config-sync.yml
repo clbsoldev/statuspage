@@ -1,0 +1,31 @@
+name: Config Sync
+on:
+  push:
+    paths:
+      - 'config.json'
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Main
+        uses: actions/checkout@v4
+        with:
+          path: main
+
+      - name: Checkout Pages
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          path: gh-pages
+
+      - name: Run Sync
+        run: python3 main/scripts/sync_config.py
+
+      - name: Commit & Push Changes
+        working-directory: gh-pages
+        run: |
+          git config user.name "GitHub Action"
+          git config user.email "action@github.com"
+          git add status/*.json
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Sync metadata from config change" && git push)
