@@ -5,7 +5,7 @@
   },
   "display_order": ["standalone", "proxmox"],
   "hosts": [
-                                                                  {
+                                                                            {
       "id": "ansible",
       "display_name": "Ansible Control Node",
       "group": "standalone",
@@ -30,14 +30,20 @@
       "assignee": "admin",
       "services": []
     },        {
+      "id": "n8n",
+      "display_name": "n8n",
+      "group": "standalone",
+      "assignee": "strfl89",
+      "services": [{"name": "HTTPS", "impact": "major"}]
+    },        {
       "id": "nagios",
-      "display_name": "Monitoring",
+      "display_name": "Monitoring Server",
       "group": "standalone",
       "assignee": "strfl89",
       "services": [{"name": "GitHub Runner", "impact": "major"}, {"name": "Heartbeat", "impact": "critical"}, {"name": "Linux Kernel Version", "impact": "minor"}, {"name": "SSL Certificate", "impact": "critical"}, {"name": "Uptime", "impact": "critical"}]
     }      ],
   "groups": [
-                                                                                                                            {
+                                                                                                                                            {
       "id": "standalone",
       "name": "Standalone"
     },        {
