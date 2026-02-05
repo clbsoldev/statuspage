@@ -1,36 +1,36 @@
 {
-  "id": "nagios",
+  "id": "proxmox",
   "entries": {
-    "nagios:GitHub Runner": {
-      "host": "nagios",
-      "service": "GitHub Runner",
+    "hau-hyp01:HTTPS": {
+      "host": "hau-hyp01",
+      "service": "HTTPS",
       "status": "pending",
       "output": "Warte auf Daten...",
       "last_update": null
     },
-    "nagios:Heartbeat": {
-      "host": "nagios",
-      "service": "Heartbeat",
+    "hau-hyp01:SSL-Cert": {
+      "host": "hau-hyp01",
+      "service": "SSL-Cert",
       "status": "pending",
       "output": "Warte auf Daten...",
       "last_update": null
     },
-    "nagios:SSL Certificate": {
-      "host": "nagios",
-      "service": "SSL Certificate",
+    "hau-hyp02:HTTPS": {
+      "host": "hau-hyp02",
+      "service": "HTTPS",
       "status": "pending",
       "output": "Warte auf Daten...",
       "last_update": null
     },
-    "nagios:Uptime": {
-      "host": "nagios",
-      "service": "Uptime",
+    "hau-hyp02:SSL-Cert": {
+      "host": "hau-hyp02",
+      "service": "SSL-Cert",
       "status": "pending",
       "output": "Warte auf Daten...",
       "last_update": null
     }
   },
   "overall_status": "pending",
-  "display_name": "Monitoring Server",
-  "is_group": false
+  "display_name": "Proxmox",
+  "is_group": true
 }

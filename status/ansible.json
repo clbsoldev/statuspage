@@ -1,14 +1,12 @@
 {
   "id": "ansible",
-  "display_name": "Ansible Control Node",
-  "is_group": false,
   "entries": {
-    "ansible:Host": {
+    "ansible:CPU Temperature": {
       "host": "ansible",
-      "service": "Host",
-      "status": "UP",
-      "output": "PING OK - Packet loss = 0%, RTA = 1.07 ms",
-      "last_update": "2026-02-04T06:59:54.007668Z"
+      "service": "CPU Temperature",
+      "status": "OK",
+      "output": "OCSP - RPI TEMP OK: Temperature 50.46 degrees c",
+      "last_update": "2026-02-04T07:05:59.141491Z"
     },
     "ansible:GitHub Runner": {
       "host": "ansible",
@@ -16,21 +14,9 @@
       "status": "OK",
       "output": "OCSP - OK: Service github-runner.ansible is running!",
       "last_update": "2026-02-04T07:00:09.733787Z"
-    },
-    "ansible:Linux Kernel Version": {
-      "host": "ansible",
-      "service": "Linux Kernel Version",
-      "status": "OK",
-      "output": "OCSP - OK - Running kernel 6.12.62 rpt-rpi-v8 is most recent on disk kernel",
-      "last_update": "2026-02-04T10:55:01.652620Z"
-    },
-    "ansible:CPU Temperature": {
-      "host": "ansible",
-      "service": "CPU Temperature",
-      "status": "OK",
-      "output": "OCSP - RPI TEMP OK: Temperature 50.46 degrees c",
-      "last_update": "2026-02-04T07:05:59.141491Z"
     }
   },
-  "overall_status": "operational"
+  "overall_status": "operational",
+  "display_name": "Ansible Control Node",
+  "is_group": false
 }
