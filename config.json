@@ -10,19 +10,19 @@
       "display_name": "Ansible Control Node",
       "group": "standalone",
       "assignee": "strfl89",
-      "services": [{"name": "CPU Temperature", "impact": "minor"}, {"name": "GitHub Runner", "impact": "critical"}, {"name": "Linux Kernel Version", "impact": "minor"}]
+      "services": [{"name": "CPU Temperature", "impact": "minor"}, {"name": "GitHub Runner", "impact": "critical"}]
     },        {
       "id": "hau-hyp01",
       "display_name": "hau-hyp01",
       "group": "proxmox",
       "assignee": "strfl89",
-      "services": [{"name": "Nginx", "impact": "critical"}, {"name": "SSL-Cert", "impact": "minor"}]
+      "services": [{"name": "HTTPS", "impact": "major"}, {"name": "SSL-Cert", "impact": "minor"}]
     },        {
       "id": "hau-hyp02",
       "display_name": "hau-hyp02",
       "group": "proxmox",
       "assignee": "strfl89",
-      "services": [{"name": "Nginx", "impact": "critical"}, {"name": "SSL-Cert", "impact": "minor"}]
+      "services": [{"name": "HTTPS", "impact": "major"}, {"name": "SSL-Cert", "impact": "minor"}]
     },        {
       "id": "hau-qnode01",
       "display_name": "hau-qnode01",
@@ -40,7 +40,7 @@
       "display_name": "Monitoring Server",
       "group": "standalone",
       "assignee": "strfl89",
-      "services": [{"name": "GitHub Runner", "impact": "major"}, {"name": "Heartbeat", "impact": "critical"}, {"name": "Linux Kernel Version", "impact": "minor"}, {"name": "SSL Certificate", "impact": "critical"}, {"name": "Uptime", "impact": "critical"}]
+      "services": [{"name": "GitHub Runner", "impact": "major"}, {"name": "Heartbeat", "impact": "critical"}, {"name": "SSL Certificate", "impact": "critical"}, {"name": "Uptime", "impact": "critical"}]
     }      ],
   "groups": [
                                                                                                                                             {
