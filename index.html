@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Status Dashboard</title>
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="manifest" href="manifest.json">
     <style>
         :root { --bg: #f6f8fa; --border: #d0d7de; --text: #24292f; --muted: #656d76; }
         html, body { height: 100%; margin: 0; }
@@ -42,7 +44,6 @@
     <script>
         const getStatusText = (s) => s.toLowerCase() === 'pending' ? 'No Data' : s;
         
-        // Hilfsfunktion zur Ermittlung des schlechtesten Status für die Aggregation
         const getWorstStatus = (statuses) => {
             const s = statuses.map(v => v.toLowerCase());
             if (s.includes('critical') || s.includes('down')) return 'critical';
@@ -71,11 +72,14 @@
                     if (!res || !res.ok) continue;
                     const data = await res.json();
                     
-                    // AGGREGATION: Services nach Namen gruppieren
                     const aggregated = {};
                     Object.values(data.entries).forEach(e => {
+                        // FILTER: Host-Service nicht in die Detail-Liste aufnehmen
+                        if (e.service === 'Host') return;
+
                         if (!aggregated[e.service]) aggregated[e.service] = [];
                         aggregated[e.service].push(e.status);
+                        
                         if(e.last_update) {
                             const d = new Date(e.last_update);
                             if(d > globalLatestDate) globalLatestDate = d;
@@ -91,14 +95,14 @@
                                 <span class="pill ${data.overall_status}">${getStatusText(data.overall_status)}</span>
                             </div>
                             <div class="details">
-                                ${sortedServices.map(svcName => {
+                                ${sortedServices.length > 0 ? sortedServices.map(svcName => {
                                     const worst = getWorstStatus(aggregated[svcName]);
                                     return `
                                         <div class="svc-row">
                                             <span>${svcName}</span>
                                             <span class="pill ${worst}">${getStatusText(worst)}</span>
                                         </div>`;
-                                }).join('')}
+                                }).join('') : '<div class="svc-row">Alle Systeme operational</div>'}
                             </div>
                         </div>`;
                 }
