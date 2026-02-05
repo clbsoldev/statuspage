@@ -9,61 +9,30 @@
     
     <style>
         :root { --bg: #f6f8fa; --border: #d0d7de; --text: #24292f; --muted: #656d76; }
-        
-        /* Das ist der Trick: Der Body wird zum Flex-Container über die volle Höhe */
         html, body { height: 100%; margin: 0; }
-        body { 
-            font-family: -apple-system, system-ui, sans-serif; 
-            background: var(--bg); 
-            color: var(--text); 
-            display: flex; 
-            flex-direction: column; 
-        }
-
-        .main-content { 
-            padding: 20px; 
-            flex: 1 0 auto; /* Lässt diesen Bereich wachsen, aber nicht schrumpfen */
-        }
-        
+        body { font-family: -apple-system, system-ui, sans-serif; background: var(--bg); color: var(--text); display: flex; flex-direction: column; }
+        .main-content { padding: 20px; flex: 1 0 auto; }
         .container { max-width: 1200px; margin: 0 auto; width: 100%; }
-        
         header { text-align: center; margin-bottom: 30px; border-bottom: 1px solid var(--border); padding-bottom: 10px; }
         h1 { font-weight: 300; margin: 0; font-size: 28px; }
-
         .grid { display: grid; gap: 20px; grid-template-columns: 1fr; }
         @media (min-width: 769px) {
             .grid { grid-template-columns: repeat(var(--cols, 2), 1fr); }
             .main-content { padding: 40px 20px; }
         }
-
         .card { background: white; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; height: fit-content; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
         .header-card { padding: 16px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: background 0.2s; }
         .header-card:hover { background: #f3f4f6; }
-        
         .pill { padding: 3px 10px; border-radius: 12px; font-size: 11px; font-weight: 600; text-transform: uppercase; border: 1px solid transparent; }
         .operational, .ok, .up { background: #dafbe1; color: #1a7f37; border-color: #1a7f3733; }
         .impaired, .warning { background: #fff8c5; color: #9a6700; border-color: #9a670033; }
         .critical, .down { background: #ffebe9; color: #cf222e; border-color: #cf222e33; }
-
         .details { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; background: #fafafa; }
         .card.open .details { max-height: 2000px; border-top: 1px solid var(--border); }
-        
         .svc-row { padding: 10px 16px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; font-size: 14px; }
         .host-tag { font-size: 10px; color: var(--muted); text-transform: uppercase; display: block; margin-bottom: 2px; }
-        
         .info-area { text-align: center; margin-top: 30px; color: var(--muted); font-size: 13px; }
-        
-        /* Footer bleibt unten, wenn wenig Text, rückt aber nach, wenn viel Text */
-        footer { 
-            flex-shrink: 0; /* Verhindert das Quetschen des Footers */
-            padding: 20px 0; 
-            border-top: 1px solid var(--border); 
-            color: var(--muted); 
-            font-size: 12px; 
-            text-align: center; 
-            background: var(--bg);
-            margin-top: 20px;
-        }
+        footer { flex-shrink: 0; padding: 20px 0; border-top: 1px solid var(--border); color: var(--muted); font-size: 12px; text-align: center; background: var(--bg); margin-top: 20px; }
     </style>
 </head>
 <body>
@@ -72,15 +41,10 @@
             <header>
                 <h1>System Status</h1>
             </header>
-            
             <div id="dashboard" class="grid">Lade Systeme...</div>
-
-            <div class="info-area" id="global-last-update">
-                Initialisiere...
-            </div>
+            <div class="info-area" id="global-last-update">Initialisiere...</div>
         </div>
     </div>
-
     <footer>
         <div class="container">
             &copy; 2026 clb-sol.dev | System Status Dashboard | Monitoring via Nagios
@@ -108,7 +72,15 @@
                 let targets = [];
                 (config.display_order || []).forEach(orderId => {
                     if (orderId === 'standalone') {
-                        config.hosts.filter(h => h.group === 'standalone').forEach(h => targets.push({id: h.id, title: h.display_name}));
+                        // Alle Standalone-Hosts sammeln
+                        let standalones = config.hosts
+                            .filter(h => h.group === 'standalone')
+                            .map(h => ({ id: h.id, title: h.display_name || h.id }));
+                        
+                        // Alphabetisch nach Title (Display Name) sortieren
+                        standalones.sort((a, b) => a.title.localeCompare(b.title));
+                        
+                        targets.push(...standalones);
                     } else {
                         const g = config.groups.find(group => group.id === orderId);
                         if(g) targets.push({id: g.id, title: g.name});
