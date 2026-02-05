@@ -28,16 +28,9 @@
       "status": "pending",
       "output": "Warte auf Daten...",
       "last_update": null
-    },
-    "nagios:Host": {
-      "host": "nagios",
-      "service": "Host",
-      "status": "UP",
-      "output": "PING OK - Packet loss = 0%, RTA = 0.04 ms",
-      "last_update": "2026-02-05T20:55:32.961979Z"
     }
   },
-  "overall_status": "operational",
+  "overall_status": "pending",
   "display_name": "Monitoring Server",
   "is_group": false
 }
