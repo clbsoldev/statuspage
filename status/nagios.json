@@ -11,9 +11,9 @@
     "nagios:GitHub Runner": {
       "host": "nagios",
       "service": "GitHub Runner",
-      "status": "pending",
-      "output": "Warte auf Daten...",
-      "last_update": null
+      "status": "OK",
+      "output": "OK: Service actions.runner.strunk-media.Nagios_@_Strato is running!",
+      "last_update": "2026-02-06T19:06:37.847757Z"
     },
     "nagios:Heartbeat": {
       "host": "nagios",
