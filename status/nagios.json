@@ -25,9 +25,9 @@
     "nagios:SSL Certificate": {
       "host": "nagios",
       "service": "SSL Certificate",
-      "status": "pending",
-      "output": "Warte auf Daten...",
-      "last_update": null
+      "status": "OK",
+      "output": "OK - Certificate nagios.noc.strunk-media.de will expire on Sat May  2 10:21:37 2026 +0000.",
+      "last_update": "2026-02-06T19:07:20.590308Z"
     },
     "nagios:Uptime": {
       "host": "nagios",
