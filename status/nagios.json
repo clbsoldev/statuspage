@@ -18,9 +18,9 @@
     "nagios:Heartbeat": {
       "host": "nagios",
       "service": "Heartbeat",
-      "status": "pending",
-      "output": "Warte auf Daten...",
-      "last_update": null
+      "status": "OK",
+      "output": "Heartbeat OK from MGMT-Pi-Home",
+      "last_update": "2026-02-06T19:13:07.090255Z"
     },
     "nagios:SSL Certificate": {
       "host": "nagios",
