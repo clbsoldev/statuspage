@@ -32,9 +32,9 @@
     "nagios:Uptime": {
       "host": "nagios",
       "service": "Uptime",
-      "status": "pending",
-      "output": "Warte auf Daten...",
-      "last_update": null
+      "status": "OK",
+      "output": "OK: Linux nagios 6.1.0-41-cloud-amd64 - up 47 days 20 hours 18 minutes",
+      "last_update": "2026-02-06T19:06:52.623798Z"
     }
   },
   "overall_status": "operational",
