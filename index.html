@@ -7,7 +7,6 @@
     <style>
         :root { --bg: #f6f8fa; --border: #d0d7de; --text: #24292f; --muted: #656d76; --primary: #0969da; }
         
-        /* Mobile Fix: Verhindert Layout-Verschiebungen auf iOS */
         html, body { min-height: 100vh; margin: 0; }
         body { 
             font-family: -apple-system, system-ui, sans-serif; 
@@ -31,12 +30,16 @@
         nav a { cursor: pointer; color: var(--muted); text-decoration: none; font-size: 14px; padding: 5px 10px; font-weight: 500; }
         nav a.active { color: var(--primary); border-bottom: 2px solid var(--primary); font-weight: 600; }
 
-        .grid { display: grid; gap: 15px; grid-template-columns: 1fr; }
+        /* GRID FIX: Karten werden nicht mehr gestreckt */
+        .grid { 
+            display: grid; gap: 20px; grid-template-columns: 1fr; 
+            align-items: start; 
+        }
         @media (min-width: 768px) { .grid { grid-template-columns: repeat(var(--cols, 2), 1fr); } }
 
         .card { background: white; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
         .header-card { padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
-        .header-card strong { font-size: 0.95rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 60%; }
+        .header-card strong { font-size: 0.95rem; }
 
         .pill { padding: 3px 10px; border-radius: 12px; font-size: 10px; font-weight: 700; text-transform: uppercase; white-space: nowrap; }
         .operational, .ok, .up { background: #dafbe1; color: #1a7f37; }
@@ -98,7 +101,7 @@
                 
                 document.getElementById('maint-list').innerHTML = h;
             } catch(e) {
-                document.getElementById('maint-list').innerHTML = '<p>Keine Maintenance-Daten gefunden.</p>';
+                document.getElementById('maint-list').innerHTML = '<p>Maintenance-Daten konnten nicht geladen werden.</p>';
             }
         }
 
