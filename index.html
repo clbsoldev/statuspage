@@ -13,19 +13,30 @@
             --primary: #0969da; 
         }
         
+        /* Flexbox-Layout für den Body, um den Footer unten zu halten */
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+
         body { 
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; 
             background: var(--bg); 
             color: var(--text); 
-            margin: 0; 
+            display: flex;
+            flex-direction: column;
             padding: 10px;
             line-height: 1.5;
+            box-sizing: border-box;
         }
 
         .container { 
             max-width: 800px; 
             margin: 0 auto; 
             padding: 10px;
+            flex: 1 0 auto; /* Lässt den Container wachsen, schiebt Footer nach unten */
+            width: 100%;
+            box-sizing: border-box;
         }
 
         header h1 { 
@@ -108,7 +119,7 @@
         .operational, .ok, .up { background: #dafbe1; color: #1a7f37; }
         .critical, .down { background: #ffebe9; color: #cf222e; }
         .maintenance { background: #ddf4ff; color: #0969da; }
-        .pending { background: #f1f1f1; color: #666; }
+        .pending, .updating { background: #f1f1f1; color: #666; }
 
         .details { 
             max-height: 0; 
@@ -132,10 +143,12 @@
         }
 
         footer { 
+            flex-shrink: 0;
             text-align: center; 
-            padding: 40px 20px; 
+            padding: 20px; 
             color: var(--muted); 
             font-size: 11px; 
+            width: 100%;
         }
     </style>
 </head>
@@ -151,36 +164,39 @@
 
         <main id="content-grid" class="grid">
             </main>
-
-        <footer>
-            <p>&copy; 2026 clb-sol.dev | Status Dashboard</p>
-        </footer>
     </div>
+
+    <footer>
+        <p>&copy; 2026 clb-sol.dev | Status Dashboard</p>
+    </footer>
 
     <script>
         let currentTab = 'status';
 
         async function loadData() {
             const grid = document.getElementById('content-grid');
-            grid.innerHTML = '';
-
+            
             try {
                 if (currentTab === 'status') {
                     const resp = await fetch('status.json');
+                    if (!resp.ok) throw new Error('Status Fehler');
                     const data = await resp.json();
                     renderStatus(data);
                 } else {
                     const resp = await fetch('maintenance.json');
+                    if (!resp.ok) throw new Error('Maint Fehler');
                     const data = await resp.json();
                     renderMaintenance(data);
                 }
             } catch (e) {
-                grid.innerHTML = '<p style="text-align:center">Daten konnten nicht geladen werden.</p>';
+                console.error(e);
+                grid.innerHTML = '<p style="text-align:center; grid-column: 1/-1;">Daten konnten nicht geladen werden.</p>';
             }
         }
 
         function renderStatus(data) {
             const grid = document.getElementById('content-grid');
+            grid.innerHTML = '';
             for (const [host, info] of Object.entries(data)) {
                 const card = document.createElement('div');
                 card.className = 'card';
@@ -204,18 +220,50 @@
 
         function renderMaintenance(data) {
             const grid = document.getElementById('content-grid');
-            if (data.active.length === 0 && data.past.length === 0) {
-                grid.innerHTML = '<p style="text-align:center">Keine Wartungen geplant.</p>';
-                return;
-            }
+            grid.innerHTML = '';
             
-            // Aktive Wartungen
-            data.active.forEach(m => {
-                const card = document.createElement('div');
-                card.className = 'card';
-                card.innerHTML = `<div class="header-card"><strong>${m.host}: ${m.service}</strong><span class="pill maintenance">Aktiv</span></div>`;
-                grid.appendChild(card);
-            });
+            if (!data.active || data.active.length === 0) {
+                grid.innerHTML = '<p style="text-align:center; grid-column: 1/-1;">Keine aktiven Wartungen.</p>';
+            } else {
+                data.active.forEach(m => {
+                    const card = document.createElement('div');
+                    card.className = 'card';
+                    card.innerHTML = `
+                        <div class="header-card">
+                            <strong>${m.host}</strong>
+                            <span class="pill maintenance">Wartung</span>
+                        </div>
+                        <div class="svc-row" style="background:#fafafa; font-size:12px;">
+                            <span>${m.service}</span>
+                            <span>Seit: ${new Date(m.start).toLocaleString()}</span>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
+            }
+
+            // Optional: Vergangene Wartungen anzeigen
+            if (data.past && data.past.length > 0) {
+                const title = document.createElement('h3');
+                title.style.gridColumn = "1/-1";
+                title.style.fontSize = "14px";
+                title.style.marginTop = "20px";
+                title.innerText = "Vergangene Wartungen";
+                grid.appendChild(title);
+
+                data.past.forEach(m => {
+                    const card = document.createElement('div');
+                    card.className = 'card';
+                    card.style.opacity = '0.7';
+                    card.innerHTML = `
+                        <div class="header-card">
+                            <strong>${m.host}</strong>
+                            <span class="pill updating">Beendet</span>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
+            }
         }
 
         function showTab(tab) {
@@ -225,7 +273,9 @@
             loadData();
         }
 
+        // Initialer Load
         loadData();
+        // Alle 30 Sekunden Refresh
         setInterval(loadData, 30000);
     </script>
 </body>
