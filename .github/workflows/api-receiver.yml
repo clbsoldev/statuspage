@@ -1,53 +1,38 @@
-name: Update Status Page
+name: Update Status
 on:
   repository_dispatch:
-    types: [nagios_notification]
+    types: [nagios_update]
 
 jobs:
-  process:
+  update:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      issues: write
     steps:
-      - name: Checkout Main Branch
+      - name: Checkout main
         uses: actions/checkout@v4
         with:
-          path: main
+            path: main
 
-      - name: Checkout GH-Pages Branch
+      - name: Checkout gh-pages
         uses: actions/checkout@v4
         with:
           ref: gh-pages
           path: gh-pages
-        continue-on-error: true
-
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.x'
-
-      - name: Install Dependencies
-        run: pip install requests
 
       - name: Process Update
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # WICHTIG: Hier muss der Typ aus dem Dispatch-Payload übernommen werden
           PAYLOAD: ${{ toJson(github.event.client_payload) }}
-          STATUS_DIR: "gh-pages/status"
-          CONFIG_JSON_PATH: "main/config.json"
-        run: python3 main/scripts/process_update.py
-
-      - name: Commit & Push to GH-Pages
-        working-directory: gh-pages
+          STATUS_DIR: gh-pages/status
+          CONFIG_JSON_PATH: main/config.json
         run: |
-          git config user.name "Statuspage Bot"
-          git config user.email "statuspage@clb-sol.dev"
-          mkdir -p status
+          python3 main/process_update.py
+
+      - name: Commit and Push
+        run: |
+          cd gh-pages
+          git config user.name "GitHub Action"
+          git config user.email "action@github.com"
           git add status/*.json
-          if ! git diff --cached --quiet; then
-            git commit -m "Update status for ${{ github.event.client_payload.host }}"
-            git push origin gh-pages
-          else
-            echo "Keine Änderungen für die Webseite."
-          fi
+          git diff --quiet && git diff --staged --quiet || git commit -m "Update status for ${{ github.event.client_payload.host }}"
+          git push
