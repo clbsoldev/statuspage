@@ -17,7 +17,7 @@ def update_maintenance_json(status_dir, payload):
 
     if n_type == "DOWNTIMESTART":
         data["active"] = [x for x in data["active"] if not (x['host'] == h and x['service'] == s)]
-        data["active"].append({"host": h, "service": s, "start": ts, "reason": payload.get('output', 'Geplante Wartung')})
+        data["active"].append({"host": h, "service": s, "start": ts, "reason": payload.get('output', 'Wartungsarbeiten')})
     elif n_type in ["DOWNTIMEEND", "DOWNTIMECANCELLED"]:
         for item in data["active"][:]:
             if item['host'] == h and item['service'] == s:
@@ -73,7 +73,6 @@ def main():
     host_config = next((h for h in config.get('hosts', []) if h['id'] == host_id), None)
     if not host_config: return
 
-    # Wartungsliste und Issue Management
     if "DOWNTIME" in n_type:
         update_maintenance_json(status_dir, payload)
     else:
@@ -94,7 +93,6 @@ def main():
     if "services" in data and "entries" not in data:
         data["entries"] = data.pop("services")
 
-    # Status bestimmen
     final_status = status
     if n_type == "DOWNTIMESTART": final_status = "MAINTENANCE"
     elif n_type in ["DOWNTIMEEND", "DOWNTIMECANCELLED"]: final_status = "UPDATING"
