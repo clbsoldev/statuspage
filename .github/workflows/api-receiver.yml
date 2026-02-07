@@ -26,7 +26,7 @@ jobs:
           STATUS_DIR: gh-pages/status
           CONFIG_JSON_PATH: main/config.json
         run: |
-          python3 main/process_update.py
+          python3 main/scripts/process_update.py
 
       - name: Commit and Push
         run: |
