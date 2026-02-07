@@ -75,6 +75,7 @@
             border: 1px solid var(--border); 
             border-radius: 10px; 
             overflow: hidden; 
+            margin-bottom: 5px;
         }
 
         .header-card { 
@@ -91,6 +92,7 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            max-width: 65%;
         }
 
         .pill { 
@@ -138,5 +140,93 @@
     </style>
 </head>
 <body>
-    </body>
+    <div class="container">
+        <header>
+            <h1>System Status</h1>
+            <nav>
+                <a onclick="showTab('status')" id="nav-status" class="active">Status</a>
+                <a onclick="showTab('maintenance')" id="nav-maint">Maintenance</a>
+            </nav>
+        </header>
+
+        <main id="content-grid" class="grid">
+            </main>
+
+        <footer>
+            <p>&copy; 2026 clb-sol.dev | Status Dashboard</p>
+        </footer>
+    </div>
+
+    <script>
+        let currentTab = 'status';
+
+        async function loadData() {
+            const grid = document.getElementById('content-grid');
+            grid.innerHTML = '';
+
+            try {
+                if (currentTab === 'status') {
+                    const resp = await fetch('status.json');
+                    const data = await resp.json();
+                    renderStatus(data);
+                } else {
+                    const resp = await fetch('maintenance.json');
+                    const data = await resp.json();
+                    renderMaintenance(data);
+                }
+            } catch (e) {
+                grid.innerHTML = '<p style="text-align:center">Daten konnten nicht geladen werden.</p>';
+            }
+        }
+
+        function renderStatus(data) {
+            const grid = document.getElementById('content-grid');
+            for (const [host, info] of Object.entries(data)) {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <div class="header-card" onclick="this.parentElement.classList.toggle('open')">
+                        <strong>${host}</strong>
+                        <span class="pill ${info.status.toLowerCase()}">${info.status}</span>
+                    </div>
+                    <div class="details">
+                        ${Object.entries(info.services).map(([svc, sInfo]) => `
+                            <div class="svc-row">
+                                <span>${svc}</span>
+                                <span class="pill ${sInfo.state.toLowerCase()}">${sInfo.state}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+                grid.appendChild(card);
+            }
+        }
+
+        function renderMaintenance(data) {
+            const grid = document.getElementById('content-grid');
+            if (data.active.length === 0 && data.past.length === 0) {
+                grid.innerHTML = '<p style="text-align:center">Keine Wartungen geplant.</p>';
+                return;
+            }
+            
+            // Aktive Wartungen
+            data.active.forEach(m => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `<div class="header-card"><strong>${m.host}: ${m.service}</strong><span class="pill maintenance">Aktiv</span></div>`;
+                grid.appendChild(card);
+            });
+        }
+
+        function showTab(tab) {
+            currentTab = tab;
+            document.getElementById('nav-status').classList.toggle('active', tab === 'status');
+            document.getElementById('nav-maint').classList.toggle('active', tab === 'maintenance');
+            loadData();
+        }
+
+        loadData();
+        setInterval(loadData, 30000);
+    </script>
+</body>
 </html>
