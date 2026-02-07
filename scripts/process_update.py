@@ -17,7 +17,7 @@ def update_maintenance_json(status_dir, payload):
 
     if n_type == "DOWNTIMESTART":
         data["active"] = [x for x in data["active"] if not (x['host'] == h and x['service'] == s)]
-        data["active"].append({"host": h, "service": s, "start": ts, "reason": payload.get('output', 'Wartungsarbeiten')})
+        data["active"].append({"host": h, "service": s, "start": ts, "reason": payload.get('output', 'Wartung')})
     elif n_type in ["DOWNTIMEEND", "DOWNTIMECANCELLED"]:
         for item in data["active"][:]:
             if item['host'] == h and item['service'] == s:
@@ -53,9 +53,8 @@ def manage_issues(host_id, service, status, output, host_config):
         elif status in ['OK', 'UP'] and existing_issue:
             num = existing_issue['number']
             requests.patch(f"https://api.github.com/repos/{repo}/issues/{num}", json={"state": "closed"}, headers=headers)
-            requests.post(f"https://api.github.com/repos/{repo}/issues/{num}/comments", json={"body": f"Resolved: {status}\nOutput: {output}"}, headers=headers)
     except Exception as e:
-        print(f"Fehler im Issue-Management: {e}")
+        print(f"Issue Error: {e}")
 
 def main():
     payload_raw = os.getenv('PAYLOAD')
@@ -90,9 +89,7 @@ def main():
                        next((g['name'] for g in config.get('groups', []) if g['id'] == group_id), group_id)
         data = {"id": target_id, "display_name": display_name, "is_group": group_id != 'standalone', "entries": {}}
 
-    if "services" in data and "entries" not in data:
-        data["entries"] = data.pop("services")
-
+    # Status-Mapping
     final_status = status
     if n_type == "DOWNTIMESTART": final_status = "MAINTENANCE"
     elif n_type in ["DOWNTIMEEND", "DOWNTIMECANCELLED"]: final_status = "UPDATING"
@@ -102,20 +99,24 @@ def main():
         "last_update": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
     }
 
+    # SEVERITY BERECHNUNG
     severity = 0
+    all_pending = True
+    
     for key, info in data["entries"].items():
-        curr_status = info.get('status', 'OK')
-        if curr_status == 'MAINTENANCE': continue
-        h_conf = next((h for h in config.get('hosts', []) if h['id'] == info['host']), {})
-        s_conf = next((s for s in h_conf.get('services', []) if s['name'] == info['service']), {"impact": "minor"})
-        if curr_status in ['CRITICAL', 'DOWN']:
-            severity = max(severity, 2 if s_conf.get('impact') == 'critical' or info['service'] == 'Host' else 1)
-        elif curr_status == 'WARNING':
+        s = info.get('status', 'pending').upper()
+        if s != 'PENDING': all_pending = False
+        
+        if s in ['CRITICAL', 'DOWN']:
+            # Host-Down oder Critical Impact führt zu Overall Critical
+            severity = max(severity, 2)
+        elif s == 'WARNING':
             severity = max(severity, 1)
 
-    data["overall_status"] = {0: "operational", 1: "impaired", 2: "critical"}[severity]
-    if all(e.get('status') == 'MAINTENANCE' for e in data["entries"].values()):
-        data["overall_status"] = "maintenance"
+    if all_pending:
+        data["overall_status"] = "pending"
+    else:
+        data["overall_status"] = {0: "operational", 1: "impaired", 2: "critical"}[severity]
 
     with open(status_file, 'w') as f:
         json.dump(data, f, indent=2)
