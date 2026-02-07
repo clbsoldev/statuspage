@@ -1,86 +1,126 @@
 import os
 import json
+import requests
 from datetime import datetime, timezone
 
-def update_maintenance_json(host, service, msg_type, output):
-    maint_file = 'gh-pages/status/maintenance.json'
-    os.makedirs(os.path.dirname(maint_file), exist_ok=True)
-    
-    if not os.path.exists(maint_file):
-        data = {"active": [], "past": []}
-    else:
-        with open(maint_file, 'r') as f: data = json.load(f)
+def update_maintenance_json(status_dir, payload):
+    m_file = os.path.join(status_dir, "maintenance.json")
+    data = {"active": [], "past": []}
+    if os.path.exists(m_file):
+        try:
+            with open(m_file, 'r') as f: data = json.load(f)
+        except: pass
 
-    now = datetime.now(timezone.utc).isoformat()
+    h, s = payload['host'], payload['service']
+    n_type = payload.get('type', 'NOTIFICATION')
+    ts = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
 
-    if msg_type == 'DOWNTIMESTART':
-        # Falls schon drin (Doublette), erst raus
-        data["active"] = [a for a in data["active"] if not (a['host'] == host and a['service'] == service)]
-        data["active"].append({"host": host, "service": service, "start": now, "reason": output})
-    
-    elif msg_type in ['DOWNTIMEEND', 'DOWNTIMECANCELLED']:
-        new_active = []
-        for a in data["active"]:
-            if a['host'] == host and a['service'] == service:
-                a['end'] = now
-                data["past"].insert(0, a)
-            else:
-                new_active.append(a)
-        data["active"] = new_active
-        data["past"] = data["past"][:15] # Die letzten 15 Einträge behalten
+    if n_type == "DOWNTIMESTART":
+        data["active"] = [x for x in data["active"] if not (x['host'] == h and x['service'] == s)]
+        data["active"].append({"host": h, "service": s, "start": ts, "reason": payload.get('output', 'Geplante Wartung')})
+    elif n_type in ["DOWNTIMEEND", "DOWNTIMECANCELLED"]:
+        for item in data["active"][:]:
+            if item['host'] == h and item['service'] == s:
+                item['end'] = ts
+                data["past"].insert(0, item)
+                data["active"].remove(item)
+        data["past"] = data["past"][:10]
 
-    with open(maint_file, 'w') as f:
+    with open(m_file, 'w') as f:
         json.dump(data, f, indent=2)
+
+def manage_issues(host_id, service, status, output, host_config):
+    token = os.getenv('GH_TOKEN')
+    repo = os.getenv('GITHUB_REPOSITORY')
+    assignee = host_config.get('assignee', 'admin')
+    issue_title = f"Alert: {host_id} - {service}"
+    headers = {"Authorization": f"token {token}", "Accept": "application/vnd.github.v3+json"}
+
+    try:
+        search_url = f"https://api.github.com/search/issues?q=repo:{repo}+type:issue+state:open+in:title+\"{issue_title}\""
+        search_res = requests.get(search_url, headers=headers).json()
+        items = search_res.get('items', [])
+        existing_issue = items[0] if items else None
+
+        if status in ['CRITICAL', 'DOWN', 'WARNING'] and not existing_issue:
+            issue_data = {
+                "title": issue_title,
+                "body": f"### Service Alert\n**Host:** {host_id}\n**Service:** {service}\n**Status:** {status}\n\n**Output:**\n{output}",
+                "assignees": [assignee],
+                "labels": ["incident", status.lower()]
+            }
+            requests.post(f"https://api.github.com/repos/{repo}/issues", json=issue_data, headers=headers)
+        elif status in ['OK', 'UP'] and existing_issue:
+            num = existing_issue['number']
+            requests.patch(f"https://api.github.com/repos/{repo}/issues/{num}", json={"state": "closed"}, headers=headers)
+            requests.post(f"https://api.github.com/repos/{repo}/issues/{num}/comments", json={"body": f"Resolved: {status}\nOutput: {output}"}, headers=headers)
+    except Exception as e:
+        print(f"Fehler im Issue-Management: {e}")
 
 def main():
     payload_raw = os.getenv('PAYLOAD')
-    status_dir = 'gh-pages/status'
-    config_file = 'main/config.json'
+    status_dir = os.getenv('STATUS_DIR', 'gh-pages/status')
+    config_file = os.getenv('CONFIG_JSON_PATH', 'main/config.json')
     
     if not payload_raw: return
     payload = json.loads(payload_raw)
+    host_id, service, status, output = payload['host'], payload['service'], payload['status'], payload['output']
+    n_type = payload.get('type', 'NOTIFICATION')
     
-    host_id = payload['host']
-    service = payload.get('service', 'Host')
-    msg_type = payload.get('type', 'CUSTOM')
-    raw_status = payload['status']
-    output = payload['output']
+    with open(config_file, 'r') as f:
+        config = json.load(f)
 
-    # 1. Maintenance Liste aktualisieren
-    if 'DOWNTIME' in msg_type:
-        update_maintenance_json(host_id, service, msg_type, output)
+    host_config = next((h for h in config.get('hosts', []) if h['id'] == host_id), None)
+    if not host_config: return
 
-    # 2. Status-Logik bestimmen
-    status = raw_status
-    if msg_type == 'DOWNTIMESTART':
-        status = 'MAINTENANCE'
-    elif msg_type in ['DOWNTIMEEND', 'DOWNTIMECANCELLED']:
-        status = 'UPDATING' # Brückenstatus für das Frontend
+    # Wartungsliste und Issue Management
+    if "DOWNTIME" in n_type:
+        update_maintenance_json(status_dir, payload)
+    else:
+        manage_issues(host_id, service, status, output, host_config)
 
-    # 3. Datei-Speicherung (Host/Gruppe finden)
-    with open(config_file, 'r') as f: config = json.load(f)
-    host_cfg = next((h for h in config['hosts'] if h['id'] == host_id), None)
-    if not host_cfg: return
-    
-    target_id = host_id if host_cfg.get('group', 'standalone') == 'standalone' else host_cfg['group']
+    group_id = host_config.get('group', 'standalone')
+    target_id = host_id if group_id == 'standalone' else group_id
+    os.makedirs(status_dir, exist_ok=True)
     status_file = os.path.join(status_dir, f"{target_id}.json")
-
-    with open(status_file, 'r') as f: data = json.load(f)
     
+    if os.path.exists(status_file):
+        with open(status_file, 'r') as f: data = json.load(f)
+    else:
+        display_name = host_config['display_name'] if group_id == 'standalone' else \
+                       next((g['name'] for g in config.get('groups', []) if g['id'] == group_id), group_id)
+        data = {"id": target_id, "display_name": display_name, "is_group": group_id != 'standalone', "entries": {}}
+
+    if "services" in data and "entries" not in data:
+        data["entries"] = data.pop("services")
+
+    # Status bestimmen
+    final_status = status
+    if n_type == "DOWNTIMESTART": final_status = "MAINTENANCE"
+    elif n_type in ["DOWNTIMEEND", "DOWNTIMECANCELLED"]: final_status = "UPDATING"
+
     data["entries"][f"{host_id}:{service}"] = {
-        "host": host_id, "service": service, "status": status,
-        "output": output, "last_update": datetime.now(timezone.utc).isoformat()
+        "host": host_id, "service": service, "status": final_status, "output": output,
+        "last_update": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
     }
 
-    # Overall Status Berechnung
-    states = [e['status'].upper() for e in data["entries"].values()]
-    if 'CRITICAL' in states or 'DOWN' in states: data['overall_status'] = 'critical'
-    elif 'WARNING' in states or 'IMPAIRED' in states: data['overall_status'] = 'impaired'
-    elif 'MAINTENANCE' in states: data['overall_status'] = 'maintenance'
-    elif 'UPDATING' in states: data['overall_status'] = 'updating'
-    else: data['overall_status'] = 'operational'
+    severity = 0
+    for key, info in data["entries"].items():
+        curr_status = info.get('status', 'OK')
+        if curr_status == 'MAINTENANCE': continue
+        h_conf = next((h for h in config.get('hosts', []) if h['id'] == info['host']), {})
+        s_conf = next((s for s in h_conf.get('services', []) if s['name'] == info['service']), {"impact": "minor"})
+        if curr_status in ['CRITICAL', 'DOWN']:
+            severity = max(severity, 2 if s_conf.get('impact') == 'critical' or info['service'] == 'Host' else 1)
+        elif curr_status == 'WARNING':
+            severity = max(severity, 1)
 
-    with open(status_file, 'w') as f: json.dump(data, f, indent=2)
+    data["overall_status"] = {0: "operational", 1: "impaired", 2: "critical"}[severity]
+    if all(e.get('status') == 'MAINTENANCE' for e in data["entries"].values()):
+        data["overall_status"] = "maintenance"
+
+    with open(status_file, 'w') as f:
+        json.dump(data, f, indent=2)
 
 if __name__ == "__main__":
     main()
