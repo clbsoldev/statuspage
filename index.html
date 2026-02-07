@@ -30,7 +30,7 @@
         nav a { cursor: pointer; color: var(--muted); text-decoration: none; font-size: 14px; padding: 5px 10px; font-weight: 500; }
         nav a.active { color: var(--primary); border-bottom: 2px solid var(--primary); font-weight: 600; }
 
-        /* GRID FIX: Karten werden nicht mehr gestreckt */
+        /* GRID FIX: Verhindert vertikales Strecken der Karten */
         .grid { 
             display: grid; gap: 20px; grid-template-columns: 1fr; 
             align-items: start; 
@@ -46,14 +46,12 @@
         .impaired, .warning { background: #fff8c5; color: #9a6700; }
         .critical, .down { background: #ffebe9; color: #cf222e; }
         .maintenance { background: #ddf4ff; color: #0969da; }
-        .updating, .pending { background: #f1f1f1; color: #666; }
+        .updating { background: #f1f1f1; color: #666; }
+        .pending { background: #eeeeee; color: #888888; } /* No Data Style */
 
         .details { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; background: #fafafa; }
         .card.open .details { max-height: 1000px; border-top: 1px solid var(--border); }
         .svc-row { padding: 10px 16px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; font-size: 13px; }
-        
-        .maint-card { background: white; border: 1px solid var(--border); border-radius: 6px; padding: 15px; margin-bottom: 10px; border-left: 4px solid var(--primary); }
-        .maint-card.past { border-left-color: var(--muted); opacity: 0.7; }
         
         footer { text-align: center; padding: 30px 15px; color: var(--muted); font-size: 11px; flex-shrink: 0; }
     </style>
@@ -66,14 +64,14 @@
             <a id="nav-maint" onclick="toggleView('maint')">Maintenance</a>
         </nav>
         <div id="view-status">
-            <div id="dashboard" class="grid">Lade...</div>
+            <div id="dashboard" class="grid">Lade aktuelle Zustände...</div>
             <div id="last-update" style="text-align:center; margin-top:20px; font-size:11px; color:var(--muted)"></div>
         </div>
         <div id="view-maint" style="display:none">
             <div id="maint-list"></div>
         </div>
     </div>
-    <footer>&copy; 2026 clb-sol.dev</footer>
+    <footer>&copy; 2026 clb-sol.dev | Status Dashboard</footer>
 
     <script>
         const REPO = "clb-sol-dev/statuspage";
@@ -84,25 +82,6 @@
             document.getElementById('view-maint').style.display = v === 'maint' ? 'block' : 'none';
             document.getElementById('nav-status').className = v === 'status' ? 'active' : '';
             document.getElementById('nav-maint').className = v === 'maint' ? 'active' : '';
-            if(v === 'maint') loadMaint();
-        }
-
-        async function loadMaint() {
-            try {
-                const res = await fetch(`status/maintenance.json?t=${Date.now()}`);
-                const data = await res.json();
-                let h = '<h3>Aktive Wartung</h3>';
-                if(!data.active || data.active.length === 0) h += '<p style="font-size:13px; color:var(--muted)">Keine geplanten Wartungen.</p>';
-                else data.active.forEach(m => h += `<div class="maint-card"><strong>${m.host} - ${m.service}</strong><br><small>Start: ${fmt(m.start)}</small></div>`);
-                
-                h += '<h3 style="margin-top:30px">Vergangene Wartung</h3>';
-                if(!data.past || data.past.length === 0) h += '<p style="font-size:13px; color:var(--muted)">Keine Einträge.</p>';
-                else data.past.forEach(m => h += `<div class="maint-card past"><strong>${m.host} - ${m.service}</strong><br><small>${fmt(m.start)} bis ${fmt(m.end)}</small></div>`);
-                
-                document.getElementById('maint-list').innerHTML = h;
-            } catch(e) {
-                document.getElementById('maint-list').innerHTML = '<p>Maintenance-Daten konnten nicht geladen werden.</p>';
-            }
         }
 
         async function update() {
@@ -124,8 +103,9 @@
                         const res = await fetch(`status/${t.id}.json?t=${Date.now()}`);
                         if(!res.ok) continue;
                         const data = await res.json();
-                        const agg = {};
                         
+                        // Aggregation für Services (besonders wichtig für Gruppen)
+                        const agg = {};
                         Object.values(data.entries).forEach(e => {
                             if(e.last_update && new Date(e.last_update) > latest) latest = new Date(e.last_update);
                             if(e.service === 'Host') return;
@@ -133,24 +113,39 @@
                             agg[e.service].push(e.status.toLowerCase());
                         });
 
+                        // Header-Status bestimmen
+                        let headerStatus = data.overall_status.toLowerCase();
+                        let headerLabel = headerStatus === 'pending' ? 'No Data' : headerStatus;
+
                         html += `<div class="card"><div class="header-card" onclick="this.parentElement.classList.toggle('open')">
                             <strong>${data.display_name}</strong>
-                            <span class="pill ${data.overall_status}">${data.overall_status === 'updating' ? 'Re-Checking' : data.overall_status}</span>
+                            <span class="pill ${headerStatus}">${headerLabel}</span>
                         </div><div class="details">`;
                         
+                        // Sortierte Service-Anzeige
                         Object.keys(agg).sort().forEach(s => {
-                            let w = 'operational';
-                            if(agg[s].includes('critical') || agg[s].includes('down')) w = 'critical';
-                            else if(agg[s].includes('warning') || agg[s].includes('impaired')) w = 'impaired';
-                            else if(agg[s].includes('maintenance')) w = 'maintenance';
-                            else if(agg[s].includes('updating')) w = 'updating';
-                            html += `<div class="svc-row"><span>${s}</span><span class="pill ${w}">${w === 'updating' ? 'Wait...' : w}</span></div>`;
+                            let statuses = agg[s];
+                            let finalSvcStatus = 'operational';
+                            
+                            // Severity Logic für die Service-Zeile
+                            if(statuses.includes('critical') || statuses.includes('down')) finalSvcStatus = 'critical';
+                            else if(statuses.includes('warning') || statuses.includes('impaired')) finalSvcStatus = 'impaired';
+                            else if(statuses.includes('maintenance')) finalSvcStatus = 'maintenance';
+                            else if(statuses.includes('updating')) finalSvcStatus = 'updating';
+                            else if(statuses.includes('pending')) finalSvcStatus = 'pending'; // Korrektes Mapping auf "No Data"
+
+                            let displaySvcLabel = finalSvcStatus === 'pending' ? 'No Data' : finalSvcStatus;
+
+                            html += `<div class="svc-row">
+                                <span>${s}</span>
+                                <span class="pill ${finalSvcStatus}">${displaySvcLabel}</span>
+                            </div>`;
                         });
                         html += `</div></div>`;
                     } catch(e) {}
                 }
                 dash.innerHTML = html;
-                document.getElementById('last-update').innerText = "Letzte Aktualisierung: " + fmt(latest);
+                document.getElementById('last-update').innerText = "Letzte Aktualisierung: " + (latest.getTime() > 0 ? fmt(latest) : "---");
             } catch(e) {}
         }
         update();
