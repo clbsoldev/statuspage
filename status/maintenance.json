@@ -1,4 +1,11 @@
 {
-  "active": [],
+  "active": [
+    {
+      "host": "nagios",
+      "service": "Uptime",
+      "start": "2026-02-07T22:20:07.070372Z",
+      "reason": "OK: Linux nagios 6.1.0-41-cloud-amd64 - up 48 days 23 hours 33 minutes"
+    }
+  ],
   "past": []
 }
