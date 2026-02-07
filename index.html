@@ -6,150 +6,39 @@
     <title>System Status</title>
     <style>
         :root { 
-            --bg: #f6f8fa; 
-            --border: #d0d7de; 
-            --text: #24292f; 
-            --muted: #656d76; 
-            --primary: #0969da; 
+            --bg: #f6f8fa; --border: #d0d7de; --text: #24292f; 
+            --muted: #656d76; --primary: #0969da; 
         }
-        
-        /* Flexbox-Layout für den Body, um den Footer unten zu halten */
-        html, body {
-            height: 100%;
-            margin: 0;
-        }
-
+        html, body { height: 100%; margin: 0; }
         body { 
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; 
-            background: var(--bg); 
-            color: var(--text); 
-            display: flex;
-            flex-direction: column;
-            padding: 10px;
-            line-height: 1.5;
-            box-sizing: border-box;
+            font-family: -apple-system, sans-serif; 
+            background: var(--bg); color: var(--text); display: flex; flex-direction: column; 
+            padding: 10px; line-height: 1.5; box-sizing: border-box;
         }
-
         .container { 
-            max-width: 800px; 
-            margin: 0 auto; 
-            padding: 10px;
-            flex: 1 0 auto; /* Lässt den Container wachsen, schiebt Footer nach unten */
-            width: 100%;
-            box-sizing: border-box;
+            max-width: 800px; margin: 0 auto; padding: 10px; flex: 1 0 auto; width: 100%; box-sizing: border-box;
         }
-
-        header h1 { 
-            font-size: 1.6rem; 
-            text-align: center;
-            margin: 25px 0; 
-        }
-
-        nav { 
-            display: flex; 
-            justify-content: center; 
-            gap: 10px; 
-            margin-bottom: 25px; 
-        }
-
+        header h1 { font-size: 1.6rem; text-align: center; margin: 25px 0; }
+        nav { display: flex; justify-content: center; gap: 10px; margin-bottom: 25px; }
         nav a { 
-            cursor: pointer; 
-            color: var(--muted); 
-            text-decoration: none; 
-            font-size: 14px; 
-            font-weight: 600;
-            padding: 10px 18px; 
-            border-radius: 8px; 
-            transition: all 0.2s ease;
-            -webkit-tap-highlight-color: transparent;
+            cursor: pointer; color: var(--muted); text-decoration: none; font-size: 14px; 
+            font-weight: 600; padding: 10px 18px; border-radius: 8px; transition: 0.2s;
         }
-
-        nav a.active { 
-            background: white; 
-            color: var(--primary); 
-            box-shadow: 0 2px 5px rgba(0,0,0,0.08); 
-        }
-
-        .grid { 
-            display: grid; 
-            gap: 15px; 
-            grid-template-columns: 1fr; 
-        }
-
-        @media (min-width: 768px) { 
-            .grid { grid-template-columns: repeat(2, 1fr); }
-            .container { padding: 20px; }
-        }
-
-        .card { 
-            background: white; 
-            border: 1px solid var(--border); 
-            border-radius: 10px; 
-            overflow: hidden; 
-            margin-bottom: 5px;
-        }
-
-        .header-card { 
-            padding: 14px 16px; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            cursor: pointer;
-            gap: 10px;
-        }
-
-        .header-card strong {
-            font-size: 0.95rem;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            max-width: 65%;
-        }
-
-        .pill { 
-            padding: 4px 8px; 
-            border-radius: 6px; 
-            font-size: 10px; 
-            font-weight: 700; 
-            text-transform: uppercase;
-            white-space: nowrap;
-            flex-shrink: 0;
-        }
-
-        .operational, .ok, .up { background: #dafbe1; color: #1a7f37; }
+        nav a.active { background: white; color: var(--primary); box-shadow: 0 2px 5px rgba(0,0,0,0.08); }
+        .grid { display: grid; gap: 15px; grid-template-columns: 1fr; }
+        @media (min-width: 768px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+        .card { background: white; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 5px; }
+        .header-card { padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; gap: 10px; }
+        .header-card strong { font-size: 0.95rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 65%; }
+        .pill { padding: 4px 8px; border-radius: 6px; font-size: 10px; font-weight: 700; text-transform: uppercase; flex-shrink: 0; }
+        .ok, .up, .operational { background: #dafbe1; color: #1a7f37; }
         .critical, .down { background: #ffebe9; color: #cf222e; }
         .maintenance { background: #ddf4ff; color: #0969da; }
         .pending, .updating { background: #f1f1f1; color: #666; }
-
-        .details { 
-            max-height: 0; 
-            overflow: hidden; 
-            transition: max-height 0.3s ease; 
-            background: #fafafa; 
-        }
-
-        .card.open .details { 
-            max-height: 1000px; 
-            border-top: 1px solid var(--border); 
-        }
-
-        .svc-row { 
-            padding: 12px 16px; 
-            border-bottom: 1px solid #eee; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center;
-            font-size: 13px; 
-        }
-
-        footer { 
-            flex-shrink: 0;
-            text-align: center; 
-            padding: 20px; 
-            color: var(--muted); 
-            font-size: 11px; 
-            width: 100%;
-        }
+        .details { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; background: #fafafa; }
+        .card.open .details { max-height: 1000px; border-top: 1px solid var(--border); }
+        .svc-row { padding: 12px 16px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; font-size: 13px; }
+        footer { flex-shrink: 0; text-align: center; padding: 20px; color: var(--muted); font-size: 11px; width: 100%; }
     </style>
 </head>
 <body>
@@ -161,109 +50,83 @@
                 <a onclick="showTab('maintenance')" id="nav-maint">Maintenance</a>
             </nav>
         </header>
-
-        <main id="content-grid" class="grid">
-            </main>
+        <main id="content-grid" class="grid"></main>
     </div>
-
-    <footer>
-        <p>&copy; 2026 clb-sol.dev | Status Dashboard</p>
-    </footer>
+    <footer><p>&copy; 2026 clb-sol.dev | Status Dashboard</p></footer>
 
     <script>
         let currentTab = 'status';
+        // Liste deiner Hosts, damit JS weiß, welche Dateien es im Ordner status/ suchen muss
+        const hostTargets = ['Nagios @ Strato', 'strfl89']; 
 
         async function loadData() {
             const grid = document.getElementById('content-grid');
+            grid.innerHTML = '';
             
             try {
                 if (currentTab === 'status') {
-                    const resp = await fetch('status.json');
-                    if (!resp.ok) throw new Error('Status Fehler');
-                    const data = await resp.json();
-                    renderStatus(data);
+                    for (const host of hostTargets) {
+                        try {
+                            const resp = await fetch(`status/${host}.json?t=${Date.now()}`);
+                            if (resp.ok) {
+                                const data = await resp.json();
+                                renderStatusCard(host, data);
+                            }
+                        } catch (e) { console.error(`Fehler bei ${host}`, e); }
+                    }
                 } else {
-                    const resp = await fetch('maintenance.json');
-                    if (!resp.ok) throw new Error('Maint Fehler');
-                    const data = await resp.json();
-                    renderMaintenance(data);
+                    const resp = await fetch(`maintenance.json?t=${Date.now()}`);
+                    if (resp.ok) {
+                        const data = await resp.json();
+                        renderMaintenance(data);
+                    }
                 }
             } catch (e) {
-                console.error(e);
-                grid.innerHTML = '<p style="text-align:center; grid-column: 1/-1;">Daten konnten nicht geladen werden.</p>';
+                grid.innerHTML = '<p style="text-align:center; grid-column: 1/-1;">Fehler beim Laden der Daten.</p>';
             }
         }
 
-        function renderStatus(data) {
+        function renderStatusCard(host, data) {
             const grid = document.getElementById('content-grid');
-            grid.innerHTML = '';
-            for (const [host, info] of Object.entries(data)) {
-                const card = document.createElement('div');
-                card.className = 'card';
-                card.innerHTML = `
-                    <div class="header-card" onclick="this.parentElement.classList.toggle('open')">
-                        <strong>${host}</strong>
-                        <span class="pill ${info.status.toLowerCase()}">${info.status}</span>
-                    </div>
-                    <div class="details">
-                        ${Object.entries(info.services).map(([svc, sInfo]) => `
-                            <div class="svc-row">
-                                <span>${svc}</span>
-                                <span class="pill ${sInfo.state.toLowerCase()}">${sInfo.state}</span>
-                            </div>
-                        `).join('')}
-                    </div>
-                `;
-                grid.appendChild(card);
-            }
+            const card = document.createElement('div');
+            card.className = 'card';
+            
+            // Falls dein JSON-Format anders ist, hier anpassen (info.status vs info.state)
+            const overallStatus = data.status || data.state || 'PENDING';
+            
+            card.innerHTML = `
+                <div class="header-card" onclick="this.parentElement.classList.toggle('open')">
+                    <strong>${host}</strong>
+                    <span class="pill ${overallStatus.toLowerCase()}">${overallStatus}</span>
+                </div>
+                <div class="details">
+                    ${Object.entries(data.services || {}).map(([svc, sInfo]) => `
+                        <div class="svc-row">
+                            <span>${svc}</span>
+                            <span class="pill ${(sInfo.state || 'pending').toLowerCase()}">${sInfo.state}</span>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            grid.appendChild(card);
         }
 
         function renderMaintenance(data) {
             const grid = document.getElementById('content-grid');
-            grid.innerHTML = '';
-            
-            if (!data.active || data.active.length === 0) {
+            const active = data.active || [];
+            if (active.length === 0) {
                 grid.innerHTML = '<p style="text-align:center; grid-column: 1/-1;">Keine aktiven Wartungen.</p>';
-            } else {
-                data.active.forEach(m => {
-                    const card = document.createElement('div');
-                    card.className = 'card';
-                    card.innerHTML = `
-                        <div class="header-card">
-                            <strong>${m.host}</strong>
-                            <span class="pill maintenance">Wartung</span>
-                        </div>
-                        <div class="svc-row" style="background:#fafafa; font-size:12px;">
-                            <span>${m.service}</span>
-                            <span>Seit: ${new Date(m.start).toLocaleString()}</span>
-                        </div>
-                    `;
-                    grid.appendChild(card);
-                });
+                return;
             }
-
-            // Optional: Vergangene Wartungen anzeigen
-            if (data.past && data.past.length > 0) {
-                const title = document.createElement('h3');
-                title.style.gridColumn = "1/-1";
-                title.style.fontSize = "14px";
-                title.style.marginTop = "20px";
-                title.innerText = "Vergangene Wartungen";
-                grid.appendChild(title);
-
-                data.past.forEach(m => {
-                    const card = document.createElement('div');
-                    card.className = 'card';
-                    card.style.opacity = '0.7';
-                    card.innerHTML = `
-                        <div class="header-card">
-                            <strong>${m.host}</strong>
-                            <span class="pill updating">Beendet</span>
-                        </div>
-                    `;
-                    grid.appendChild(card);
-                });
-            }
+            active.forEach(m => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <div class="header-card"><strong>${m.host}</strong><span class="pill maintenance">Aktiv</span></div>
+                    <div class="svc-row" style="background:#fafafa"><span>${m.service}</span><span style="font-size:11px">${m.start}</span></div>
+                `;
+                grid.appendChild(card);
+            });
         }
 
         function showTab(tab) {
@@ -273,9 +136,7 @@
             loadData();
         }
 
-        // Initialer Load
         loadData();
-        // Alle 30 Sekunden Refresh
         setInterval(loadData, 30000);
     </script>
 </body>
