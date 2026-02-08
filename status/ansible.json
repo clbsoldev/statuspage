@@ -21,6 +21,13 @@
       "status": "OK",
       "output": "OCSP - OK: Service github-runner.ansible is running!",
       "last_update": "2026-02-04T07:00:09.733787Z"
+    },
+    "ansible:SSH": {
+      "host": "ansible",
+      "service": "SSH",
+      "status": "pending",
+      "output": "Warte auf Daten...",
+      "last_update": null
     }
   },
   "overall_status": "operational",

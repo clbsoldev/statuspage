@@ -22,6 +22,20 @@
       "output": "Heartbeat OK from MGMT-Pi-Home",
       "last_update": "2026-02-06T19:13:07.090255Z"
     },
+    "nagios:HTTP": {
+      "host": "nagios",
+      "service": "HTTP",
+      "status": "pending",
+      "output": "Warte auf Daten...",
+      "last_update": null
+    },
+    "nagios:SSH": {
+      "host": "nagios",
+      "service": "SSH",
+      "status": "pending",
+      "output": "Warte auf Daten...",
+      "last_update": null
+    },
     "nagios:SSL Certificate": {
       "host": "nagios",
       "service": "SSL Certificate",
