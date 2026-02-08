@@ -18,19 +18,15 @@ def update_maintenance_json(status_dir, payload):
 
     h = payload.get('host')
     s = payload.get('service')
-    n_type = payload.get('type', 'NOTIFICATION').upper()
+    n_type = str(payload.get('type', 'NOTIFICATION')).upper()
     comment = payload.get('output', 'Wartungsarbeiten')
     ts_now = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
 
     if n_type == "DOWNTIMESTART":
         data["active"] = [x for x in data["active"] if not (x['host'] == h and x['service'] == s)]
         data["active"].append({
-            "host": h,
-            "service": s,
-            "start": ts_now,
-            "reason": comment
+            "host": h, "service": s, "start": ts_now, "reason": comment
         })
-
     elif n_type in ["DOWNTIMEEND", "DOWNTIMECANCELLED"]:
         active_entry = next((x for x in data["active"] if x['host'] == h and x['service'] == s), None)
         if active_entry:
@@ -47,46 +43,42 @@ def main():
     if not os.path.exists(status_dir):
         os.makedirs(status_dir)
 
-    # REPARATUR: Erst Environment Variable prüfen, dann Stdin
+    # WICHTIG: Wir holen uns den Payload direkt aus der ENV Variable, 
+    # so wie dein Workflow sie bereitstellt.
     payload_str = os.environ.get('PAYLOAD')
-    if not payload_str:
-        payload_str = sys.stdin.read().strip()
 
     if not payload_str:
-        print("Error: No payload found in ENV or STDIN")
+        print("Error: Environment variable PAYLOAD is empty or not set.")
         return
 
     try:
         payload = json.loads(payload_str)
     except Exception as e:
-        print(f"Error parsing JSON: {e}")
-        print(f"Content: {payload_str}")
+        print(f"Error parsing JSON from PAYLOAD env: {e}")
         return
 
     host = payload.get('host')
     service = payload.get('service')
-    status = payload.get('status', 'PENDING').upper()
+    status = str(payload.get('status', 'PENDING')).upper()
     output = payload.get('output', '')
-    n_type = payload.get('type', 'NOTIFICATION').upper()
-    repo = payload.get('repo')
-    token = payload.get('token')
-    num = payload.get('issue_number')
-
+    n_type = str(payload.get('type', 'NOTIFICATION')).upper()
+    
     if not host or not service:
         print("Missing host or service in payload")
         return
 
-    # GitHub Issue Kommentar
+    # GitHub Issue Kommentar (Zeile 56 Logik)
+    token = os.environ.get('GH_TOKEN') # Holen wir uns auch aus der ENV
+    repo = payload.get('repo')
+    num = payload.get('issue_number')
     if token and repo and num:
         headers = {"Authorization": f"token {token}", "Accept": "application/vnd.github.v3+json"}
         try:
             requests.post(f"https://api.github.com/repos/{repo}/issues/{num}/comments", 
-                          json={"body": f"Resolved: {status}\nOutput: {output}"}, 
-                          headers=headers)
-        except Exception as e:
-            print(f"GitHub Comment Error: {e}")
+                          json={"body": f"Resolved: {status}\nOutput: {output}"}, headers=headers)
+        except: pass
 
-    # Einzel-Statusdatei
+    # Einzel-Statusdatei (host.json)
     host_file = os.path.join(status_dir, f"{host}.json")
     if os.path.exists(host_file):
         with open(host_file, 'r') as f:
@@ -94,22 +86,21 @@ def main():
     else:
         host_data = {"host": host, "display_name": host, "overall_status": "UP", "entries": {}}
 
+    # Kompatibilitäts-Check
     if "services" in host_data and "entries" not in host_data:
         host_data["entries"] = host_data.pop("services")
 
-    # Korrektur für "Downtime Ended" Custom Notifications
+    # Status-Korrektur für Custom Notifications
     if n_type == "CUSTOM" and "Downtime Ended" in output:
-        if status in ["MAINTENANCE", "UPDATING"]:
-            status = "OPERATIONAL"
+        status = "OPERATIONAL"
 
     host_data["entries"][service] = {
-        "service": service,
-        "status": status,
+        "service": service, "status": status,
         "last_update": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
         "output": output
     }
 
-    # Overall Status
+    # Overall Status berechnen
     all_stats = [e['status'].upper() for e in host_data["entries"].values()]
     if any(s in ["CRITICAL", "DOWN"] for s in all_stats):
         host_data["overall_status"] = "CRITICAL"
@@ -121,6 +112,7 @@ def main():
     with open(host_file, 'w') as f:
         json.dump(host_data, f, indent=2)
 
+    # Wartungs-Logik nur bei Downtime-Events
     if "DOWNTIME" in n_type:
         update_maintenance_json(status_dir, payload)
 
