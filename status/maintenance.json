@@ -1,5 +1,12 @@
 {
-  "active": [],
+  "active": [
+    {
+      "host": "nagios",
+      "service": "Uptime",
+      "start": "2026-02-08T22:23:02.658239Z",
+      "reason": "$"
+    }
+  ],
   "past": [
     {
       "host": "nagios",
