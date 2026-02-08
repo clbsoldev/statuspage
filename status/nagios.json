@@ -46,9 +46,9 @@
     "nagios:Uptime": {
       "host": "nagios",
       "service": "Uptime",
-      "status": "MAINTENANCE",
+      "status": "UPDATING",
       "output": "$",
-      "last_update": "2026-02-08T22:23:02.660246Z"
+      "last_update": "2026-02-08T22:32:43.132850Z"
     }
   },
   "overall_status": "operational",
