@@ -46,9 +46,9 @@
     "nagios:Uptime": {
       "host": "nagios",
       "service": "Uptime",
-      "status": "MAINTENANCE",
-      "output": "OK: Linux nagios 6.1.0-41-cloud-amd64 - up 49 days 23 hours 47 minutes",
-      "last_update": "2026-02-08T22:36:48.508981Z"
+      "status": "UPDATING",
+      "output": "OK: Linux nagios 6.1.0-41-cloud-amd64 - up 49 days 23 hours 57 minutes",
+      "last_update": "2026-02-08T22:45:34.404835Z"
     }
   },
   "overall_status": "operational",

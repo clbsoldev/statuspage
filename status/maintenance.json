@@ -1,13 +1,13 @@
 {
-  "active": [
+  "active": [],
+  "past": [
     {
       "host": "nagios",
       "service": "Uptime",
       "start": "2026-02-08T22:36:48.508722Z",
-      "reason": "Test transfer downtime from Nagios to Status Page"
-    }
-  ],
-  "past": [
+      "reason": "Test transfer downtime from Nagios to Status Page",
+      "end": "2026-02-08T22:45:34.404590Z"
+    },
     {
       "host": "nagios",
       "service": "Uptime",
