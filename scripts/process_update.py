@@ -17,12 +17,12 @@ def update_maintenance_json(status_dir, payload):
 
     if n_type == "DOWNTIMESTART":
         data["active"] = [x for x in data["active"] if not (x['host'] == h and x['service'] == s)]
-        # Hier wird jetzt der Nagios-Kommentar (output) als reason eingetragen
+        # Wir nutzen hier jetzt gezielt das neue comment-Feld
         data["active"].append({
             "host": h, 
             "service": s, 
             "start": ts, 
-            "reason": payload.get('output', 'Wartung')
+            "reason": payload.get('comment') or "Planmäßige Wartung"
         })
     elif n_type in ["DOWNTIMEEND", "DOWNTIMECANCELLED"]:
         for item in data["active"][:]:
@@ -95,7 +95,6 @@ def main():
                        next((g['name'] for g in config.get('groups', []) if g['id'] == group_id), group_id)
         data = {"id": target_id, "display_name": display_name, "is_group": group_id != 'standalone', "entries": {}}
 
-    # Status-Mapping
     final_status = status
     if n_type == "DOWNTIMESTART": final_status = "MAINTENANCE"
     elif n_type in ["DOWNTIMEEND", "DOWNTIMECANCELLED"]: final_status = "UPDATING"
@@ -112,11 +111,8 @@ def main():
     for key, info in data["entries"].items():
         s = info.get('status', 'pending').upper()
         if s != 'PENDING': all_pending = False
-        
-        if s in ['CRITICAL', 'DOWN']:
-            severity = max(severity, 2)
-        elif s == 'WARNING':
-            severity = max(severity, 1)
+        if s in ['CRITICAL', 'DOWN']: severity = max(severity, 2)
+        elif s == 'WARNING': severity = max(severity, 1)
 
     if all_pending:
         data["overall_status"] = "pending"
