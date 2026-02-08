@@ -18,7 +18,7 @@ def update_maintenance_json(status_dir, payload):
 
     h = payload.get('host')
     s = payload.get('service')
-    n_type = payload.get('type', 'NOTIFICATION')
+    n_type = payload.get('type', 'NOTIFICATION').upper()
     comment = payload.get('output', 'Wartungsarbeiten')
     ts_now = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
 
@@ -47,16 +47,27 @@ def main():
     if not os.path.exists(status_dir):
         os.makedirs(status_dir)
 
+    # REPARATUR: Erst Environment Variable prüfen, dann Stdin
+    payload_str = os.environ.get('PAYLOAD')
+    if not payload_str:
+        payload_str = sys.stdin.read().strip()
+
+    if not payload_str:
+        print("Error: No payload found in ENV or STDIN")
+        return
+
     try:
-        payload = json.loads(sys.stdin.read())
+        payload = json.loads(payload_str)
     except Exception as e:
         print(f"Error parsing JSON: {e}")
+        print(f"Content: {payload_str}")
         return
 
     host = payload.get('host')
     service = payload.get('service')
-    status = payload.get('status', 'PENDING')
+    status = payload.get('status', 'PENDING').upper()
     output = payload.get('output', '')
+    n_type = payload.get('type', 'NOTIFICATION').upper()
     repo = payload.get('repo')
     token = payload.get('token')
     num = payload.get('issue_number')
@@ -65,7 +76,7 @@ def main():
         print("Missing host or service in payload")
         return
 
-    # 1. GitHub Issue Kommentar (Zeile 56 Ersatz/Wiederherstellung)
+    # GitHub Issue Kommentar
     if token and repo and num:
         headers = {"Authorization": f"token {token}", "Accept": "application/vnd.github.v3+json"}
         try:
@@ -75,7 +86,7 @@ def main():
         except Exception as e:
             print(f"GitHub Comment Error: {e}")
 
-    # 2. Einzel-Statusdatei aktualisieren
+    # Einzel-Statusdatei
     host_file = os.path.join(status_dir, f"{host}.json")
     if os.path.exists(host_file):
         with open(host_file, 'r') as f:
@@ -83,9 +94,13 @@ def main():
     else:
         host_data = {"host": host, "display_name": host, "overall_status": "UP", "entries": {}}
 
-    # Migration alter Daten (Zeile 93 & 94 Ersatz/Wiederherstellung)
     if "services" in host_data and "entries" not in host_data:
         host_data["entries"] = host_data.pop("services")
+
+    # Korrektur für "Downtime Ended" Custom Notifications
+    if n_type == "CUSTOM" and "Downtime Ended" in output:
+        if status in ["MAINTENANCE", "UPDATING"]:
+            status = "OPERATIONAL"
 
     host_data["entries"][service] = {
         "service": service,
@@ -96,9 +111,9 @@ def main():
 
     # Overall Status
     all_stats = [e['status'].upper() for e in host_data["entries"].values()]
-    if "CRITICAL" in all_stats or "DOWN" in all_stats:
+    if any(s in ["CRITICAL", "DOWN"] for s in all_stats):
         host_data["overall_status"] = "CRITICAL"
-    elif "WARNING" in all_stats or "MAINTENANCE" in all_stats:
+    elif any(s in ["WARNING", "MAINTENANCE"] for s in all_stats):
         host_data["overall_status"] = "WARNING"
     else:
         host_data["overall_status"] = "OPERATIONAL"
@@ -106,8 +121,7 @@ def main():
     with open(host_file, 'w') as f:
         json.dump(host_data, f, indent=2)
 
-    # 3. Wartungs-Logik
-    if "DOWNTIME" in payload.get('type', ''):
+    if "DOWNTIME" in n_type:
         update_maintenance_json(status_dir, payload)
 
 if __name__ == "__main__":
