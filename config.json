@@ -10,7 +10,7 @@
       "display_name": "Ansible Control Node",
       "group": "standalone",
       "assignee": "strfl89",
-      "services": [{"name": "CPU Temperature", "impact": "minor"}, {"name": "GitHub Runner", "impact": "critical"}]
+      "services": [{"name": "CPU Temperature", "impact": "minor"}, {"name": "GitHub Runner", "impact": "critical"}, {"name": "SSH", "impact": "major"}]
     },        {
       "id": "hau-hyp01",
       "display_name": "hau-hyp01",
@@ -34,7 +34,7 @@
       "display_name": "Monitoring Server",
       "group": "standalone",
       "assignee": "strfl89",
-      "services": [{"name": "GitHub Runner", "impact": "major"}, {"name": "Heartbeat", "impact": "critical"}, {"name": "SSL Certificate", "impact": "critical"}, {"name": "Uptime", "impact": "critical"}]
+      "services": [{"name": "GitHub Runner", "impact": "minor"}, {"name": "Heartbeat", "impact": "critical"}, {"name": "HTTP", "impact": "major"}, {"name": "SSH", "impact": "major"}, {"name": "SSL Certificate", "impact": "major"}, {"name": "Uptime", "impact": "critical"}]
     }      ],
   "groups": [
                                                                                                                             {
