@@ -32,9 +32,9 @@
     "nagios:SSH": {
       "host": "nagios",
       "service": "SSH",
-      "status": "pending",
-      "output": "Warte auf Daten...",
-      "last_update": null
+      "status": "OK",
+      "output": "SSH OK - OpenSSH_9.2p1 Debian-2+deb12u7 (protocol 2.0)",
+      "last_update": "2026-02-09T21:20:27.321884Z"
     },
     "nagios:SSL Certificate": {
       "host": "nagios",
