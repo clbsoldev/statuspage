@@ -1,0 +1,94 @@
+/* --- VARIABLEN & THEMES --- */
+:root {
+    --bg: #f6f8fa;
+    --border: #d0d7de;
+    --text: #24292f;
+    --muted: #656d76;
+    --primary: #0969da;
+    --card-bg: #ffffff;
+    --details-bg: #fafafa;
+    --svc-border: #eeeeee;
+
+    /* Status Farben Light */
+    --color-ok-bg: #dafbe1; --color-ok-text: #1a7f37;
+    --color-warn-bg: #fff8c5; --color-warn-text: #9a6700;
+    --color-crit-bg: #ffebe9; --color-crit-text: #cf222e;
+    --color-maint-bg: #ddf4ff; --color-maint-text: #0969da;
+    --color-upd-bg: #f1f1f1; --color-upd-text: #666;
+    --color-pend-bg: #eeeeee; --color-pend-text: #888;
+}
+
+/* DARK MODE LOGIK */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg: #0d1117;
+        --border: #30363d;
+        --text: #c9d1d9;
+        --muted: #8b949e;
+        --primary: #58a6ff;
+        --card-bg: #161b22;
+        --details-bg: #0d1117;
+        --svc-border: #21262d;
+
+        /* Status Farben Dark (etwas entsättigter) */
+        --color-ok-bg: #0e4429; --color-ok-text: #3fb950;
+        --color-warn-bg: #4d3d00; --color-warn-text: #d29922;
+        --color-crit-bg: #490202; --color-crit-text: #f85149;
+        --color-maint-bg: #0c2d6b; --color-maint-text: #58a6ff;
+        --color-upd-bg: #21262d; --color-upd-text: #8b949e;
+    }
+}
+
+/* --- BASIS LAYOUT --- */
+html, body { min-height: 100vh; margin: 0; }
+body { 
+    font-family: -apple-system, system-ui, sans-serif; 
+    background: var(--bg); 
+    color: var(--text); 
+    display: flex; 
+    flex-direction: column; 
+    -webkit-font-smoothing: antialiased; 
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+.container { max-width: 1000px; margin: 0 auto; width: 100%; padding: 15px; flex: 1 0 auto; box-sizing: border-box; }
+
+/* --- HEADER & NAV --- */
+header { text-align: center; }
+header h1 { font-size: 1.5rem; margin: 20px 0; }
+
+nav { display: flex; justify-content: center; gap: 20px; margin: 10px 0 25px 0; border-bottom: 1px solid var(--border); padding-bottom: 10px; }
+nav a { cursor: pointer; color: var(--muted); text-decoration: none; font-size: 14px; padding: 5px 10px; font-weight: 500; }
+nav a.active { color: var(--primary); border-bottom: 2px solid var(--primary); font-weight: 600; }
+
+/* --- GRID & CARDS --- */
+.grid { display: grid; gap: 20px; grid-template-columns: 1fr; align-items: start; }
+@media (min-width: 768px) { .grid { grid-template-columns: repeat(var(--cols, 2), 1fr); } }
+
+.card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+.header-card { padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+
+/* --- PILLS (STATUS) --- */
+.pill { padding: 3px 10px; border-radius: 12px; font-size: 10px; font-weight: 700; text-transform: uppercase; white-space: nowrap; }
+
+.operational, .ok, .up { background: var(--color-ok-bg); color: var(--color-ok-text); }
+.impaired, .warning { background: var(--color-warn-bg); color: var(--color-warn-text); }
+.critical, .down { background: var(--color-crit-bg); color: var(--color-crit-text); }
+.maintenance { background: var(--color-maint-bg); color: var(--color-maint-text); }
+.updating { background: var(--color-upd-bg); color: var(--color-upd-text); }
+.pending { background: var(--color-pend-bg); color: var(--color-pend-text); }
+
+/* --- DETAILS & ROWS --- */
+.details { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; background: var(--details-bg); }
+.card.open .details { max-height: 1000px; border-top: 1px solid var(--border); }
+.svc-row { padding: 10px 16px; border-bottom: 1px solid var(--svc-border); display: flex; justify-content: space-between; align-items: center; font-size: 13px; }
+
+/* --- MAINTENANCE --- */
+.maint-section { margin-bottom: 30px; }
+.maint-section h3 { font-size: 1.1rem; border-bottom: 1px solid var(--border); padding-bottom: 5px; margin-bottom: 15px; color: var(--muted); }
+.maint-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 6px; padding: 12px; margin-bottom: 10px; border-left: 4px solid var(--primary); }
+.maint-card.past { border-left-color: var(--border); opacity: 0.7; }
+.maint-card strong { display: block; margin-bottom: 4px; font-size: 14px; }
+.maint-card small { color: var(--muted); font-size: 12px; }
+
+footer { text-align: center; padding: 30px 15px; color: var(--muted); font-size: 11px; flex-shrink: 0; }
