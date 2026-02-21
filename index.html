@@ -4,41 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Status Dashboard</title>
-    <style>
-        :root { --bg: #f6f8fa; --border: #d0d7de; --text: #24292f; --muted: #656d76; --primary: #0969da; }
-        html, body { min-height: 100vh; margin: 0; }
-        body { font-family: -apple-system, system-ui, sans-serif; background: var(--bg); color: var(--text); display: flex; flex-direction: column; -webkit-font-smoothing: antialiased; }
-        .container { max-width: 1000px; margin: 0 auto; width: 100%; padding: 15px; flex: 1 0 auto; box-sizing: border-box; }
-        header { text-align: center; }
-        header h1 { font-size: 1.5rem; margin: 20px 0; }
-        nav { display: flex; justify-content: center; gap: 20px; margin: 10px 0 25px 0; border-bottom: 1px solid var(--border); padding-bottom: 10px; }
-        nav a { cursor: pointer; color: var(--muted); text-decoration: none; font-size: 14px; padding: 5px 10px; font-weight: 500; }
-        nav a.active { color: var(--primary); border-bottom: 2px solid var(--primary); font-weight: 600; }
-        .grid { display: grid; gap: 20px; grid-template-columns: 1fr; align-items: start; }
-        @media (min-width: 768px) { .grid { grid-template-columns: repeat(var(--cols, 2), 1fr); } }
-        .card { background: white; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
-        .header-card { padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
-        .pill { padding: 3px 10px; border-radius: 12px; font-size: 10px; font-weight: 700; text-transform: uppercase; white-space: nowrap; }
-        .operational, .ok, .up { background: #dafbe1; color: #1a7f37; }
-        .impaired, .warning { background: #fff8c5; color: #9a6700; }
-        .critical, .down { background: #ffebe9; color: #cf222e; }
-        .maintenance { background: #ddf4ff; color: #0969da; }
-        .updating { background: #f1f1f1; color: #666; }
-        .pending { background: #eeeeee; color: #888888; }
-        .details { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; background: #fafafa; }
-        .card.open .details { max-height: 1000px; border-top: 1px solid var(--border); }
-        .svc-row { padding: 10px 16px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; font-size: 13px; }
-        
-        /* Maintenance Styles */
-        .maint-section { margin-bottom: 30px; }
-        .maint-section h3 { font-size: 1.1rem; border-bottom: 1px solid var(--border); padding-bottom: 5px; margin-bottom: 15px; color: var(--muted); }
-        .maint-card { background: white; border: 1px solid var(--border); border-radius: 6px; padding: 12px; margin-bottom: 10px; border-left: 4px solid var(--primary); }
-        .maint-card.past { border-left-color: #d0d7de; opacity: 0.8; }
-        .maint-card strong { display: block; margin-bottom: 4px; font-size: 14px; }
-        .maint-card small { color: var(--muted); font-size: 12px; }
-
-        footer { text-align: center; padding: 30px 15px; color: var(--muted); font-size: 11px; flex-shrink: 0; }
-    </style>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <div class="container">
@@ -57,104 +23,6 @@
     </div>
     <footer>&copy; 2026 clb-sol.dev | Status Dashboard</footer>
 
-    <script>
-        const REPO = "clb-sol-dev/statuspage";
-        const fmt = (d) => d ? new Date(d).toLocaleString('de-DE', {day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit'}) : '---';
-
-        function toggleView(v) {
-            document.getElementById('view-status').style.display = v === 'status' ? 'block' : 'none';
-            document.getElementById('view-maint').style.display = v === 'maint' ? 'block' : 'none';
-            document.getElementById('nav-status').className = v === 'status' ? 'active' : '';
-            document.getElementById('nav-maint').className = v === 'maint' ? 'active' : '';
-            if(v === 'maint') loadMaintenance();
-        }
-
-        async function loadMaintenance() {
-            const container = document.getElementById('maint-content');
-            try {
-                const res = await fetch(`status/maintenance.json?t=${Date.now()}`);
-                if (!res.ok) throw new Error("Datei nicht gefunden");
-                const data = await res.json();
-                const now = new Date();
-
-                let html = '';
-
-                // 1. Aktive Wartungen (Status MAINTENANCE im System)
-                html += '<div class="maint-section"><h3>Aktive Wartungen</h3>';
-                const active = data.active.filter(m => new Date(m.start) <= now);
-                if (active.length === 0) html += '<p><small>Keine laufenden Wartungen.</small></p>';
-                active.forEach(m => {
-                    html += `<div class="maint-card"><strong>${m.host}: ${m.service}</strong><small>Seit: ${fmt(m.start)}<br>Grund: ${m.reason || 'Keine Angabe'}</small></div>`;
-                });
-                html += '</div>';
-
-                // 2. Geplante Wartungen (Startdatum in der Zukunft)
-                html += '<div class="maint-section"><h3>Geplante Wartungen</h3>';
-                const planned = data.active.filter(m => new Date(m.start) > now);
-                if (planned.length === 0) html += '<p><small>Keine geplanten Wartungen.</small></p>';
-                planned.forEach(m => {
-                    html += `<div class="maint-card" style="border-left-color: #0969da77"><strong>${m.host}: ${m.service}</strong><small>Geplant für: ${fmt(m.start)}<br>Grund: ${m.reason || 'Geplante Arbeiten'}</small></div>`;
-                });
-                html += '</div>';
-
-                // 3. Vergangene Wartungen
-                html += '<div class="maint-section"><h3>Vergangene Wartungen</h3>';
-                if (!data.past || data.past.length === 0) html += '<p><small>Keine Historie vorhanden.</small></p>';
-                else data.past.forEach(m => {
-                    html += `<div class="maint-card past"><strong>${m.host}: ${m.service}</strong><small>Zeitraum: ${fmt(m.start)} bis ${fmt(m.end)}</small></div>`;
-                });
-                html += '</div>';
-
-                container.innerHTML = html;
-            } catch (e) {
-                container.innerHTML = '<p>Keine Wartungsdaten verfügbar (maintenance.json fehlt oder ist leer).</p>';
-            }
-        }
-
-        async function update() {
-            try {
-                const cfg = await (await fetch(`https://raw.githubusercontent.com/${REPO}/main/config.json?t=${Date.now()}`)).json();
-                const dash = document.getElementById('dashboard');
-                dash.style.setProperty('--cols', cfg.ui_config.columns || 2);
-                let targets = (cfg.display_order || []).flatMap(o => {
-                    if (o === 'standalone') return cfg.hosts.filter(h => h.group === 'standalone').sort((a,b) => a.display_name.localeCompare(b.display_name)).map(h => ({id: h.id}));
-                    return {id: o};
-                });
-                let html = ''; let latest = new Date(0);
-                for (const t of targets) {
-                    try {
-                        const res = await fetch(`status/${t.id}.json?t=${Date.now()}`);
-                        if(!res.ok) continue;
-                        const data = await res.json();
-                        const agg = {};
-                        Object.values(data.entries).forEach(e => {
-                            if(e.last_update && new Date(e.last_update) > latest) latest = new Date(e.last_update);
-                            if(e.service === 'Host') return;
-                            if(!agg[e.service]) agg[e.service] = [];
-                            agg[e.service].push(e.status.toLowerCase());
-                        });
-                        let hStatus = data.overall_status.toLowerCase();
-                        html += `<div class="card"><div class="header-card" onclick="this.parentElement.classList.toggle('open')">
-                            <strong>${data.display_name}</strong>
-                            <span class="pill ${hStatus}">${hStatus === 'pending' ? 'No Data' : hStatus}</span>
-                        </div><div class="details">`;
-                        Object.keys(agg).sort().forEach(s => {
-                            let statuses = agg[s]; let sStat = 'operational';
-                            if(statuses.includes('critical') || statuses.includes('down')) sStat = 'critical';
-                            else if(statuses.includes('warning') || statuses.includes('impaired')) sStat = 'impaired';
-                            else if(statuses.includes('maintenance')) sStat = 'maintenance';
-                            else if(statuses.includes('updating')) sStat = 'updating';
-                            else if(statuses.includes('pending')) sStat = 'pending';
-                            html += `<div class="svc-row"><span>${s}</span><span class="pill ${sStat}">${sStat === 'pending' ? 'No Data' : sStat}</span></div>`;
-                        });
-                        html += `</div></div>`;
-                    } catch(e) {}
-                }
-                dash.innerHTML = html;
-                document.getElementById('last-update').innerText = "Letzte Aktualisierung: " + (latest.getTime() > 0 ? fmt(latest) : "---");
-            } catch(e) {}
-        }
-        update(); setInterval(update, 60000);
-    </script>
+    <script src="js/app.js"></script>
 </body>
 </html>
