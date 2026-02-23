@@ -4,9 +4,51 @@ const fmt = (d) => d ? new Date(d).toLocaleString('de-DE', {day:'2-digit', month
 function toggleView(v) {
     document.getElementById('view-status').style.display = v === 'status' ? 'block' : 'none';
     document.getElementById('view-maint').style.display = v === 'maint' ? 'block' : 'none';
+    document.getElementById('view-changelog').style.display = v === 'changelog' ? 'block' : 'none';
+    
     document.getElementById('nav-status').className = v === 'status' ? 'active' : '';
     document.getElementById('nav-maint').className = v === 'maint' ? 'active' : '';
+    document.getElementById('nav-changelog').className = v === 'changelog' ? 'active' : '';
+    
     if(v === 'maint') loadMaintenance();
+    if(v === 'changelog') loadChangelog();
+}
+
+async function loadChangelog() {
+    const container = document.getElementById('changelog-content');
+    try {
+        const res = await fetch(`status/changelog.json?t=${Date.now()}`);
+        if (!res.ok) throw new Error("Changelog nicht gefunden");
+        const data = await res.json();
+        
+        let html = '<div class="change-section"><h3>Letzte Änderungen</h3>';
+        data.forEach(entry => {
+            const versionHtml = entry.version ? `<span class="version-tag">${entry.version}</span>` : '';
+            const changeIdHtml = entry.change_id ? `<span class="change-id">${entry.change_id}:</span>` : '';
+            
+            html += `
+                <div class="card change-card">
+                    <div class="header-card" onclick="this.parentElement.classList.toggle('open')">
+                        <div>
+                            <strong>${changeIdHtml}${entry.title}</strong>
+                            <small style="display:block; color:var(--muted); margin-top:2px;">${fmt(entry.date)}</small>
+                        </div>
+                        ${versionHtml}
+                    </div>
+                    <div class="details">
+                        <div style="padding: 15px;">
+                            <ul style="margin:0; padding-left:18px;">
+                                ${entry.changes.map(c => `<li>${c}</li>`).join('')}
+                            </ul>
+                        </div>
+                    </div>
+                </div>`;
+        });
+        html += '</div>';
+        container.innerHTML = html;
+    } catch (e) {
+        container.innerHTML = '<p>Keine Changelog-Daten verfügbar.</p>';
+    }
 }
 
 async function loadMaintenance() {
@@ -39,7 +81,7 @@ async function loadMaintenance() {
         html += '</div>';
         container.innerHTML = html;
     } catch (e) {
-        container.innerHTML = '<p>Keine Wartungsdaten verfügbar (maintenance.json fehlt oder ist leer).</p>';
+        container.innerHTML = '<p>Keine Wartungsdaten verfügbar.</p>';
     }
 }
 
@@ -87,6 +129,5 @@ async function update() {
     } catch(e) {}
 }
 
-// Initialer Aufruf und Intervall
 update();
 setInterval(update, 60000);
