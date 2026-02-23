@@ -19,7 +19,6 @@
     --color-pend-bg: #eeeeee; --color-pend-text: #888;
 }
 
-/* DARK MODE LOGIK */
 @media (prefers-color-scheme: dark) {
     :root {
         --bg: #0d1117;
@@ -32,7 +31,6 @@
         --svc-border: #21262d;
         --nav-hover: #21262d;
 
-        /* Status Farben Dark */
         --color-ok-bg: #0e4429; --color-ok-text: #3fb950;
         --color-warn-bg: #4d3d00; --color-warn-text: #d29922;
         --color-crit-bg: #490202; --color-crit-text: #f85149;
@@ -50,57 +48,27 @@ body {
     display: flex; 
     flex-direction: column; 
     -webkit-font-smoothing: antialiased; 
-    transition: background 0.3s ease, color 0.3s ease;
+    transition: background 0.3s ease; 
 }
-
 .container { max-width: 1000px; margin: 0 auto; width: 100%; padding: 15px; flex: 1 0 auto; box-sizing: border-box; }
 
-/* --- HEADER & NAV --- */
 header { text-align: center; }
 header h1 { font-size: 1.5rem; margin: 20px 0; }
 
-nav { 
-    display: flex; 
-    justify-content: center; 
-    gap: 10px; 
-    margin: 10px 0 25px 0; 
-    border-bottom: 1px solid var(--border); 
-    padding-bottom: 15px; 
-}
+nav { display: flex; justify-content: center; gap: 10px; margin: 10px 0 25px 0; border-bottom: 1px solid var(--border); padding-bottom: 15px; }
+nav a { cursor: pointer; color: var(--muted); text-decoration: none; font-size: 14px; padding: 8px 16px; font-weight: 500; border-radius: 6px; transition: all 0.2s ease; }
+nav a:hover { background-color: var(--nav-hover); color: var(--text); }
+nav a.active { color: var(--primary); font-weight: 600; background-color: var(--nav-hover); }
 
-nav a { 
-    cursor: pointer; 
-    color: var(--muted); 
-    text-decoration: none; /* Kein Unterstrich */
-    font-size: 14px; 
-    padding: 8px 16px; 
-    font-weight: 500; 
-    border-radius: 6px; 
-    transition: all 0.2s ease;
-}
-
-/* Box-Effekt beim Hover */
-nav a:hover { 
-    background-color: var(--nav-hover); 
-    color: var(--text);
-}
-
-nav a.active { 
-    color: var(--primary); 
-    font-weight: 600; 
-    background-color: var(--nav-hover);
-}
-
-/* --- GRID & CARDS --- */
+/* --- CARDS & GRID --- */
 .grid { display: grid; gap: 20px; grid-template-columns: 1fr; align-items: start; }
 @media (min-width: 768px) { .grid { grid-template-columns: repeat(var(--cols, 2), 1fr); } }
 
-.card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+.card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 15px; }
 .header-card { padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
 
-/* --- PILLS (STATUS) --- */
+/* --- STATUS PILLS --- */
 .pill { padding: 3px 10px; border-radius: 12px; font-size: 10px; font-weight: 700; text-transform: uppercase; white-space: nowrap; }
-
 .operational, .ok, .up { background: var(--color-ok-bg); color: var(--color-ok-text); }
 .impaired, .warning { background: var(--color-warn-bg); color: var(--color-warn-text); }
 .critical, .down { background: var(--color-crit-bg); color: var(--color-crit-text); }
@@ -108,17 +76,40 @@ nav a.active {
 .updating { background: var(--color-upd-bg); color: var(--color-upd-text); }
 .pending { background: var(--color-pend-bg); color: var(--color-pend-text); }
 
-/* --- DETAILS & ROWS --- */
+/* Animation für das Aufklappen */
 .details { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; background: var(--details-bg); }
 .card.open .details { max-height: 1000px; border-top: 1px solid var(--border); }
 .svc-row { padding: 10px 16px; border-bottom: 1px solid var(--svc-border); display: flex; justify-content: space-between; align-items: center; font-size: 13px; }
 
-/* --- MAINTENANCE --- */
-.maint-section { margin-bottom: 30px; }
-.maint-section h3 { font-size: 1.1rem; border-bottom: 1px solid var(--border); padding-bottom: 5px; margin-bottom: 15px; color: var(--muted); }
-.maint-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 6px; padding: 12px; margin-bottom: 10px; border-left: 4px solid var(--primary); }
+/* --- MAINTENANCE & CHANGELOG --- */
+.maint-section, .change-section { margin-bottom: 30px; }
+.maint-section h3, .change-section h3 { font-size: 1.1rem; border-bottom: 1px solid var(--border); padding-bottom: 5px; margin-bottom: 15px; color: var(--muted); }
+
+.maint-card { 
+    background: var(--card-bg); 
+    border: 1px solid var(--border); 
+    border-radius: 6px; 
+    padding: 15px; 
+    margin-bottom: 12px; 
+    border-left: 4px solid var(--primary); 
+}
 .maint-card.past { border-left-color: var(--border); opacity: 0.7; }
-.maint-card strong { display: block; margin-bottom: 4px; font-size: 14px; }
-.maint-card small { color: var(--muted); font-size: 12px; }
+
+/* Changelog spezifisch */
+.change-card { border-left: 4px solid var(--muted); }
+.change-card .version-tag { 
+    background: var(--border); 
+    padding: 2px 8px; 
+    border-radius: 10px; 
+    font-size: 10px; 
+    font-weight: bold;
+    color: var(--text);
+}
+.change-card .change-id {
+    color: var(--primary);
+    font-weight: bold;
+    margin-right: 5px;
+}
+.change-card li { margin-bottom: 8px; font-size: 13px; line-height: 1.4; }
 
 footer { text-align: center; padding: 30px 15px; color: var(--muted); font-size: 11px; flex-shrink: 0; }
