@@ -1,0 +1,14 @@
+[
+  {
+    "date": "2026-02-23T07:23:00Z",
+    "version": "v1.2.0",
+    "change_id": "CH26000223-1",
+    "title": "Implementation of changelog on status page",
+    "changes": [
+      "Added a new dedicated Changelog view to the dashboard",
+      "Integrated automated repository dispatch for remote logging",
+      "Enhanced UI with collapsible change cards and consistent design patterns",
+      "Included Change ID and infrastructure release tracking"
+    ]
+  }
+]
