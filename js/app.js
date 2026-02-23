@@ -19,7 +19,10 @@ async function loadChangelog() {
     try {
         const res = await fetch(`status/changelog.json?t=${Date.now()}`);
         if (!res.ok) throw new Error("Changelog nicht gefunden");
-        const data = await res.json();
+        let data = await res.json();
+        
+        // Safety First: Sortierung nach Datum absteigend (Neueste zuerst)
+        data.sort((a, b) => new Date(b.date) - new Date(a.date));
         
         let html = '<div class="change-section"><h3>Letzte Änderungen</h3>';
         data.forEach(entry => {
@@ -58,28 +61,40 @@ async function loadMaintenance() {
         if (!res.ok) throw new Error("Datei nicht gefunden");
         const data = await res.json();
         const now = new Date();
-        let html = '';
-        html += '<div class="maint-section"><h3>Aktive Wartungen</h3>';
-        const active = data.active.filter(m => new Date(m.start) <= now);
+        
+        // Sortierung für Maintenance: Geplante/Aktive nach Startdatum (baldigste zuerst)
+        const active = (data.active || []).sort((a, b) => new Date(a.start) - new Date(b.start));
+        // Historie: Neueste beendete zuerst
+        const past = (data.past || []).sort((a, b) => new Date(b.end) - new Date(a.end));
+
+        const renderMaint = (m, isPast = false) => `
+            <div class="card ${isPast ? 'past-maint' : ''}" style="border-left: 4px solid ${isPast ? 'var(--border)' : 'var(--primary)'}">
+                <div class="header-card" onclick="this.parentElement.classList.toggle('open')">
+                    <div>
+                        <strong>${m.host}: ${m.service}</strong>
+                        <small style="display:block; color:var(--muted); margin-top:2px;">
+                            ${isPast ? 'Beendet: ' + fmt(m.end) : 'Start: ' + fmt(m.start)}
+                        </small>
+                    </div>
+                    ${!isPast && new Date(m.start) <= now ? '<span class="pill maintenance">Aktiv</span>' : ''}
+                </div>
+                <div class="details">
+                    <div style="padding:15px; font-size:13px;">
+                        <strong>Grund:</strong> ${m.reason || 'Keine Angabe'}<br>
+                        <small style="color:var(--muted); display:block; margin-top:5px;">Zeitraum: ${fmt(m.start)} bis ${fmt(m.end)}</small>
+                    </div>
+                </div>
+            </div>`;
+
+        let html = '<div class="maint-section"><h3>Aktive & Geplante Wartungen</h3>';
         if (active.length === 0) html += '<p><small>Keine laufenden Wartungen.</small></p>';
-        active.forEach(m => {
-            html += `<div class="maint-card"><strong>${m.host}: ${m.service}</strong><small>Seit: ${fmt(m.start)}<br>Grund: ${m.reason || 'Keine Angabe'}</small></div>`;
-        });
-        html += '</div>';
-        html += '<div class="maint-section"><h3>Geplante Wartungen</h3>';
-        const planned = data.active.filter(m => new Date(m.start) > now);
-        if (planned.length === 0) html += '<p><small>Keine geplanten Wartungen.</small></p>';
-        planned.forEach(m => {
-            html += `<div class="maint-card" style="border-left-color: #0969da77"><strong>${m.host}: ${m.service}</strong><small>Geplant für: ${fmt(m.start)}<br>Grund: ${m.reason || 'Geplante Arbeiten'}</small></div>`;
-        });
-        html += '</div>';
-        html += '<div class="maint-section"><h3>Vergangene Wartungen</h3>';
-        if (!data.past || data.past.length === 0) html += '<p><small>Keine Historie vorhanden.</small></p>';
-        else data.past.forEach(m => {
-            html += `<div class="maint-card past"><strong>${m.host}: ${m.service}</strong><small>Zeitraum: ${fmt(m.start)} bis ${fmt(m.end)}</small></div>`;
-        });
-        html += '</div>';
-        container.innerHTML = html;
+        active.forEach(m => html += renderMaint(m));
+        
+        html += '</div><div class="maint-section"><h3>Historie</h3>';
+        if (past.length === 0) html += '<p><small>Keine Historie vorhanden.</small></p>';
+        past.forEach(m => html += renderMaint(m, true));
+        
+        container.innerHTML = html + '</div>';
     } catch (e) {
         container.innerHTML = '<p>Keine Wartungsdaten verfügbar.</p>';
     }
