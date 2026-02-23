@@ -12,13 +12,20 @@
         <nav>
             <a id="nav-status" class="active" onclick="toggleView('status')">Status</a>
             <a id="nav-maint" onclick="toggleView('maint')">Maintenance</a>
+            <a id="nav-changelog" onclick="toggleView('changelog')">Changelog</a>
         </nav>
+
         <div id="view-status">
             <div id="dashboard" class="grid">Lade aktuelle Zustände...</div>
             <div id="last-update" style="text-align:center; margin-top:20px; font-size:11px; color:var(--muted)"></div>
         </div>
+
         <div id="view-maint" style="display:none">
             <div id="maint-content">Lade Wartungsdaten...</div>
+        </div>
+
+        <div id="view-changelog" style="display:none">
+            <div id="changelog-content">Lade Changelog...</div>
         </div>
     </div>
     <footer>&copy; 2026 clb-sol.dev | Status Dashboard</footer>
