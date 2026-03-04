@@ -2,39 +2,11 @@
   "active": [],
   "past": [
     {
-      "host": "nagios",
+      "host": "vps-mon01",
       "service": "Uptime",
       "start": "2026-02-08T22:36:48.508722Z",
       "reason": "Test transfer downtime from Nagios to Status Page",
       "end": "2026-02-08T22:45:34.404590Z"
-    },
-    {
-      "host": "nagios",
-      "service": "Uptime",
-      "start": "2026-02-08T22:23:02.658239Z",
-      "reason": "$",
-      "end": "2026-02-08T22:32:43.132629Z"
-    },
-    {
-      "host": "nagios",
-      "service": "Uptime",
-      "start": "2026-02-08T21:30:21.549620Z",
-      "reason": "OK: Linux nagios 6.1.0-41-cloud-amd64 - up 49 days 22 hours 43 minutes",
-      "end": "2026-02-08T21:34:53.811343Z"
-    },
-    {
-      "host": "nagios",
-      "service": "Uptime",
-      "start": "2026-02-08T10:23:32.581311Z",
-      "reason": "OK: Linux nagios 6.1.0-41-cloud-amd64 - up 49 days 11 hours 33 minutes",
-      "end": "2026-02-08T10:28:44.114709Z"
-    },
-    {
-      "host": "nagios",
-      "service": "Uptime",
-      "start": "2026-02-07T22:20:07.070372Z",
-      "reason": "OK: Linux nagios 6.1.0-41-cloud-amd64 - up 48 days 23 hours 33 minutes",
-      "end": "2026-02-07T22:21:47.590052Z"
     }
   ]
 }
