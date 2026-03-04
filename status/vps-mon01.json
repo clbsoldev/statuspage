@@ -1,0 +1,57 @@
+{
+  "id": "vps-mon01",
+  "entries": {
+    "vps-mon01:Host": {
+      "host": "vps-mon01",
+      "service": "Host",
+      "status": "UP",
+      "output": "Heartbeat OK from MGMT-Pi-Home",
+      "last_update": "2026-02-05T21:17:40.935234Z"
+    },
+    "vps-mon01:GitHub Runner": {
+      "host": "vps-mon01",
+      "service": "GitHub Runner",
+      "status": "OK",
+      "output": "OK: Service actions.runner.strunk-media.vps-mon01_@_Strato is running!",
+      "last_update": "2026-02-06T19:06:37.847757Z"
+    },
+    "vps-mon01:Heartbeat": {
+      "host": "vps-mon01",
+      "service": "Heartbeat",
+      "status": "OK",
+      "output": "Heartbeat OK from MGMT-Pi-Home",
+      "last_update": "2026-02-06T19:13:07.090255Z"
+    },
+    "vps-mon01:HTTP": {
+      "host": "vps-mon01",
+      "service": "HTTP",
+      "status": "pending",
+      "output": "Warte auf Daten...",
+      "last_update": null
+    },
+    "vps-mon01:SSH": {
+      "host": "vps-mon01",
+      "service": "SSH",
+      "status": "OK",
+      "output": "SSH OK - OpenSSH_9.2p1 Debian-2+deb12u7 (protocol 2.0)",
+      "last_update": "2026-02-09T21:20:27.321884Z"
+    },
+    "vps-mon01:SSL Certificate": {
+      "host": "vps-mon01",
+      "service": "SSL Certificate",
+      "status": "OK",
+      "output": "OK - Certificate nagios.noc.strunk-media.de will expire on Sat May  2 10:21:37 2026 +0000.",
+      "last_update": "2026-02-06T19:07:20.590308Z"
+    },
+    "vps-mon01:Uptime": {
+      "host": "vps-mon01",
+      "service": "Uptime",
+      "status": "OK",
+      "output": "OK: Linux vps-mon01 6.1.0-41-cloud-amd64 - up  23:45:26 up 50 days, 0 min,  1 user,  load average: 0.00, 0.02, 0.00",
+      "last_update": "2026-02-08T22:46:33.074442Z"
+    }
+  },
+  "overall_status": "operational",
+  "display_name": "Monitoring Server",
+  "is_group": false
+}
