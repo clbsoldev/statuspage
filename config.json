@@ -30,7 +30,7 @@
       "assignee": "strfl89",
       "services": [{"name": "HTTPS", "impact": "major"}]
     },        {
-      "id": "nagios",
+      "id": "vps-mon01",
       "display_name": "Monitoring Server",
       "group": "standalone",
       "assignee": "strfl89",
