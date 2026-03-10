@@ -18,9 +18,9 @@
     "ansible:GitHub Runner": {
       "host": "ansible",
       "service": "GitHub Runner",
-      "status": "CRITICAL",
-      "output": "OCSP - CRITICAL: Service github-runner.ansible is not running!",
-      "last_update": "2026-03-10T19:28:50.711878Z"
+      "status": "OK",
+      "output": "OCSP - OK: Service github-runner.ansible is running!",
+      "last_update": "2026-03-10T20:00:37.436433Z"
     },
     "ansible:SSH": {
       "host": "ansible",
@@ -30,7 +30,7 @@
       "last_update": null
     }
   },
-  "overall_status": "critical",
+  "overall_status": "operational",
   "display_name": "Ansible Control Node",
   "is_group": false
 }
