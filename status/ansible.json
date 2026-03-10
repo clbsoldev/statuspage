@@ -4,9 +4,9 @@
     "ansible:Host": {
       "host": "ansible",
       "service": "Host",
-      "status": "UNREACHABLE",
-      "output": "CRITICAL - Host Unreachable (ansible.my-uc-lab.de)",
-      "last_update": "2026-03-10T19:13:59.877131Z"
+      "status": "UP",
+      "output": "PING OK - Packet loss = 0%, RTA = 0.58 ms",
+      "last_update": "2026-03-10T19:21:51.478998Z"
     },
     "ansible:CPU Temperature": {
       "host": "ansible",
