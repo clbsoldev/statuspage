@@ -1,0 +1,15 @@
+{
+  "id": "hau-sw201",
+  "entries": {
+    "hau-sw201:Host": {
+      "host": "hau-sw201",
+      "service": "Host",
+      "status": "pending",
+      "output": "Warte auf Daten...",
+      "last_update": null
+    }
+  },
+  "overall_status": "pending",
+  "display_name": "hau-sw201",
+  "is_group": false
+}
