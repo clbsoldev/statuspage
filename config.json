@@ -5,7 +5,7 @@
   },
   "display_order": ["standalone", "proxmox"],
   "hosts": [
-                                                                  {
+                                                                                                {
       "id": "ansible",
       "display_name": "Ansible Control Node",
       "group": "standalone",
@@ -24,11 +24,29 @@
       "assignee": "strfl89",
       "services": [{"name": "HTTPS", "impact": "major"}, {"name": "SSL-Cert", "impact": "minor"}]
     },        {
+      "id": "hau-lgw01",
+      "display_name": "hau-lgw01",
+      "group": "standalone",
+      "assignee": "admin",
+      "services": []
+    },        {
+      "id": "hau-sw201",
+      "display_name": "hau-sw201",
+      "group": "standalone",
+      "assignee": "admin",
+      "services": []
+    },        {
       "id": "n8n",
       "display_name": "n8n",
       "group": "standalone",
       "assignee": "strfl89",
       "services": [{"name": "HTTPS", "impact": "major"}]
+    },        {
+      "id": "vps-edge01",
+      "display_name": "Reverse Proxy",
+      "group": "standalone",
+      "assignee": "strfl89",
+      "services": [{"name": "HTTPS", "impact": "critical"}, {"name": "Nginx Service", "impact": "critical"}, {"name": "Nginx Statistics", "impact": "major"}, {"name": "SSH", "impact": "minor"}, {"name": "SSL Certificate", "impact": "critical"}, {"name": "WireGuard Flohnetzwerk", "impact": "major"}]
     },        {
       "id": "vps-mon01",
       "display_name": "Monitoring Server",
@@ -37,7 +55,7 @@
       "services": [{"name": "GitHub Runner", "impact": "minor"}, {"name": "Heartbeat", "impact": "critical"}, {"name": "HTTP", "impact": "major"}, {"name": "SSH", "impact": "major"}, {"name": "SSL Certificate", "impact": "major"}, {"name": "Uptime", "impact": "critical"}]
     }      ],
   "groups": [
-                                                                                                                            {
+                                                                                                                                                                            {
       "id": "standalone",
       "name": "Standalone"
     },        {
