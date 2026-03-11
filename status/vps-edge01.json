@@ -4,9 +4,9 @@
     "vps-edge01:Host": {
       "host": "vps-edge01",
       "service": "Host",
-      "status": "pending",
-      "output": "Warte auf Daten...",
-      "last_update": null
+      "status": "UP",
+      "output": "PING OK - Packet loss = 0%, RTA = 0.88 ms",
+      "last_update": "2026-03-11T07:45:14.367103Z"
     },
     "vps-edge01:HTTPS": {
       "host": "vps-edge01",
@@ -51,7 +51,7 @@
       "last_update": null
     }
   },
-  "overall_status": "pending",
+  "overall_status": "operational",
   "display_name": "Reverse Proxy",
   "is_group": false
 }
