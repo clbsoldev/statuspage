@@ -39,9 +39,9 @@
     "vps-edge01:SSL Certificate": {
       "host": "vps-edge01",
       "service": "SSL Certificate",
-      "status": "pending",
-      "output": "Warte auf Daten...",
-      "last_update": null
+      "status": "OK",
+      "output": "OK - Certificate vps-edge01.clb-sol.dev will expire on Mon Jun  1 11:56:33 2026 +0000.",
+      "last_update": "2026-03-11T15:50:59.769697Z"
     },
     "vps-edge01:WireGuard Flohnetzwerk": {
       "host": "vps-edge01",
