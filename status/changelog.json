@@ -3,12 +3,9 @@
     "date": "2026-03-11T06:17:51Z",
     "version": "Infrastruktur-Update",
     "change_id": "CH26000311-1",
-    "title": "Automatisches Infrastruktur-Update",
+    "title": "Automated Infrastructure Update",
     "changes": [
-      "Neuer Host hinzugef\u00fcgt: hau-lgw01 (hau-lgw01)",
-      "Neuer Host hinzugef\u00fcgt: hau-sw201 (hau-sw201)",
-      "Neuer Host hinzugef\u00fcgt: Reverse Proxy (vps-edge01)",
-      "Host/Gruppe entfernt: hau-qnode01"
+      "New host added:: Reverse Proxy (vps-edge01)"
     ]
   },
   {
