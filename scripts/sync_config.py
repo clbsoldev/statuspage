@@ -4,10 +4,10 @@ from datetime import datetime
 
 def generate_change_id(changelog_data):
     now = datetime.now()
-    # Format: CH + Jahr(2stellig) + 00 + Monat(2stellig) + Tag(2stellig)
+    # Format: CH + YY + 00 + MMDD (e.g., CH26000311)
     prefix = f"CH{now.strftime('%y')}00{now.strftime('%m%d')}"
     
-    # Zähler für den heutigen Tag ermitteln
+    # Counter for the current day
     daily_count = 1
     today_str = now.strftime('%Y-%m-%d')
     
@@ -28,8 +28,10 @@ def main():
 
     os.makedirs(status_dir, exist_ok=True)
     
-    # 1. Vorherigen Zustand erfassen (bevor wir löschen oder ändern)
-    existing_files = [f.replace('.json', '') for f in os.listdir(status_dir) if f.endswith('.json') and f != 'changelog.json' and f != 'maintenance.json']
+    # 1. Capture previous state (before deleting or modifying)
+    # Exclude non-host files
+    existing_files = [f.replace('.json', '') for f in os.listdir(status_dir) 
+                     if f.endswith('.json') and f not in ['changelog.json', 'maintenance.json']]
     
     active_target_ids = set()
     new_hosts_found = []
@@ -38,46 +40,50 @@ def main():
         target_id = host['id'] if gid == 'standalone' else gid
         active_target_ids.add(target_id)
         
-        # Prüfen ob dieser Host neu ist (ID noch nicht als Datei vorhanden)
+        # Check if this host/group is new
         if target_id not in existing_files and target_id not in [h['id'] for h in new_hosts_found]:
             new_hosts_found.append({'id': target_id, 'name': host.get('display_name', target_id)})
 
-    # 2. Entfernte Hosts identifizieren
+    # 2. Identify removed hosts
     removed_hosts = [fid for fid in existing_files if fid not in active_target_ids]
 
-    # 3. Changelog-Eintrag erstellen, falls sich etwas geändert hat
+    # 3. Create Changelog entry if changes occurred
     if new_hosts_found or removed_hosts:
         changelog_data = []
         if os.path.exists(changelog_file):
-            with open(changelog_file, 'r') as f:
-                changelog_data = json.load(f)
+            try:
+                with open(changelog_file, 'r') as f:
+                    changelog_data = json.load(f)
+            except json.JSONDecodeError:
+                changelog_data = []
         
         change_id = generate_change_id(changelog_data)
         changes = []
         
         for h in new_hosts_found:
-            changes.append(f"Neuer Host hinzugefügt: {h['name']} ({h['id']})")
+            changes.append(f"New host added: {h['name']} ({h['id']})")
         for fid in removed_hosts:
-            changes.append(f"Host/Gruppe entfernt: {fid}")
+            changes.append(f"Host or group removed: {fid}")
             
         new_entry = {
-            "date": datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ'),
-            "version": "Infrastruktur-Update",
+            "date": datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ'),
+            "version": "Infrastructure Update",
             "change_id": change_id,
-            "title": "Automatisches Infrastruktur-Update",
+            "title": "Automated Infrastructure Update",
             "changes": changes
         }
         
-        # Neuen Eintrag oben anfügen
+        # Insert new entry at the top
         changelog_data.insert(0, new_entry)
         with open(changelog_file, 'w') as f:
             json.dump(changelog_data, f, indent=2)
 
-    # --- AB HIER: DEIN BESTEHENDER CODE FÜR DIE DATEI-VERARBEITUNG ---
+    # --- EXISTING LOGIC FOR FILE PROCESSING ---
 
-    # Dateien löschen, die nicht mehr aktiv sind
+    # Delete files that are no longer active
     for filename in os.listdir(status_dir):
-        if not filename.endswith('.json') or filename in ['changelog.json', 'maintenance.json']: continue
+        if not filename.endswith('.json') or filename in ['changelog.json', 'maintenance.json']: 
+            continue
         if filename.replace('.json', '') not in active_target_ids:
             os.remove(os.path.join(status_dir, filename))
 
@@ -108,10 +114,10 @@ def main():
                 else:
                     new_data["entries"][key] = {
                         "host": r_host['id'], "service": svc['name'],
-                        "status": "pending", "output": "Warte auf Daten...", "last_update": None
+                        "status": "pending", "output": "Waiting for data...", "last_update": None
                     }
 
-        # Overall Status Berechnung
+        # Overall Status Calculation
         sev = 0
         has_data = False
         for e in new_data["entries"].values():
