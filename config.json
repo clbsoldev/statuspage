@@ -24,18 +24,6 @@
       "assignee": "strfl89",
       "services": [{"name": "HTTPS", "impact": "major"}, {"name": "SSL-Cert", "impact": "minor"}]
     },        {
-      "id": "hau-lgw01",
-      "display_name": "hau-lgw01",
-      "group": "standalone",
-      "assignee": "admin",
-      "services": []
-    },        {
-      "id": "hau-sw201",
-      "display_name": "hau-sw201",
-      "group": "standalone",
-      "assignee": "admin",
-      "services": []
-    },        {
       "id": "n8n",
       "display_name": "n8n",
       "group": "standalone",
