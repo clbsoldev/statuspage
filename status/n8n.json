@@ -8,12 +8,33 @@
       "output": "Warte auf Daten...",
       "last_update": null
     },
+    "n8n:Healthz": {
+      "host": "n8n",
+      "service": "Healthz",
+      "status": "pending",
+      "output": "Waiting for data...",
+      "last_update": null
+    },
     "n8n:HTTPS": {
       "host": "n8n",
       "service": "HTTPS",
       "status": "OK",
       "output": "HTTP OK: HTTP/1.1 200 OK - 14833 bytes in 0.415 second response time",
       "last_update": "2026-02-05T13:12:25.260522Z"
+    },
+    "n8n:SSL Certificate": {
+      "host": "n8n",
+      "service": "SSL Certificate",
+      "status": "pending",
+      "output": "Waiting for data...",
+      "last_update": null
+    },
+    "n8n:Workflow Errors": {
+      "host": "n8n",
+      "service": "Workflow Errors",
+      "status": "pending",
+      "output": "Waiting for data...",
+      "last_update": null
     }
   },
   "overall_status": "operational",
