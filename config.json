@@ -5,7 +5,7 @@
   },
   "display_order": ["standalone", "proxmox"],
   "hosts": [
-                                                                                                {
+                                                                            {
       "id": "ansible",
       "display_name": "Ansible Control Node",
       "group": "standalone",
@@ -28,7 +28,7 @@
       "display_name": "n8n",
       "group": "standalone",
       "assignee": "strfl89",
-      "services": [{"name": "HTTPS", "impact": "major"}]
+      "services": [{"name": "Healthz", "impact": "critical"}, {"name": "HTTPS", "impact": "major"}, {"name": "SSL Certificate", "impact": "major"}, {"name": "Workflow Errors", "impact": "major"}]
     },        {
       "id": "vps-edge01",
       "display_name": "Reverse Proxy",
@@ -43,7 +43,7 @@
       "services": [{"name": "GitHub Runner", "impact": "minor"}, {"name": "Heartbeat", "impact": "critical"}, {"name": "HTTP", "impact": "major"}, {"name": "SSH", "impact": "major"}, {"name": "SSL Certificate", "impact": "major"}, {"name": "Uptime", "impact": "critical"}]
     }      ],
   "groups": [
-                                                                                                                                                                            {
+                                                                                                                                            {
       "id": "standalone",
       "name": "Standalone"
     },        {
