@@ -35,6 +35,13 @@
       "status": "pending",
       "output": "Waiting for data...",
       "last_update": null
+    },
+    "n8n:Workflows": {
+      "host": "n8n",
+      "service": "Workflows",
+      "status": "OK",
+      "output": "OK: n8n Workflows: 12 Successful, 0 Queued, 0 Failed in last 15 min",
+      "last_update": "2026-03-13T14:10:48.620866Z"
     }
   },
   "overall_status": "operational",
