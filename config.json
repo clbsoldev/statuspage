@@ -28,7 +28,7 @@
       "display_name": "n8n",
       "group": "standalone",
       "assignee": "strfl89",
-      "services": [{"name": "Healthz", "impact": "critical"}, {"name": "HTTPS", "impact": "major"}, {"name": "SSL Certificate", "impact": "major"}, {"name": "Workflow Errors", "impact": "major"}]
+      "services": [{"name": "Health", "impact": "critical"}, {"name": "HTTPS", "impact": "major"}, {"name": "SSL Certificate", "impact": "major"}, {"name": "Workflow Errors", "impact": "major"}]
     },        {
       "id": "vps-edge01",
       "display_name": "Reverse Proxy",
