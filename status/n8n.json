@@ -8,9 +8,9 @@
       "output": "Warte auf Daten...",
       "last_update": null
     },
-    "n8n:Healthz": {
+    "n8n:Health": {
       "host": "n8n",
-      "service": "Healthz",
+      "service": "Health",
       "status": "pending",
       "output": "Waiting for data...",
       "last_update": null
