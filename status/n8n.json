@@ -11,9 +11,9 @@
     "n8n:Health": {
       "host": "n8n",
       "service": "Health",
-      "status": "pending",
-      "output": "Waiting for data...",
-      "last_update": null
+      "status": "OK",
+      "output": "OK: n8n instance is healthy",
+      "last_update": "2026-03-13T14:11:01.326651Z"
     },
     "n8n:HTTPS": {
       "host": "n8n",
