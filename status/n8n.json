@@ -32,9 +32,9 @@
     "n8n:Workflows": {
       "host": "n8n",
       "service": "Workflows",
-      "status": "OK",
-      "output": "OK: n8n Workflows: 11 Successful, 0 Queued, 0 Failed in last 15 min",
-      "last_update": "2026-03-21T15:30:17.419144Z"
+      "status": "CRITICAL",
+      "output": "CRITICAL: API Access Error: 502 Server Error: Bad Gateway for url: https://n8n.clb-sol.dev/api/v1/executions?limit=250",
+      "last_update": "2026-03-22T23:58:21.077978Z"
     }
   },
   "overall_status": "critical",
