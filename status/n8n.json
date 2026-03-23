@@ -11,9 +11,9 @@
     "n8n:Health": {
       "host": "n8n",
       "service": "Health",
-      "status": "CRITICAL",
-      "output": "CRITICAL: healthz returned status 502",
-      "last_update": "2026-03-22T23:56:13.433509Z"
+      "status": "OK",
+      "output": "OK: n8n instance is healthy",
+      "last_update": "2026-03-23T00:06:13.451892Z"
     },
     "n8n:HTTPS": {
       "host": "n8n",
