@@ -18,9 +18,9 @@
     "n8n:HTTPS": {
       "host": "n8n",
       "service": "HTTPS",
-      "status": "CRITICAL",
-      "output": "connect to address n8n.flohnetzwerk.synology.me and port 8443: No route to host",
-      "last_update": "2026-03-24T19:30:27.525390Z"
+      "status": "OK",
+      "output": "HTTP OK: HTTP/1.1 200 OK - 15597 bytes in 0.416 second response time",
+      "last_update": "2026-03-24T19:45:29.301233Z"
     },
     "n8n:SSL Certificate": {
       "host": "n8n",
