@@ -11,9 +11,9 @@
     "n8n:Health": {
       "host": "n8n",
       "service": "Health",
-      "status": "CRITICAL",
-      "output": "CRITICAL: Connection failed: HTTPSConnectionPool(host=n8n.clb-sol.dev, port=443): Read timed out. (read timeout=10)",
-      "last_update": "2026-03-24T19:23:36.977439Z"
+      "status": "OK",
+      "output": "OK: n8n instance is healthy",
+      "last_update": "2026-03-24T19:38:35.801579Z"
     },
     "n8n:HTTPS": {
       "host": "n8n",
