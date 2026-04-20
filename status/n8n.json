@@ -32,12 +32,12 @@
     "n8n:Workflows": {
       "host": "n8n",
       "service": "Workflows",
-      "status": "OK",
-      "output": "OK: n8n Workflows: 1 Successful, 0 Queued, 0 Failed in last 15 min",
-      "last_update": "2026-04-20T01:20:04.435163Z"
+      "status": "WARNING",
+      "output": "WARNING: n8n Workflows: 15 Successful, 0 Queued, 1 Failed in last 15 min",
+      "last_update": "2026-04-20T10:14:04.204493Z"
     }
   },
-  "overall_status": "operational",
+  "overall_status": "impaired",
   "display_name": "n8n",
   "is_group": false
 }
