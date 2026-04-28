@@ -25,9 +25,9 @@
     "n8n:SSL Certificate": {
       "host": "n8n",
       "service": "SSL Certificate",
-      "status": "CRITICAL",
-      "output": "CRITICAL - Socket timeout after 10 seconds",
-      "last_update": "2026-04-28T20:31:41.836482Z"
+      "status": "OK",
+      "output": "OK - Certificate vps-edge01.clb-sol.dev will expire on Mon Jun  1 11:56:33 2026 +0000.",
+      "last_update": "2026-04-28T21:31:43.024311Z"
     },
     "n8n:Workflows": {
       "host": "n8n",
@@ -37,7 +37,7 @@
       "last_update": "2026-04-28T21:03:17.091305Z"
     }
   },
-  "overall_status": "critical",
+  "overall_status": "operational",
   "display_name": "n8n",
   "is_group": false
 }
