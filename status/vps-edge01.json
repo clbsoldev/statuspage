@@ -4,9 +4,9 @@
     "vps-edge01:Host": {
       "host": "vps-edge01",
       "service": "Host",
-      "status": "DOWN",
-      "output": "PING CRITICAL - Packet loss = 100%",
-      "last_update": "2026-04-28T20:53:45.517507Z"
+      "status": "UP",
+      "output": "PING OK - Packet loss = 0%, RTA = 0.67 ms",
+      "last_update": "2026-04-28T21:03:34.114455Z"
     },
     "vps-edge01:HTTPS": {
       "host": "vps-edge01",
@@ -51,7 +51,7 @@
       "last_update": null
     }
   },
-  "overall_status": "critical",
+  "overall_status": "operational",
   "display_name": "Reverse Proxy",
   "is_group": false
 }
