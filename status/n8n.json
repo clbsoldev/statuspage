@@ -32,9 +32,9 @@
     "n8n:Workflows": {
       "host": "n8n",
       "service": "Workflows",
-      "status": "OK",
-      "output": "OK: n8n Workflows: 13 Successful, 0 Queued, 0 Failed in last 15 min",
-      "last_update": "2026-04-27T11:31:26.850902Z"
+      "status": "CRITICAL",
+      "output": "CRITICAL: API Access Error: HTTPSConnectionPool(host=n8n.clb-sol.dev, port=443): Max retries exceeded with url: /api/v1/executions?limit=250 (Caused by ConnectTimeoutError(urllib3.connection.HTTPSConnection object at 0x7f657f6923d0, Connection to n8n.clb-sol.dev timed out. (connect timeout=15)))",
+      "last_update": "2026-04-28T18:49:59.769844Z"
     }
   },
   "overall_status": "critical",
