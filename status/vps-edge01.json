@@ -6,7 +6,7 @@
       "service": "Host",
       "status": "DOWN",
       "output": "PING CRITICAL - Packet loss = 100%",
-      "last_update": "2026-04-28T18:53:39.477492Z"
+      "last_update": "2026-04-28T20:53:45.517507Z"
     },
     "vps-edge01:HTTPS": {
       "host": "vps-edge01",
