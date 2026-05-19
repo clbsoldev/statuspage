@@ -33,8 +33,8 @@
       "host": "n8n",
       "service": "Workflows",
       "status": "WARNING",
-      "output": "WARNING: n8n Workflows: 2 Successful, 0 Queued, 4 Failed in last 15 min",
-      "last_update": "2026-05-18T04:01:56.088984Z"
+      "output": "WARNING: n8n Workflows: 2 Successful, 0 Queued, 1 Failed in last 15 min",
+      "last_update": "2026-05-19T03:05:25.023478Z"
     }
   },
   "overall_status": "impaired",
