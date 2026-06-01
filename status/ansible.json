@@ -32,12 +32,12 @@
     "ansible:Linux Kernel Version": {
       "host": "ansible",
       "service": "Linux Kernel Version",
-      "status": "WARNING",
-      "output": "OCSP - WARNING - Reboot required. Running kernel 6.12.75 rpt-rpi-v8 is too old, newest kernel on disk is 6.12.87 rpt-rpi-v8",
-      "last_update": "2026-05-25T13:00:52.064400Z"
+      "status": "OK",
+      "output": "OCSP - OK - Running kernel 6.12.87 rpt-rpi-v8 is most recent on disk kernel",
+      "last_update": "2026-06-01T09:00:51.328379Z"
     }
   },
-  "overall_status": "impaired",
+  "overall_status": "operational",
   "display_name": "Ansible Control Node",
   "is_group": false
 }
