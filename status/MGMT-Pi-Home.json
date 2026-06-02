@@ -1,0 +1,15 @@
+{
+  "id": "MGMT-Pi-Home",
+  "entries": {
+    "MGMT-Pi-Home:Host": {
+      "host": "MGMT-Pi-Home",
+      "service": "Host",
+      "status": "pending",
+      "output": "Waiting for data...",
+      "last_update": null
+    }
+  },
+  "overall_status": "pending",
+  "display_name": "MGMT-Pi-Home",
+  "is_group": false
+}

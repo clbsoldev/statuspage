@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-06-02T08:53:24Z",
+    "version": "Infrastructure Update",
+    "change_id": "CH26000602-1",
+    "title": "Automated Infrastructure Update",
+    "changes": [
+      "New host added: MGMT-Pi-Home (MGMT-Pi-Home)"
+    ]
+  },
+  {
     "date": "2026-03-11T06:17:51Z",
     "version": "Infrastruktur-Update",
     "change_id": "CH26000311-1",
