@@ -5,7 +5,7 @@
   },
   "display_order": ["standalone", "proxmox"],
   "hosts": [
-                                                                            {
+                                                                                      {
       "id": "ansible",
       "display_name": "Ansible Control Node",
       "group": "standalone",
@@ -23,6 +23,12 @@
       "group": "proxmox",
       "assignee": "strfl89",
       "services": [{"name": "HTTPS", "impact": "major"}, {"name": "SSL-Cert", "impact": "minor"}]
+    },        {
+      "id": "MGMT-Pi-Home",
+      "display_name": "MGMT-Pi-Home",
+      "group": "standalone",
+      "assignee": "admin",
+      "services": []
     },        {
       "id": "n8n",
       "display_name": "n8n",
@@ -43,7 +49,7 @@
       "services": [{"name": "GitHub Runner", "impact": "minor"}, {"name": "Heartbeat", "impact": "critical"}, {"name": "HTTP", "impact": "major"}, {"name": "SSH", "impact": "major"}, {"name": "SSL Certificate", "impact": "major"}, {"name": "Uptime", "impact": "critical"}]
     }      ],
   "groups": [
-                                                                                                                                            {
+                                                                                                                                                            {
       "id": "standalone",
       "name": "Standalone"
     },        {
