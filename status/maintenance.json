@@ -1,5 +1,12 @@
 {
-  "active": [],
+  "active": [
+    {
+      "host": "vps-mon01",
+      "service": "Uptime",
+      "start": "2026-06-02T08:00:30.154244Z",
+      "reason": "Debian Upgrade to Trixie"
+    }
+  ],
   "past": [
     {
       "host": "vps-mon01",
