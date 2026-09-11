@@ -1,0 +1,15 @@
+{
+  "id": "hau-hyp02",
+  "entries": {
+    "hau-hyp02:Host": {
+      "host": "hau-hyp02",
+      "service": "Host",
+      "status": "pending",
+      "output": "Waiting for data...",
+      "last_update": null
+    }
+  },
+  "overall_status": "pending",
+  "display_name": "hau-hyp02",
+  "is_group": false
+}

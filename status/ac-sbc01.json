@@ -1,0 +1,15 @@
+{
+  "id": "ac-sbc01",
+  "entries": {
+    "ac-sbc01:Host": {
+      "host": "ac-sbc01",
+      "service": "Host",
+      "status": "pending",
+      "output": "Waiting for data...",
+      "last_update": null
+    }
+  },
+  "overall_status": "pending",
+  "display_name": "ac-sbc01",
+  "is_group": false
+}

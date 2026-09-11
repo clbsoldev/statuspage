@@ -1,0 +1,15 @@
+{
+  "id": "hau-app01",
+  "entries": {
+    "hau-app01:Host": {
+      "host": "hau-app01",
+      "service": "Host",
+      "status": "pending",
+      "output": "Waiting for data...",
+      "last_update": null
+    }
+  },
+  "overall_status": "pending",
+  "display_name": "hau-app01",
+  "is_group": false
+}

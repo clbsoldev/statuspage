@@ -1,5 +1,24 @@
 [
   {
+    "date": "2026-09-11T15:15:02Z",
+    "version": "Infrastructure Update",
+    "change_id": "CH26000911-1",
+    "title": "Automated Infrastructure Update",
+    "changes": [
+      "New host added: hau-hyp02 (hau-hyp02)",
+      "New host added: ac-sbc01 (ac-sbc01)",
+      "New host added: hau-ctl01 (hau-ctl01)",
+      "New host added: hau-hyp01 (hau-hyp01)",
+      "New host added: hau-hyp03 (hau-hyp03)",
+      "New host added: hau-app01 (hau-app01)",
+      "New host added: hau-apt01 (hau-apt01)",
+      "New host added: hau-app01_statuspage (hau-app01_statuspage)",
+      "New host added: hau-ntp01 (hau-ntp01)",
+      "Host or group removed: MGMT-Pi-Home",
+      "Host or group removed: proxmox"
+    ]
+  },
+  {
     "date": "2026-06-02T08:53:24Z",
     "version": "Infrastructure Update",
     "change_id": "CH26000602-1",

@@ -1,0 +1,15 @@
+{
+  "id": "hau-app01_statuspage",
+  "entries": {
+    "hau-app01_statuspage:Host": {
+      "host": "hau-app01_statuspage",
+      "service": "Host",
+      "status": "pending",
+      "output": "Waiting for data...",
+      "last_update": null
+    }
+  },
+  "overall_status": "pending",
+  "display_name": "hau-app01_statuspage",
+  "is_group": false
+}

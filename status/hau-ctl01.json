@@ -1,0 +1,15 @@
+{
+  "id": "hau-ctl01",
+  "entries": {
+    "hau-ctl01:Host": {
+      "host": "hau-ctl01",
+      "service": "Host",
+      "status": "pending",
+      "output": "Waiting for data...",
+      "last_update": null
+    }
+  },
+  "overall_status": "pending",
+  "display_name": "hau-ctl01",
+  "is_group": false
+}

@@ -1,0 +1,15 @@
+{
+  "id": "hau-apt01",
+  "entries": {
+    "hau-apt01:Host": {
+      "host": "hau-apt01",
+      "service": "Host",
+      "status": "pending",
+      "output": "Waiting for data...",
+      "last_update": null
+    }
+  },
+  "overall_status": "pending",
+  "display_name": "hau-apt01",
+  "is_group": false
+}

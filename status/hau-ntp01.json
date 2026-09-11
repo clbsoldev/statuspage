@@ -1,0 +1,15 @@
+{
+  "id": "hau-ntp01",
+  "entries": {
+    "hau-ntp01:Host": {
+      "host": "hau-ntp01",
+      "service": "Host",
+      "status": "pending",
+      "output": "Waiting for data...",
+      "last_update": null
+    }
+  },
+  "overall_status": "pending",
+  "display_name": "hau-ntp01",
+  "is_group": false
+}
