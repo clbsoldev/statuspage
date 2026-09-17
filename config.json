@@ -26,15 +26,15 @@
     },        {
       "id": "hau-hyp02",
       "display_name": "hau-hyp02",
-      "group": "standalone",
+      "group": "proxmox",
       "assignee": "strfl89",
-      "services": [{"name": "HTTPS", "impact": "major"}, {"name": "SSL-Cert", "impact": "minor"}]
+      "services": [{"name": "ICMP", "impact": "major"}, {"name": "Uptime", "impact": "minor"}]
     },        {
       "id": "hau-ctl01",
       "display_name": "hau-ctl01",
       "group": "standalone",
       "assignee": "strfl89",
-      "services": [{"name": "HTTPS", "impact": "major"}, {"name": "SSL-Cert", "impact": "minor"}]
+      "services": [{"name": "ICMP", "impact": "major"}, {"name": "Uptime", "impact": "minor"}]
     },        {
       "id": "vps-edge01",
       "display_name": "Reverse Proxy",
@@ -44,31 +44,37 @@
     },        {
       "id": "hau-hyp01",
       "display_name": "hau-hyp01",
-      "group": "standalone",
+      "group": "proxmox",
       "assignee": "strfl89",
-      "services": [{"name": "HTTPS", "impact": "major"}, {"name": "SSL-Cert", "impact": "minor"}]
+      "services": [{"name": "ICMP", "impact": "major"}, {"name": "Uptime", "impact": "minor"}]
     },        {
       "id": "hau-hyp03",
       "display_name": "hau-hyp03",
-      "group": "standalone",
+      "group": "proxmox",
       "assignee": "strfl89",
-      "services": [{"name": "HTTPS", "impact": "major"}, {"name": "SSL-Cert", "impact": "minor"}]
+      "services": [{"name": "ICMP", "impact": "major"}, {"name": "Uptime", "impact": "minor"}]
     },        {
       "id": "hau-app01",
       "display_name": "hau-app01",
-      "group": "standalone",
+      "group": "docker",
       "assignee": "strfl89",
-      "services": [{"name": "HTTPS", "impact": "major"}, {"name": "SSL-Cert", "impact": "minor"}]
+      "services": [{"name": "ICMP", "impact": "major"}, {"name": "Uptime", "impact": "minor"}]
     },        {
       "id": "hau-ntp01",
       "display_name": "hau-ntp01",
       "group": "standalone",
       "assignee": "strfl89",
-      "services": [{"name": "HTTPS", "impact": "major"}, {"name": "SSL-Cert", "impact": "minor"}]
+      "services": [{"name": "ICMP", "impact": "major"}, {"name": "Uptime", "impact": "minor"}]
     }      ],
   "groups": [
-                                                                                                                                                                                              {
+                                                                                                                                                                                                                          {
       "id": "standalone",
       "name": "Standalone"
+    },        {
+      "id": "proxmox",
+      "name": "Proxmox"
+    },        {
+      "id": "docker",
+      "name": "Docker"
     }      ]
 }
