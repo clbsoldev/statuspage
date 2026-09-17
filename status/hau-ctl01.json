@@ -8,16 +8,16 @@
       "output": "Waiting for data...",
       "last_update": null
     },
-    "hau-ctl01:HTTPS": {
+    "hau-ctl01:ICMP": {
       "host": "hau-ctl01",
-      "service": "HTTPS",
+      "service": "ICMP",
       "status": "pending",
       "output": "Waiting for data...",
       "last_update": null
     },
-    "hau-ctl01:SSL-Cert": {
+    "hau-ctl01:Uptime": {
       "host": "hau-ctl01",
-      "service": "SSL-Cert",
+      "service": "Uptime",
       "status": "pending",
       "output": "Waiting for data...",
       "last_update": null

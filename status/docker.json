@@ -1,22 +1,22 @@
 {
-  "id": "hau-ntp01",
+  "id": "docker",
   "entries": {
-    "hau-ntp01:Host": {
-      "host": "hau-ntp01",
+    "hau-app01:Host": {
+      "host": "hau-app01",
       "service": "Host",
       "status": "pending",
       "output": "Waiting for data...",
       "last_update": null
     },
-    "hau-ntp01:ICMP": {
-      "host": "hau-ntp01",
+    "hau-app01:ICMP": {
+      "host": "hau-app01",
       "service": "ICMP",
       "status": "pending",
       "output": "Waiting for data...",
       "last_update": null
     },
-    "hau-ntp01:Uptime": {
-      "host": "hau-ntp01",
+    "hau-app01:Uptime": {
+      "host": "hau-app01",
       "service": "Uptime",
       "status": "pending",
       "output": "Waiting for data...",
@@ -24,6 +24,6 @@
     }
   },
   "overall_status": "pending",
-  "display_name": "hau-ntp01",
-  "is_group": false
+  "display_name": "Docker",
+  "is_group": true
 }

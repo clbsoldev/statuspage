@@ -1,27 +1,6 @@
 {
   "id": "proxmox",
   "entries": {
-    "hau-hyp01:Host": {
-      "host": "hau-hyp01",
-      "service": "Host",
-      "status": "pending",
-      "output": "Warte auf Daten...",
-      "last_update": null
-    },
-    "hau-hyp01:HTTPS": {
-      "host": "hau-hyp01",
-      "service": "HTTPS",
-      "status": "pending",
-      "output": "Warte auf Daten...",
-      "last_update": null
-    },
-    "hau-hyp01:SSL-Cert": {
-      "host": "hau-hyp01",
-      "service": "SSL-Cert",
-      "status": "pending",
-      "output": "Warte auf Daten...",
-      "last_update": null
-    },
     "hau-hyp02:Host": {
       "host": "hau-hyp02",
       "service": "Host",
@@ -29,18 +8,60 @@
       "output": "Warte auf Daten...",
       "last_update": null
     },
-    "hau-hyp02:HTTPS": {
+    "hau-hyp02:ICMP": {
       "host": "hau-hyp02",
-      "service": "HTTPS",
+      "service": "ICMP",
+      "status": "pending",
+      "output": "Waiting for data...",
+      "last_update": null
+    },
+    "hau-hyp02:Uptime": {
+      "host": "hau-hyp02",
+      "service": "Uptime",
+      "status": "pending",
+      "output": "Waiting for data...",
+      "last_update": null
+    },
+    "hau-hyp01:Host": {
+      "host": "hau-hyp01",
+      "service": "Host",
       "status": "pending",
       "output": "Warte auf Daten...",
       "last_update": null
     },
-    "hau-hyp02:SSL-Cert": {
-      "host": "hau-hyp02",
-      "service": "SSL-Cert",
+    "hau-hyp01:ICMP": {
+      "host": "hau-hyp01",
+      "service": "ICMP",
       "status": "pending",
-      "output": "Warte auf Daten...",
+      "output": "Waiting for data...",
+      "last_update": null
+    },
+    "hau-hyp01:Uptime": {
+      "host": "hau-hyp01",
+      "service": "Uptime",
+      "status": "pending",
+      "output": "Waiting for data...",
+      "last_update": null
+    },
+    "hau-hyp03:Host": {
+      "host": "hau-hyp03",
+      "service": "Host",
+      "status": "pending",
+      "output": "Waiting for data...",
+      "last_update": null
+    },
+    "hau-hyp03:ICMP": {
+      "host": "hau-hyp03",
+      "service": "ICMP",
+      "status": "pending",
+      "output": "Waiting for data...",
+      "last_update": null
+    },
+    "hau-hyp03:Uptime": {
+      "host": "hau-hyp03",
+      "service": "Uptime",
+      "status": "pending",
+      "output": "Waiting for data...",
       "last_update": null
     }
   },
