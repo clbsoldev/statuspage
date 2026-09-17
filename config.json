@@ -5,7 +5,7 @@
   },
   "display_order": ["standalone", "proxmox"],
   "hosts": [
-                                                                                                                                                  {
+                                                                                                                              {
       "id": "n8n",
       "display_name": "n8n",
       "group": "standalone",
@@ -27,20 +27,20 @@
       "id": "hau-hyp02",
       "display_name": "hau-hyp02",
       "group": "standalone",
-      "assignee": "admin",
-      "services": []
+      "assignee": "strfl89",
+      "services": [{"name": "HTTPS", "impact": "major"}, {"name": "SSL-Cert", "impact": "minor"}]
     },        {
       "id": "ac-sbc01",
       "display_name": "ac-sbc01",
       "group": "standalone",
-      "assignee": "admin",
-      "services": []
+      "assignee": "strfl89",
+      "services": [{"name": "HTTPS", "impact": "major"}, {"name": "SSL-Cert", "impact": "minor"}]
     },        {
       "id": "hau-ctl01",
       "display_name": "hau-ctl01",
       "group": "standalone",
-      "assignee": "admin",
-      "services": []
+      "assignee": "strfl89",
+      "services": [{"name": "HTTPS", "impact": "major"}, {"name": "SSL-Cert", "impact": "minor"}]
     },        {
       "id": "vps-edge01",
       "display_name": "Reverse Proxy",
@@ -51,41 +51,29 @@
       "id": "hau-hyp01",
       "display_name": "hau-hyp01",
       "group": "standalone",
-      "assignee": "admin",
-      "services": []
+      "assignee": "strfl89",
+      "services": [{"name": "HTTPS", "impact": "major"}, {"name": "SSL-Cert", "impact": "minor"}]
     },        {
       "id": "hau-hyp03",
       "display_name": "hau-hyp03",
       "group": "standalone",
-      "assignee": "admin",
-      "services": []
-    },        {
-      "id": "hau-app01",
-      "display_name": "hau-app01",
-      "group": "standalone",
-      "assignee": "admin",
-      "services": []
-    },        {
-      "id": "hau-apt01",
-      "display_name": "hau-apt01",
-      "group": "standalone",
-      "assignee": "admin",
-      "services": []
+      "assignee": "strfl89",
+      "services": [{"name": "HTTPS", "impact": "major"}, {"name": "SSL-Cert", "impact": "minor"}]
     },        {
       "id": "hau-app01_statuspage",
       "display_name": "hau-app01_statuspage",
       "group": "standalone",
-      "assignee": "admin",
-      "services": []
+      "assignee": "strfl89",
+      "services": [{"name": "HTTPS", "impact": "major"}, {"name": "SSL-Cert", "impact": "minor"}]
     },        {
       "id": "hau-ntp01",
       "display_name": "hau-ntp01",
       "group": "standalone",
-      "assignee": "admin",
-      "services": []
+      "assignee": "strfl89",
+      "services": [{"name": "HTTPS", "impact": "major"}, {"name": "SSL-Cert", "impact": "minor"}]
     }      ],
   "groups": [
-                                                                                                                                                                                                                                              {
+                                                                                                                                                                                                              {
       "id": "standalone",
       "name": "Standalone"
     }      ]
