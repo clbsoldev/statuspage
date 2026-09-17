@@ -18,9 +18,9 @@
     "vps-mon01:Heartbeat": {
       "host": "vps-mon01",
       "service": "Heartbeat",
-      "status": "CRITICAL",
-      "output": "CRITICAL",
-      "last_update": "2026-09-01T05:34:23.198334Z"
+      "status": "OK",
+      "output": "Heartbeat OK from cron-job.org",
+      "last_update": "2026-09-17T20:43:41.966150Z"
     },
     "vps-mon01:HTTP": {
       "host": "vps-mon01",
@@ -51,7 +51,7 @@
       "last_update": "2026-07-30T20:52:24.641014Z"
     }
   },
-  "overall_status": "critical",
+  "overall_status": "operational",
   "display_name": "Monitoring Server",
   "is_group": false
 }
