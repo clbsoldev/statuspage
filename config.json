@@ -5,7 +5,7 @@
   },
   "display_order": ["standalone", "proxmox"],
   "hosts": [
-                                                                                                                              {
+                                                                                                                    {
       "id": "n8n",
       "display_name": "n8n",
       "group": "standalone",
@@ -26,12 +26,6 @@
     },        {
       "id": "hau-hyp02",
       "display_name": "hau-hyp02",
-      "group": "standalone",
-      "assignee": "strfl89",
-      "services": [{"name": "HTTPS", "impact": "major"}, {"name": "SSL-Cert", "impact": "minor"}]
-    },        {
-      "id": "ac-sbc01",
-      "display_name": "ac-sbc01",
       "group": "standalone",
       "assignee": "strfl89",
       "services": [{"name": "HTTPS", "impact": "major"}, {"name": "SSL-Cert", "impact": "minor"}]
@@ -60,8 +54,8 @@
       "assignee": "strfl89",
       "services": [{"name": "HTTPS", "impact": "major"}, {"name": "SSL-Cert", "impact": "minor"}]
     },        {
-      "id": "hau-app01_statuspage",
-      "display_name": "hau-app01_statuspage",
+      "id": "hau-app01",
+      "display_name": "hau-app01",
       "group": "standalone",
       "assignee": "strfl89",
       "services": [{"name": "HTTPS", "impact": "major"}, {"name": "SSL-Cert", "impact": "minor"}]
@@ -73,7 +67,7 @@
       "services": [{"name": "HTTPS", "impact": "major"}, {"name": "SSL-Cert", "impact": "minor"}]
     }      ],
   "groups": [
-                                                                                                                                                                                                              {
+                                                                                                                                                                                              {
       "id": "standalone",
       "name": "Standalone"
     }      ]
