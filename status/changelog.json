@@ -1,5 +1,20 @@
 [
   {
+    "date": "2026-09-17T21:21:10Z",
+    "version": "Infrastructure Update",
+    "change_id": "CH26000917-4",
+    "title": "Automated Infrastructure Update",
+    "changes": [
+      "Host or group removed: hau-app01",
+      "Host or group removed: hau-hyp02",
+      "Host or group removed: MGMT-Pi-Home",
+      "Host or group removed: hau-hyp01",
+      "Host or group removed: hau-app01_statuspage",
+      "Host or group removed: hau-hyp03",
+      "Host or group removed: ac-sbc01"
+    ]
+  },
+  {
     "date": "2026-09-17T20:55:24Z",
     "version": "Infrastructure Update",
     "change_id": "CH26000917-3",

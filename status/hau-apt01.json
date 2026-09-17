@@ -7,9 +7,23 @@
       "status": "pending",
       "output": "Waiting for data...",
       "last_update": null
+    },
+    "hau-apt01:ICMP": {
+      "host": "hau-apt01",
+      "service": "ICMP",
+      "status": "pending",
+      "output": "Waiting for data...",
+      "last_update": null
+    },
+    "hau-apt01:Uptime": {
+      "host": "hau-apt01",
+      "service": "Uptime",
+      "status": "pending",
+      "output": "Waiting for data...",
+      "last_update": null
     }
   },
   "overall_status": "pending",
-  "display_name": "hau-apt01",
+  "display_name": "apt-cacher-ng",
   "is_group": false
 }
