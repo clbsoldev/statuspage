@@ -3,9 +3,9 @@
     "columns": 2,
     "refresh_interval_ms": 60000
   },
-  "display_order": ["standalone", "proxmox"],
+  "display_order": ["management", "standalone"],
   "hosts": [
-                                                                                                                    {
+                                                                                                                              {
       "id": "n8n",
       "display_name": "n8n",
       "group": "standalone",
@@ -31,7 +31,7 @@
       "services": [{"name": "ICMP", "impact": "major"}, {"name": "Uptime", "impact": "minor"}]
     },        {
       "id": "hau-ctl01",
-      "display_name": "hau-ctl01",
+      "display_name": "2N Access Commander",
       "group": "standalone",
       "assignee": "strfl89",
       "services": [{"name": "ICMP", "impact": "major"}, {"name": "Uptime", "impact": "minor"}]
@@ -60,6 +60,12 @@
       "assignee": "strfl89",
       "services": [{"name": "ICMP", "impact": "major"}, {"name": "Uptime", "impact": "minor"}]
     },        {
+      "id": "hau-apt01",
+      "display_name": "apt-cacher-ng",
+      "group": "standalone",
+      "assignee": "strfl89",
+      "services": [{"name": "ICMP", "impact": "major"}, {"name": "Uptime", "impact": "minor"}]
+    },        {
       "id": "hau-ntp01",
       "display_name": "hau-ntp01",
       "group": "standalone",
@@ -67,7 +73,7 @@
       "services": [{"name": "ICMP", "impact": "major"}, {"name": "Uptime", "impact": "minor"}]
     }      ],
   "groups": [
-                                                                                                                                                                                                                          {
+                                                                                                                                                                                                                                          {
       "id": "standalone",
       "name": "Standalone"
     },        {
