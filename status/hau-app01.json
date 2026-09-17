@@ -7,6 +7,20 @@
       "status": "pending",
       "output": "Waiting for data...",
       "last_update": null
+    },
+    "hau-app01:HTTPS": {
+      "host": "hau-app01",
+      "service": "HTTPS",
+      "status": "pending",
+      "output": "Waiting for data...",
+      "last_update": null
+    },
+    "hau-app01:SSL-Cert": {
+      "host": "hau-app01",
+      "service": "SSL-Cert",
+      "status": "pending",
+      "output": "Waiting for data...",
+      "last_update": null
     }
   },
   "overall_status": "pending",

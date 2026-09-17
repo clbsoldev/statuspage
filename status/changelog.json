@@ -1,5 +1,18 @@
 [
   {
+    "date": "2026-09-17T20:41:29Z",
+    "version": "Infrastructure Update",
+    "change_id": "CH26000917-2",
+    "title": "Automated Infrastructure Update",
+    "changes": [
+      "Host or group removed: MGMT-Pi-Home",
+      "Host or group removed: hau-apt01",
+      "Host or group removed: proxmox",
+      "Host or group removed: hau-app01_statuspage",
+      "Host or group removed: ac-sbc01"
+    ]
+  },
+  {
     "date": "2026-09-17T20:26:31Z",
     "version": "Infrastructure Update",
     "change_id": "CH26000917-1",
