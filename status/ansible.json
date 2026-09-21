@@ -28,9 +28,16 @@
       "status": "pending",
       "output": "Warte auf Daten...",
       "last_update": null
+    },
+    "ansible:Linux Kernel Version": {
+      "host": "ansible",
+      "service": "Linux Kernel Version",
+      "status": "WARNING",
+      "output": "OCSP - WARNING - Reboot required. Running kernel 6.12.96 rpt-rpi-v8 is too old, newest kernel on disk is 6.12.109 rpt-rpi-v8",
+      "last_update": "2026-09-21T16:00:49.571323Z"
     }
   },
-  "overall_status": "operational",
+  "overall_status": "impaired",
   "display_name": "Ansible Control Node",
   "is_group": false
 }
