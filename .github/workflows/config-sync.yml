@@ -44,6 +44,6 @@ jobs:
         run: |
           git config user.name "GitHub Action"
           git config user.email "action@github.com"
-          git add status/*.json
+          git add -A status/
           git diff --quiet && git diff --staged --quiet || (git commit -m "Sync metadata & structure from config change" && git push)
           
