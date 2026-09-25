@@ -21,6 +21,6 @@ jobs:
 
       - name: Execute Zabbix Parser
         env:
-          PAYLOAD: ${{ json.encode(github.event.client_payload) }}
+          PAYLOAD: ${{ toJson(github.event.client_payload) }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python scripts/status_engine/parse_zabbix.py
