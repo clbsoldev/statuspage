@@ -1,0 +1,232 @@
+{
+  "id": "standalone",
+  "entries": {
+    "n8n:Host": {
+      "host": "n8n",
+      "service": "Host",
+      "status": "pending",
+      "output": "Waiting for data...",
+      "last_update": null
+    },
+    "n8n:Health": {
+      "host": "n8n",
+      "service": "Health",
+      "status": "pending",
+      "output": "Waiting for data...",
+      "last_update": null
+    },
+    "n8n:HTTPS": {
+      "host": "n8n",
+      "service": "HTTPS",
+      "status": "pending",
+      "output": "Waiting for data...",
+      "last_update": null
+    },
+    "n8n:SSL Certificate": {
+      "host": "n8n",
+      "service": "SSL Certificate",
+      "status": "pending",
+      "output": "Waiting for data...",
+      "last_update": null
+    },
+    "n8n:Workflows": {
+      "host": "n8n",
+      "service": "Workflows",
+      "status": "pending",
+      "output": "Waiting for data...",
+      "last_update": null
+    },
+    "ansible:Host": {
+      "host": "ansible",
+      "service": "Host",
+      "status": "pending",
+      "output": "Waiting for data...",
+      "last_update": null
+    },
+    "ansible:CPU Temperature": {
+      "host": "ansible",
+      "service": "CPU Temperature",
+      "status": "pending",
+      "output": "Waiting for data...",
+      "last_update": null
+    },
+    "ansible:GitHub Runner": {
+      "host": "ansible",
+      "service": "GitHub Runner",
+      "status": "pending",
+      "output": "Waiting for data...",
+      "last_update": null
+    },
+    "ansible:SSH": {
+      "host": "ansible",
+      "service": "SSH",
+      "status": "pending",
+      "output": "Waiting for data...",
+      "last_update": null
+    },
+    "vps-mon01:Host": {
+      "host": "vps-mon01",
+      "service": "Host",
+      "status": "pending",
+      "output": "Waiting for data...",
+      "last_update": null
+    },
+    "vps-mon01:GitHub Runner": {
+      "host": "vps-mon01",
+      "service": "GitHub Runner",
+      "status": "pending",
+      "output": "Waiting for data...",
+      "last_update": null
+    },
+    "vps-mon01:Heartbeat": {
+      "host": "vps-mon01",
+      "service": "Heartbeat",
+      "status": "pending",
+      "output": "Waiting for data...",
+      "last_update": null
+    },
+    "vps-mon01:HTTP": {
+      "host": "vps-mon01",
+      "service": "HTTP",
+      "status": "pending",
+      "output": "Waiting for data...",
+      "last_update": null
+    },
+    "vps-mon01:SSH": {
+      "host": "vps-mon01",
+      "service": "SSH",
+      "status": "pending",
+      "output": "Waiting for data...",
+      "last_update": null
+    },
+    "vps-mon01:SSL Certificate": {
+      "host": "vps-mon01",
+      "service": "SSL Certificate",
+      "status": "pending",
+      "output": "Waiting for data...",
+      "last_update": null
+    },
+    "vps-mon01:Uptime": {
+      "host": "vps-mon01",
+      "service": "Uptime",
+      "status": "pending",
+      "output": "Waiting for data...",
+      "last_update": null
+    },
+    "hau-ctl01:Host": {
+      "host": "hau-ctl01",
+      "service": "Host",
+      "status": "pending",
+      "output": "Waiting for data...",
+      "last_update": null
+    },
+    "hau-ctl01:ICMP": {
+      "host": "hau-ctl01",
+      "service": "ICMP",
+      "status": "pending",
+      "output": "Waiting for data...",
+      "last_update": null
+    },
+    "hau-ctl01:Uptime": {
+      "host": "hau-ctl01",
+      "service": "Uptime",
+      "status": "pending",
+      "output": "Waiting for data...",
+      "last_update": null
+    },
+    "vps-edge01:Host": {
+      "host": "vps-edge01",
+      "service": "Host",
+      "status": "pending",
+      "output": "Waiting for data...",
+      "last_update": null
+    },
+    "vps-edge01:HTTPS": {
+      "host": "vps-edge01",
+      "service": "HTTPS",
+      "status": "pending",
+      "output": "Waiting for data...",
+      "last_update": null
+    },
+    "vps-edge01:Nginx Service": {
+      "host": "vps-edge01",
+      "service": "Nginx Service",
+      "status": "pending",
+      "output": "Waiting for data...",
+      "last_update": null
+    },
+    "vps-edge01:Nginx Statistics": {
+      "host": "vps-edge01",
+      "service": "Nginx Statistics",
+      "status": "pending",
+      "output": "Waiting for data...",
+      "last_update": null
+    },
+    "vps-edge01:SSH": {
+      "host": "vps-edge01",
+      "service": "SSH",
+      "status": "pending",
+      "output": "Waiting for data...",
+      "last_update": null
+    },
+    "vps-edge01:SSL Certificate": {
+      "host": "vps-edge01",
+      "service": "SSL Certificate",
+      "status": "pending",
+      "output": "Waiting for data...",
+      "last_update": null
+    },
+    "vps-edge01:WireGuard Flohnetzwerk": {
+      "host": "vps-edge01",
+      "service": "WireGuard Flohnetzwerk",
+      "status": "pending",
+      "output": "Waiting for data...",
+      "last_update": null
+    },
+    "hau-apt01:Host": {
+      "host": "hau-apt01",
+      "service": "Host",
+      "status": "pending",
+      "output": "Waiting for data...",
+      "last_update": null
+    },
+    "hau-apt01:ICMP": {
+      "host": "hau-apt01",
+      "service": "ICMP",
+      "status": "pending",
+      "output": "Waiting for data...",
+      "last_update": null
+    },
+    "hau-apt01:Uptime": {
+      "host": "hau-apt01",
+      "service": "Uptime",
+      "status": "pending",
+      "output": "Waiting for data...",
+      "last_update": null
+    },
+    "hau-ntp01:Host": {
+      "host": "hau-ntp01",
+      "service": "Host",
+      "status": "pending",
+      "output": "Waiting for data...",
+      "last_update": null
+    },
+    "hau-ntp01:ICMP": {
+      "host": "hau-ntp01",
+      "service": "ICMP",
+      "status": "pending",
+      "output": "Waiting for data...",
+      "last_update": null
+    },
+    "hau-ntp01:Uptime": {
+      "host": "hau-ntp01",
+      "service": "Uptime",
+      "status": "pending",
+      "output": "Waiting for data...",
+      "last_update": null
+    }
+  },
+  "overall_status": "pending",
+  "display_name": "Standalone",
+  "is_group": true
+}
