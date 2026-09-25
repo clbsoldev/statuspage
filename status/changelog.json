@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-09-25T08:21:51Z",
+    "version": "Infrastructure Update",
+    "change_id": "CH26000925-2",
+    "title": "Automated Infrastructure Update",
+    "changes": [
+      "Host or group removed: standalone"
+    ]
+  },
+  {
     "date": "2026-09-25T08:14:21Z",
     "version": "Infrastructure Update",
     "change_id": "CH26000925-1",
