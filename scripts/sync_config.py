@@ -29,39 +29,40 @@ def main():
 
     os.makedirs(status_dir, exist_ok=True)
     
-    # 1. Aktive Target-IDs aus config.json ermitteln
+    # Echte Gruppen-IDs ermitteln (alles ausser 'standalone')
+    real_group_ids = {g['id'] for g in config.get('groups', []) if g['id'] != 'standalone'}
+
+    # 1. Target-IDs aus config.json ermitteln
     active_target_ids = set()
     for host in config.get('hosts', []):
-        gid = host.get('group', 'standalone')
-        target_id = host['id'] if gid == 'standalone' else gid
-        active_target_ids.add(target_id)
+        gid = host.get('group')
+        # Wenn eine echte Gruppe zugewiesen ist, wird die Gruppen-ID als Target genommen, sonst die Host-ID
+        if gid and gid in real_group_ids:
+            active_target_ids.add(gid)
+        else:
+            active_target_ids.add(host['id'])
 
-    for group in config.get('groups', []):
-        active_target_ids.add(group['id'])
-
-    # System-Dateien, die NIEMALS gelöscht werden dürfen
     protected_files = {'changelog.json', 'maintenance.json'}
 
-    # 2. Physisch vorhandene JSON-Dateien im Verzeichnis scannen
-    present_files_map = {} # {'host1': 'host1.json'}
+    # 2. Physisch vorhandene JSON-Dateien scannen
+    present_files_map = {}
     for fname in os.listdir(status_dir):
         if fname.endswith('.json') and fname not in protected_files:
-            # Sauber die Endung .json abschneiden
             target_id = fname[:-5]
             present_files_map[target_id] = fname
 
-    # 3. Neue und zu löschende Targets bestimmen
+    # 3. Neue und gelöschte Targets ermitteln
     new_hosts_found = []
     for host in config.get('hosts', []):
-        gid = host.get('group', 'standalone')
-        target_id = host['id'] if gid == 'standalone' else gid
+        gid = host.get('group')
+        target_id = gid if (gid and gid in real_group_ids) else host['id']
         
         if target_id not in present_files_map and target_id not in [h['id'] for h in new_hosts_found]:
             new_hosts_found.append({'id': target_id, 'name': host.get('display_name', target_id)})
 
     removed_target_ids = [tid for tid in present_files_map.keys() if tid not in active_target_ids]
 
-    # 4. CHANGELOG GENERIEREN (NUR wenn wirklich Änderungen vorliegen)
+    # 4. Changelog schreiben (nur bei echten Änderungen)
     if new_hosts_found or removed_target_ids:
         changelog_data = []
         if os.path.exists(changelog_file):
@@ -73,7 +74,7 @@ def main():
         
         changes = []
         for h in new_hosts_found:
-            changes.append(f"New host added: {h['name']} ({h['id']})")
+            changes.append(f"New host/group added: {h['name']} ({h['id']})")
         for tid in removed_target_ids:
             changes.append(f"Host or group removed: {tid}")
 
@@ -91,7 +92,7 @@ def main():
             json.dump(changelog_data, f, indent=2)
         print(f"Changelog updated: {change_id}")
 
-    # 5. VERWAISTE DATEIEN HARD LÖSCHEN
+    # 5. Verwaiste Dateien entfernen
     for tid in removed_target_ids:
         fname = present_files_map[tid]
         file_path = os.path.join(status_dir, fname)
@@ -102,7 +103,7 @@ def main():
             except Exception as e:
                 print(f"ERROR: Could not delete {file_path}: {e}")
 
-    # 6. AKTUELLE TARGET-DATEIEN AKTUALISIEREN / ERSTELLEN
+    # 6. Aktive Target-Dateien erstellen/aktualisieren
     for target_id in active_target_ids:
         file_path = os.path.join(status_dir, f"{target_id}.json")
         old_data = {"entries": {}}
@@ -114,7 +115,9 @@ def main():
                 old_data = {"entries": {}}
 
         new_data = {"id": target_id, "entries": {}, "overall_status": "pending"}
-        group = next((g for g in config.get('groups', []) if g['id'] == target_id), None)
+        
+        # Prüfen, ob es sich um eine echte Gruppe handelt
+        group = next((g for g in config.get('groups', []) if g['id'] == target_id and g['id'] in real_group_ids), None)
         
         if group:
             new_data.update({"display_name": group['name'], "is_group": True})
