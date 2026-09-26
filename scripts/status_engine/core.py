@@ -15,6 +15,45 @@ def load_config(config_path=None):
         return json.load(f)
 
 
+def load_service_mappings(mapping_path=None):
+    """Lädt dynamische Service-Mappings aus service_mappings.json."""
+    if not mapping_path:
+        mapping_path = os.getenv('MAPPING_JSON_PATH', 'main/service_mappings.json')
+
+    if os.path.exists(mapping_path):
+        try:
+            with open(mapping_path, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        except Exception as e:
+            print(f"⚠️ [CORE WARNING] Could not load service mappings: {e}")
+
+    return {"contains": {}, "exact": {}}
+
+
+def apply_service_mapping(raw_service, mappings):
+    """
+    Matcht den Service-Namen via Exact/Contains (Case-Insensitive).
+    Falls kein Match existiert, wird der Name 1:1 durchgereicht.
+    """
+    if not raw_service:
+        return raw_service
+
+    raw_lower = raw_service.lower()
+
+    # 1. Exact Matches (Case-Insensitive)
+    for pattern, target_name in mappings.get("exact", {}).items():
+        if pattern.lower() == raw_lower:
+            return target_name
+
+    # 2. Contains Matches (Case-Insensitive)
+    for pattern, target_name in mappings.get("contains", {}).items():
+        if pattern.lower() in raw_lower:
+            return target_name
+
+    # 3. Fallback: 1:1 Durchreichen
+    return raw_service
+
+
 def update_maintenance_json(status_dir, payload):
     """Verwaltet aktive und vergangene Wartungsfenster in maintenance.json."""
     m_file = os.path.join(status_dir, "maintenance.json")
@@ -92,7 +131,7 @@ def manage_issues(host_id, service, status, output, host_config, auto_close=True
 def process_event(unified_payload):
     """Haupt-Funktion zur Verarbeitung eingehender Zabbix/Nagios Alerts."""
     host_id = unified_payload.get('host')
-    service = unified_payload.get('service')
+    raw_service = unified_payload.get('service')
     status = unified_payload.get('status', 'UNKNOWN')
     output = unified_payload.get('output', '')
     n_type = unified_payload.get('type', 'NOTIFICATION')
@@ -101,7 +140,7 @@ def process_event(unified_payload):
     print("=" * 60)
     print("📥 [STATUS ENGINE] Incoming Event")
     print(f"  • Host ID:  {host_id}")
-    print(f"  • Service:  {service}")
+    print(f"  • Service:  {raw_service}")
     print(f"  • Status:   {status}")
     print(f"  • Type:     {n_type}")
     print(f"  • Output:   {output or 'N/A'}")
@@ -111,16 +150,23 @@ def process_event(unified_payload):
     if not config:
         return False
 
+    # 2. Service-Name über service_mappings.json umschreiben
+    mappings = load_service_mappings()
+    service = apply_service_mapping(raw_service, mappings)
+
+    if service != raw_service:
+        print(f"ℹ️ [CORE MAPPING] Mapped service '{raw_service}' -> '{service}'")
+
     status_dir = os.getenv('STATUS_DIR', 'gh-pages/status')
 
-    # 2. Host-Matching
+    # 3. Host-Matching
     host_config = next((h for h in config.get('hosts', []) if h['id'] == host_id), None)
     if not host_config:
         print(f"⚠️ [CORE WARNING] Host '{host_id}' not found in config.json. Event ignored.")
         print("=" * 60)
         return False
 
-    # 3. Service-Matching (Schutz gegen unkonfigurierte Services)
+    # 4. Service-Matching (Schutz gegen unkonfigurierte Services)
     configured_services = host_config.get('services', [])
     service_config = next((s for s in configured_services if s['name'] == service), None)
 
@@ -132,13 +178,17 @@ def process_event(unified_payload):
 
     should_auto_close = service_config.get('auto_close', True) if service_config else True
 
-    # 4. Wartung vs. Normaler Incident
+    # Auch im Payload für Wartungsfenster den gemappten Servicenamen nutzen
+    mapped_payload = dict(unified_payload)
+    mapped_payload['service'] = service
+
+    # 5. Wartung vs. Normaler Incident
     if "DOWNTIME" in n_type:
-        update_maintenance_json(status_dir, unified_payload)
+        update_maintenance_json(status_dir, mapped_payload)
     else:
         manage_issues(host_id, service, status, output, host_config, should_auto_close)
 
-    # 5. Echte Gruppen vs. Standalone ermitteln
+    # 6. Echte Gruppen vs. Standalone ermitteln
     real_group_ids = {g['id'] for g in config.get('groups', []) if g['id'] != 'standalone'}
     gid = host_config.get('group')
     target_id = gid if (gid and gid in real_group_ids) else host_id
@@ -146,7 +196,7 @@ def process_event(unified_payload):
     os.makedirs(status_dir, exist_ok=True)
     status_file = os.path.join(status_dir, f"{target_id}.json")
 
-    # 6. Status-Datei laden oder initialisieren
+    # 7. Status-Datei laden oder initialisieren
     if os.path.exists(status_file):
         with open(status_file, 'r') as f:
             data = json.load(f)
