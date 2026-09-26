@@ -24,3 +24,10 @@ jobs:
           PAYLOAD: ${{ toJson(github.event.client_payload) }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python scripts/status_engine/parse_zabbix.py
+
+      - name: Commit & Push Changes
+        run: |
+          git config user.name "GitHub Action"
+          git config user.email "action@github.com"
+          git add -A status/
+          git diff --quiet && git diff --staged --quiet || (git commit -m "chore(status): update status for ${{ github.event.client_payload.host }}" && git push)
