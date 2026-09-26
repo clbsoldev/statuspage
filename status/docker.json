@@ -8,16 +8,16 @@
       "output": "Linux: Active checks are not available",
       "last_update": "2026-09-26T19:54:44.051548Z"
     },
-    "hau-app01:ICMP": {
+    "hau-app01:Docker": {
       "host": "hau-app01",
-      "service": "ICMP",
+      "service": "Docker",
       "status": "pending",
       "output": "Waiting for data...",
       "last_update": null
     },
-    "hau-app01:Uptime": {
+    "hau-app01:GitHub Actions Runner": {
       "host": "hau-app01",
-      "service": "Uptime",
+      "service": "GitHub Actions Runner",
       "status": "pending",
       "output": "Waiting for data...",
       "last_update": null
