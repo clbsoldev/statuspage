@@ -64,13 +64,13 @@
       "display_name": "apt-cacher-ng",
       "group": "standalone",
       "assignee": "strfl89",
-      "services": [{"name": "ICMP", "impact": "major"}, {"name": "Uptime", "impact": "minor"}]
+      "services": [{"name": "Service HTTP status", "impact": "critical"}]
     },        {
       "id": "hau-ntp01",
       "display_name": "hau-ntp01",
       "group": "standalone",
       "assignee": "strfl89",
-      "services": [{"name": "ICMP", "impact": "major"}, {"name": "Uptime", "impact": "minor"}]
+      "services": [{"name": "NTP: Service status", "impact": "critical"}]
     }      ],
   "groups": [
                                                                                                                                                                                                                                           {
