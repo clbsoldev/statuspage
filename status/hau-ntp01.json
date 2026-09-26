@@ -8,16 +8,9 @@
       "output": "Waiting for data...",
       "last_update": null
     },
-    "hau-ntp01:ICMP": {
+    "hau-ntp01:NTP: Service status": {
       "host": "hau-ntp01",
-      "service": "ICMP",
-      "status": "pending",
-      "output": "Waiting for data...",
-      "last_update": null
-    },
-    "hau-ntp01:Uptime": {
-      "host": "hau-ntp01",
-      "service": "Uptime",
+      "service": "NTP: Service status",
       "status": "pending",
       "output": "Waiting for data...",
       "last_update": null

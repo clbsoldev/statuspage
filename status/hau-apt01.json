@@ -8,16 +8,9 @@
       "output": "Waiting for data...",
       "last_update": null
     },
-    "hau-apt01:ICMP": {
+    "hau-apt01:Service HTTP status": {
       "host": "hau-apt01",
-      "service": "ICMP",
-      "status": "pending",
-      "output": "Waiting for data...",
-      "last_update": null
-    },
-    "hau-apt01:Uptime": {
-      "host": "hau-apt01",
-      "service": "Uptime",
+      "service": "Service HTTP status",
       "status": "pending",
       "output": "Waiting for data...",
       "last_update": null
