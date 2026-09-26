@@ -18,9 +18,9 @@
     "hau-app01:GitHub Actions Runner": {
       "host": "hau-app01",
       "service": "GitHub Actions Runner",
-      "status": "pending",
-      "output": "Waiting for data...",
-      "last_update": null
+      "status": "OK",
+      "output": "GitHub Actions Runner \"actions.runner.clbsoldev.hau-app01.service\" not active on hau-app01",
+      "last_update": "2026-09-26T20:06:43.281765Z"
     }
   },
   "overall_status": "operational",
