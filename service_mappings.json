@@ -1,0 +1,12 @@
+{
+  "contains": {
+    "actions.runner": "GitHub Actions Runner",
+    "zabbix agent": "Host",
+    "agent availability": "Host",
+    "host unreachable": "Host",
+    "active checks": "Host"
+  },
+  "exact": {
+    "NTP: Service status 123": "NTP"
+  }
+}
