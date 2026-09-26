@@ -1,33 +1,52 @@
-name: "Status Page: Zabbix Event Processor"
+name: Zabbix Alert Sync
 
 on:
   repository_dispatch:
     types: [zabbix-alert]
 
 jobs:
-  process-zabbix:
+  sync:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repository
+      # 1. Main-Branch auschecken (für config.json und Skripte)
+      - name: Checkout main
         uses: actions/checkout@v4
-      
+        with:
+          path: main
+
+      # 2. gh-pages-Branch auschecken (für die Host Status JSONs)
+      - name: Checkout gh-pages
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          path: gh-pages
+
+      # 3. Python Setup
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.x'
 
-      - name: Install Dependencies
+      # 4. Dependencies installieren (requests für GitHub API)
+      - name: Install dependencies
         run: pip install requests
 
+      # 5. Zabbix Event verarbeiten
       - name: Execute Zabbix Parser
         env:
           PAYLOAD: ${{ toJson(github.event.client_payload) }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: python scripts/status_engine/parse_zabbix.py
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          CONFIG_JSON_PATH: "main/config.json"
+          STATUS_DIR: "gh-pages/status"
+        run: |
+          python3 main/scripts/status_engine/parse_zabbix.py
 
+      # 6. Status-Update in gh-pages committen und pushen
       - name: Commit & Push Changes
         run: |
+          cd gh-pages
           git config user.name "GitHub Action"
           git config user.email "action@github.com"
-          git add -A status/
+          git add status/
           git diff --quiet && git diff --staged --quiet || (git commit -m "chore(status): update status for ${{ github.event.client_payload.host }}" && git push)

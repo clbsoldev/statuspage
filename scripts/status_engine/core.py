@@ -6,7 +6,7 @@ from datetime import datetime, timezone
 
 def load_config(config_path=None):
     if not config_path:
-        config_path = os.getenv('CONFIG_JSON_PATH', 'config.json')
+        config_path = os.getenv('CONFIG_JSON_PATH', 'main/config.json')
 
     if not os.path.exists(config_path):
         print(f"❌ [CORE ERROR] Config file not found at: {config_path}")
