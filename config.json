@@ -58,7 +58,7 @@
       "display_name": "hau-app01",
       "group": "docker",
       "assignee": "strfl89",
-      "services": [{"name": "ICMP", "impact": "major"}, {"name": "Uptime", "impact": "minor"}]
+      "services": [{"name": "Docker", "impact": "critical"}, {"name": "GitHub Actions Runner", "impact": "major"}]
     },        {
       "id": "hau-apt01",
       "display_name": "apt-cacher-ng",
