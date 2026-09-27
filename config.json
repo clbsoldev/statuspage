@@ -3,7 +3,7 @@
     "columns": 2,
     "refresh_interval_ms": 60000
   },
-  "display_order": ["management", "standalone"],
+  "display_order": ["standalone", "docker", "proxmox"],
   "hosts": [
                                                                                                                               {
       "id": "n8n",
