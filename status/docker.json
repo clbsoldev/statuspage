@@ -4,9 +4,9 @@
     "hau-app01:Host": {
       "host": "hau-app01",
       "service": "Host",
-      "status": "CRITICAL",
+      "status": "OK",
       "output": "Linux: Active checks are not available",
-      "last_update": "2026-09-29T07:17:56.075315Z"
+      "last_update": "2026-09-29T07:32:49.973130Z"
     },
     "hau-app01:CPU Temperature": {
       "host": "hau-app01",
@@ -51,7 +51,7 @@
       "last_update": null
     }
   },
-  "overall_status": "critical",
+  "overall_status": "impaired",
   "display_name": "Docker",
   "is_group": true
 }
