@@ -64,7 +64,7 @@
       "display_name": "apt-cacher-ng",
       "group": "standalone",
       "assignee": "strfl89",
-      "services": [{"name": "Service HTTP status", "impact": "critical"}]
+      "services": [{"name": "HTTP", "impact": "critical"}]
     },        {
       "id": "hau-ntp01",
       "display_name": "hau-ntp01",
