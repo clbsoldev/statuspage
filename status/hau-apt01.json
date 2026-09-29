@@ -11,12 +11,12 @@
     "hau-apt01:HTTP": {
       "host": "hau-apt01",
       "service": "HTTP",
-      "status": "pending",
-      "output": "Waiting for data...",
-      "last_update": null
+      "status": "OK",
+      "output": "Apt-Cacher-NG: Service is down",
+      "last_update": "2026-09-29T10:19:04.654264Z"
     }
   },
-  "overall_status": "pending",
+  "overall_status": "operational",
   "display_name": "apt-cacher-ng",
   "is_group": false
 }
