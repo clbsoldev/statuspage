@@ -125,6 +125,18 @@ nav a.active { color: var(--primary); font-weight: 600; background-color: var(--
 .card.open .details { max-height: 1000px; border-top: 1px solid var(--border); }
 .svc-row { padding: 10px 16px; border-bottom: 1px solid var(--svc-border); display: flex; justify-content: space-between; align-items: center; font-size: 13px; }
 
+/* --- DISPLAY GROUPS (Eyebrow-Sektionen) --- */
+.group-section { margin-bottom: 28px; }
+.group-section:last-child { margin-bottom: 0; }
+.section-eyebrow {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 0 0 10px 2px;
+}
+
 /* --- MAINTENANCE & CHANGELOG --- */
 .maint-section, .change-section { margin-bottom: 20px; }
 .maint-section h3, .change-section h3 { font-size: 1.1rem; border-bottom: 1px solid var(--border); padding-bottom: 5px; margin-bottom: 12px; color: var(--muted); }
