@@ -9,66 +9,77 @@
       "id": "n8n",
       "display_name": "n8n",
       "group": "standalone",
+      "display_group": "infra_global",
       "assignee": "strfl89",
       "services": [{"name": "Health", "impact": "critical"}, {"name": "HTTPS", "impact": "major"}, {"name": "SSL Certificate", "impact": "major"}, {"name": "Workflows", "impact": "major"}]
     },        {
       "id": "ansible",
       "display_name": "Ansible Control Node",
       "group": "standalone",
+      "display_group": "infra_global",
       "assignee": "strfl89",
       "services": [{"name": "CPU Temperature", "impact": "minor"}, {"name": "GitHub Runner", "impact": "critical"}, {"name": "SSH", "impact": "major"}]
     },        {
       "id": "vps-mon01",
       "display_name": "Monitoring Server",
       "group": "standalone",
+      "display_group": "infra_global",
       "assignee": "strfl89",
       "services": [{"name": "GitHub Runner", "impact": "minor"}, {"name": "Heartbeat", "impact": "critical"}, {"name": "HTTP", "impact": "major"}, {"name": "SSH", "impact": "major"}, {"name": "SSL Certificate", "impact": "major"}, {"name": "Uptime", "impact": "critical"}]
     },        {
       "id": "hau-hyp02",
       "display_name": "hau-hyp02",
       "group": "proxmox",
+      "display_group": "infra_hau",
       "assignee": "strfl89",
       "services": [{"name": "CPU Usage", "impact": "critical"}, {"name": "RAM Usage", "impact": "critical"}, {"name": "SSH", "impact": "major"}]
     },        {
       "id": "hau-ctl01",
       "display_name": "2N Access Commander",
       "group": "standalone",
+      "display_group": "pzs_hau",
       "assignee": "strfl89",
       "services": [{"name": "ICMP", "impact": "major"}, {"name": "Uptime", "impact": "minor"}]
     },        {
       "id": "vps-edge01",
       "display_name": "Reverse Proxy",
       "group": "standalone",
+      "display_group": "",
       "assignee": "strfl89",
       "services": [{"name": "HTTPS", "impact": "critical"}, {"name": "Nginx Service", "impact": "critical"}, {"name": "Nginx Statistics", "impact": "major"}, {"name": "SSH", "impact": "minor"}, {"name": "SSL Certificate", "impact": "critical"}, {"name": "WireGuard Flohnetzwerk", "impact": "major"}]
     },        {
       "id": "hau-hyp01",
       "display_name": "hau-hyp01",
       "group": "proxmox",
+      "display_group": "infra_hau",
       "assignee": "strfl89",
       "services": [{"name": "CPU Usage", "impact": "critical"}, {"name": "RAM Usage", "impact": "critical"}, {"name": "SSH", "impact": "major"}]
     },        {
       "id": "hau-hyp03",
       "display_name": "hau-hyp03",
       "group": "proxmox",
+      "display_group": "infra_hau",
       "assignee": "strfl89",
       "services": [{"name": "CPU Usage", "impact": "critical"}, {"name": "RAM Usage", "impact": "critical"}, {"name": "SSH", "impact": "major"}]
     },        {
       "id": "hau-app01",
       "display_name": "hau-app01",
       "group": "docker",
+      "display_group": "infra_hau",
       "assignee": "strfl89",
       "services": [{"name": "CPU Temperature", "impact": "critical"}, {"name": "CPU Usage", "impact": "critical"}, {"name": "Docker", "impact": "critical"}, {"name": "GitHub Actions Runner", "impact": "major"}, {"name": "RAM Usage", "impact": "critical"}, {"name": "SSH", "impact": "major"}]
     },        {
       "id": "hau-apt01",
       "display_name": "apt-cacher-ng",
       "group": "standalone",
+      "display_group": "infra_hau",
       "assignee": "strfl89",
       "services": [{"name": "HTTP", "impact": "critical"}]
     },        {
       "id": "hau-ntp01",
       "display_name": "hau-ntp01",
       "group": "standalone",
+      "display_group": "infra_hau",
       "assignee": "strfl89",
       "services": [{"name": "NTP: Service status", "impact": "critical"}]
     }      ],
@@ -82,5 +93,16 @@
     },        {
       "id": "docker",
       "name": "Docker"
+    }      ],
+  "display_groups": [
+                                                                                                                                                                                                                                                                                        {
+      "id": "infra_global",
+      "name": "Infrastructure - Global"
+    },            {
+      "id": "infra_hau",
+      "name": "Infrastructure - Hanau"
+    },            {
+      "id": "pzs_hau",
+      "name": "PZS - Hanau"
     }      ]
 }
