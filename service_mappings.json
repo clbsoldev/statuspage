@@ -1,6 +1,7 @@
 {
   "contains": {
     "actions.runner": "GitHub Actions Runner",
+    "apt+service+http": "HTTP",
     "CPU+utilization": "CPU Usage",
     "expires on": "SSL Certificate",
     "memory+utilization": "RAM Usage",
