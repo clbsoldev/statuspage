@@ -33,6 +33,7 @@ def load_service_mappings(mapping_path=None):
 def apply_service_mapping(raw_service, mappings):
     """
     Matcht den Service-Namen via Exact/Contains (Case-Insensitive).
+    Ermöglicht bei 'contains' die Verknüpfung mehrerer Begriffe mit '+'.
     Falls kein Match existiert, wird der Name 1:1 durchgereicht.
     """
     if not raw_service:
@@ -45,9 +46,12 @@ def apply_service_mapping(raw_service, mappings):
         if pattern.lower() == raw_lower:
             return target_name
 
-    # 2. Contains Matches (Case-Insensitive)
+    # 2. Contains Matches (Case-Insensitive mit '+'-Unterstützung als AND)
     for pattern, target_name in mappings.get("contains", {}).items():
-        if pattern.lower() in raw_lower:
+        # Splitte das Pattern an '+' in einzelne Suchbegriffe
+        keywords = pattern.lower().split('+')
+        # Prüfe, ob ALLE Begriffe im raw_service enthalten sind
+        if all(kw.strip() in raw_lower for kw in keywords if kw.strip()):
             return target_name
 
     # 3. Fallback: 1:1 Durchreichen
