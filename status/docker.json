@@ -32,9 +32,9 @@
     "hau-app01:GitHub Actions Runner": {
       "host": "hau-app01",
       "service": "GitHub Actions Runner",
-      "status": "CRITICAL",
+      "status": "OK",
       "output": "GitHub Actions Runner \"actions.runner.clbsoldev.hau-app01.service\" not active on hau-app01",
-      "last_update": "2026-09-29T07:32:11.135522Z"
+      "last_update": "2026-09-29T09:59:56.458456Z"
     },
     "hau-app01:RAM Usage": {
       "host": "hau-app01",
@@ -51,7 +51,7 @@
       "last_update": null
     }
   },
-  "overall_status": "impaired",
+  "overall_status": "operational",
   "display_name": "Docker",
   "is_group": true
 }
