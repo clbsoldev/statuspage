@@ -1,6 +1,10 @@
 {
   "contains": {
     "actions.runner": "GitHub Actions Runner",
+    "expires on": "SSL Certificate",
+    "n8n+Health": "Health",
+    "n8n+Workflows": "Workflows",
+    "ssh": "SSH",
     "zabbix agent": "Host",
     "agent availability": "Host",
     "host unreachable": "Host",
