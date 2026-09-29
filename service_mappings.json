@@ -3,6 +3,7 @@
     "actions.runner": "GitHub Actions Runner",
     "CPU+utilization": "CPU Usage",
     "expires on": "SSL Certificate",
+    "memory+utilization": "RAM Usage",
     "n8n+Health": "Health",
     "n8n+Workflows": "Workflows",
     "ssh": "SSH",
