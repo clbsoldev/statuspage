@@ -28,7 +28,7 @@
       "display_name": "hau-hyp02",
       "group": "proxmox",
       "assignee": "strfl89",
-      "services": [{"name": "ICMP", "impact": "major"}, {"name": "Uptime", "impact": "minor"}]
+      "services": [{"name": "CPU Usage", "impact": "critical"}, {"name": "RAM Usage", "impact": "critical"}, {"name": "SSH", "impact": "major"}]
     },        {
       "id": "hau-ctl01",
       "display_name": "2N Access Commander",
@@ -46,19 +46,19 @@
       "display_name": "hau-hyp01",
       "group": "proxmox",
       "assignee": "strfl89",
-      "services": [{"name": "ICMP", "impact": "major"}, {"name": "Uptime", "impact": "minor"}]
+      "services": [{"name": "CPU Usage", "impact": "critical"}, {"name": "RAM Usage", "impact": "critical"}, {"name": "SSH", "impact": "major"}]
     },        {
       "id": "hau-hyp03",
       "display_name": "hau-hyp03",
       "group": "proxmox",
       "assignee": "strfl89",
-      "services": [{"name": "ICMP", "impact": "major"}, {"name": "Uptime", "impact": "minor"}]
+      "services": [{"name": "CPU Usage", "impact": "critical"}, {"name": "RAM Usage", "impact": "critical"}, {"name": "SSH", "impact": "major"}]
     },        {
       "id": "hau-app01",
       "display_name": "hau-app01",
       "group": "docker",
       "assignee": "strfl89",
-      "services": [{"name": "CPU Temperature", "impact": "critical"}, {"name": "Docker", "impact": "critical"}, {"name": "GitHub Actions Runner", "impact": "major"}]
+      "services": [{"name": "CPU Temperature", "impact": "critical"}, {"name": "CPU Usage", "impact": "critical"}, {"name": "Docker", "impact": "critical"}, {"name": "GitHub Actions Runner", "impact": "major"}, {"name": "RAM Usage", "impact": "critical"}, {"name": "SSH", "impact": "major"}]
     },        {
       "id": "hau-apt01",
       "display_name": "apt-cacher-ng",
