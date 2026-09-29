@@ -44,7 +44,7 @@
       "id": "vps-edge01",
       "display_name": "Reverse Proxy",
       "group": "standalone",
-      "display_group": "",
+      "display_group": "infra_global",
       "assignee": "strfl89",
       "services": [{"name": "HTTPS", "impact": "critical"}, {"name": "Nginx Service", "impact": "critical"}, {"name": "Nginx Statistics", "impact": "major"}, {"name": "SSH", "impact": "minor"}, {"name": "SSL Certificate", "impact": "critical"}, {"name": "WireGuard Flohnetzwerk", "impact": "major"}]
     },        {
