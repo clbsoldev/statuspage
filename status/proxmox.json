@@ -8,16 +8,23 @@
       "output": "Warte auf Daten...",
       "last_update": null
     },
-    "hau-hyp02:ICMP": {
+    "hau-hyp02:CPU Usage": {
       "host": "hau-hyp02",
-      "service": "ICMP",
+      "service": "CPU Usage",
       "status": "pending",
       "output": "Waiting for data...",
       "last_update": null
     },
-    "hau-hyp02:Uptime": {
+    "hau-hyp02:RAM Usage": {
       "host": "hau-hyp02",
-      "service": "Uptime",
+      "service": "RAM Usage",
+      "status": "pending",
+      "output": "Waiting for data...",
+      "last_update": null
+    },
+    "hau-hyp02:SSH": {
+      "host": "hau-hyp02",
+      "service": "SSH",
       "status": "pending",
       "output": "Waiting for data...",
       "last_update": null
@@ -29,16 +36,23 @@
       "output": "Warte auf Daten...",
       "last_update": null
     },
-    "hau-hyp01:ICMP": {
+    "hau-hyp01:CPU Usage": {
       "host": "hau-hyp01",
-      "service": "ICMP",
+      "service": "CPU Usage",
       "status": "pending",
       "output": "Waiting for data...",
       "last_update": null
     },
-    "hau-hyp01:Uptime": {
+    "hau-hyp01:RAM Usage": {
       "host": "hau-hyp01",
-      "service": "Uptime",
+      "service": "RAM Usage",
+      "status": "pending",
+      "output": "Waiting for data...",
+      "last_update": null
+    },
+    "hau-hyp01:SSH": {
+      "host": "hau-hyp01",
+      "service": "SSH",
       "status": "pending",
       "output": "Waiting for data...",
       "last_update": null
@@ -50,16 +64,23 @@
       "output": "Waiting for data...",
       "last_update": null
     },
-    "hau-hyp03:ICMP": {
+    "hau-hyp03:CPU Usage": {
       "host": "hau-hyp03",
-      "service": "ICMP",
+      "service": "CPU Usage",
       "status": "pending",
       "output": "Waiting for data...",
       "last_update": null
     },
-    "hau-hyp03:Uptime": {
+    "hau-hyp03:RAM Usage": {
       "host": "hau-hyp03",
-      "service": "Uptime",
+      "service": "RAM Usage",
+      "status": "pending",
+      "output": "Waiting for data...",
+      "last_update": null
+    },
+    "hau-hyp03:SSH": {
+      "host": "hau-hyp03",
+      "service": "SSH",
       "status": "pending",
       "output": "Waiting for data...",
       "last_update": null
