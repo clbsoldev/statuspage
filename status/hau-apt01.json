@@ -8,9 +8,9 @@
       "output": "Waiting for data...",
       "last_update": null
     },
-    "hau-apt01:Service HTTP status": {
+    "hau-apt01:HTTP": {
       "host": "hau-apt01",
-      "service": "Service HTTP status",
+      "service": "HTTP",
       "status": "pending",
       "output": "Waiting for data...",
       "last_update": null
