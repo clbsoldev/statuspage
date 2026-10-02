@@ -53,9 +53,9 @@
     "hau-hyp01:SSH": {
       "host": "hau-hyp01",
       "service": "SSH",
-      "status": "pending",
-      "output": "Waiting for data...",
-      "last_update": null
+      "status": "CRITICAL",
+      "output": "SSH service is down on hau-hyp01",
+      "last_update": "2026-10-02T20:12:57.515917Z"
     },
     "hau-hyp03:Host": {
       "host": "hau-hyp03",
