@@ -25,9 +25,9 @@
     "hau-hyp02:SSH": {
       "host": "hau-hyp02",
       "service": "SSH",
-      "status": "pending",
-      "output": "Waiting for data...",
-      "last_update": null
+      "status": "CRITICAL",
+      "output": "SSH service is down on hau-hyp02",
+      "last_update": "2026-10-02T20:11:51.358376Z"
     },
     "hau-hyp01:Host": {
       "host": "hau-hyp01",
@@ -86,7 +86,7 @@
       "last_update": null
     }
   },
-  "overall_status": "pending",
+  "overall_status": "impaired",
   "display_name": "Proxmox",
   "is_group": true
 }
