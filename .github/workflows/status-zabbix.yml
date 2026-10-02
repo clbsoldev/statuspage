@@ -4,8 +4,13 @@ on:
   repository_dispatch:
     types: [zabbix-alert]
 
+concurrency:
+  group: monitoring-alerts
+  cancel-in-progress: false
+
 jobs:
   sync:
+    name: Process Zabbix Alert
     runs-on: ubuntu-latest
     steps:
       # 1. Main-Branch auschecken (für config.json und Skripte)

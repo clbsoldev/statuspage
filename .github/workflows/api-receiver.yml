@@ -3,6 +3,10 @@ on:
   repository_dispatch:
     types: [nagios_update]
 
+concurrency:
+  group: monitoring-alerts
+  cancel-in-progress: false
+
 jobs:
   update:
     runs-on: ubuntu-latest
