@@ -9,6 +9,10 @@ on:
       - 'scripts/sync_config.py'
   workflow_dispatch:
 
+concurrency:
+  group: update-statuspage
+  cancel-in-progress: false
+
 jobs:
   sync:
     runs-on: ubuntu-latest

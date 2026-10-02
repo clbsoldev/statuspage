@@ -4,7 +4,7 @@ on:
     types: [nagios_update]
 
 concurrency:
-  group: monitoring-alerts
+  group: update-statuspage
   cancel-in-progress: false
 
 jobs:

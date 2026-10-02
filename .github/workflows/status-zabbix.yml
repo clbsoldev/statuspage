@@ -5,7 +5,7 @@ on:
     types: [zabbix-alert]
 
 concurrency:
-  group: monitoring-alerts
+  group: update-statuspage
   cancel-in-progress: false
 
 jobs:
