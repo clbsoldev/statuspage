@@ -32,9 +32,9 @@
     "hau-hyp01:Host": {
       "host": "hau-hyp01",
       "service": "Host",
-      "status": "pending",
-      "output": "Warte auf Daten...",
-      "last_update": null
+      "status": "CRITICAL",
+      "output": "Linux: Active checks are not available",
+      "last_update": "2026-10-02T20:17:05.954004Z"
     },
     "hau-hyp01:CPU Usage": {
       "host": "hau-hyp01",
