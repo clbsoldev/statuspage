@@ -1,0 +1,29 @@
+{
+  "id": "hau-log01",
+  "entries": {
+    "hau-log01:Host": {
+      "host": "hau-log01",
+      "service": "Host",
+      "status": "pending",
+      "output": "Waiting for data...",
+      "last_update": null
+    },
+    "hau-log01:ICMP": {
+      "host": "hau-log01",
+      "service": "ICMP",
+      "status": "pending",
+      "output": "Waiting for data...",
+      "last_update": null
+    },
+    "hau-log01:Uptime": {
+      "host": "hau-log01",
+      "service": "Uptime",
+      "status": "pending",
+      "output": "Waiting for data...",
+      "last_update": null
+    }
+  },
+  "overall_status": "pending",
+  "display_name": "hau-log01",
+  "is_group": false
+}
