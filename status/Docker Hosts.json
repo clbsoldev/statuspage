@@ -1,0 +1,50 @@
+{
+  "id": "Docker Hosts",
+  "entries": {
+    "oci-fra-app01:Host": {
+      "host": "oci-fra-app01",
+      "service": "Host",
+      "status": "pending",
+      "output": "Waiting for data...",
+      "last_update": null
+    },
+    "oci-fra-app01:CPU Usage": {
+      "host": "oci-fra-app01",
+      "service": "CPU Usage",
+      "status": "pending",
+      "output": "Waiting for data...",
+      "last_update": null
+    },
+    "oci-fra-app01:Docker": {
+      "host": "oci-fra-app01",
+      "service": "Docker",
+      "status": "pending",
+      "output": "Waiting for data...",
+      "last_update": null
+    },
+    "oci-fra-app01:GitHub Actions Runner": {
+      "host": "oci-fra-app01",
+      "service": "GitHub Actions Runner",
+      "status": "pending",
+      "output": "Waiting for data...",
+      "last_update": null
+    },
+    "oci-fra-app01:RAM Usage": {
+      "host": "oci-fra-app01",
+      "service": "RAM Usage",
+      "status": "pending",
+      "output": "Waiting for data...",
+      "last_update": null
+    },
+    "oci-fra-app01:SSH": {
+      "host": "oci-fra-app01",
+      "service": "SSH",
+      "status": "pending",
+      "output": "Waiting for data...",
+      "last_update": null
+    }
+  },
+  "overall_status": "pending",
+  "display_name": "Docker Hosts",
+  "is_group": true
+}
