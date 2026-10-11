@@ -64,10 +64,10 @@
     },        {
       "id": "oci-fra-app01",
       "display_name": "oci-fra-app01",
-      "group": "standalone",
-      "display_group": "",
+      "group": "Docker Hosts",
+      "display_group": "infra_global",
       "assignee": "strfl89",
-      "services": [{"name": "ICMP", "impact": "major"}, {"name": "Uptime", "impact": "minor"}]
+      "services": [{"name": "CPU Usage", "impact": "critical"}, {"name": "Docker", "impact": "critical"}, {"name": "GitHub Actions Runner", "impact": "major"}, {"name": "RAM Usage", "impact": "critical"}, {"name": "SSH", "impact": "major"}]
     },        {
       "id": "hau-app01",
       "display_name": "hau-app01",
@@ -86,7 +86,7 @@
       "id": "hau-log01",
       "display_name": "hau-log01",
       "group": "standalone",
-      "display_group": "",
+      "display_group": "infra_hau",
       "assignee": "strfl89",
       "services": [{"name": "ICMP", "impact": "major"}, {"name": "Uptime", "impact": "minor"}]
     },        {
@@ -98,12 +98,15 @@
       "services": [{"name": "NTP: Service status", "impact": "critical"}]
     }      ],
   "groups": [
-                                                                                                                                                                                                                                                                          {
+                                                                                                                                                                                                                                                                                        {
       "id": "standalone",
       "name": "Standalone"
     },        {
       "id": "proxmox",
       "name": "Proxmox"
+    },        {
+      "id": "Docker Hosts",
+      "name": "Docker Hosts"
     },        {
       "id": "docker",
       "name": "Docker"
