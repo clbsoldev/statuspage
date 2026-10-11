@@ -5,7 +5,7 @@
   },
   "display_order": ["standalone", "docker", "proxmox"],
   "hosts": [
-                                                                                                                              {
+                                                                                                                                                  {
       "id": "n8n",
       "display_name": "n8n",
       "group": "standalone",
@@ -62,6 +62,13 @@
       "assignee": "strfl89",
       "services": [{"name": "CPU Usage", "impact": "critical"}, {"name": "RAM Usage", "impact": "critical"}, {"name": "SSH", "impact": "major"}]
     },        {
+      "id": "oci-fra-app01",
+      "display_name": "oci-fra-app01",
+      "group": "standalone",
+      "display_group": "",
+      "assignee": "strfl89",
+      "services": [{"name": "ICMP", "impact": "major"}, {"name": "Uptime", "impact": "minor"}]
+    },        {
       "id": "hau-app01",
       "display_name": "hau-app01",
       "group": "docker",
@@ -76,6 +83,13 @@
       "assignee": "strfl89",
       "services": [{"name": "HTTP", "impact": "critical"}]
     },        {
+      "id": "hau-log01",
+      "display_name": "hau-log01",
+      "group": "standalone",
+      "display_group": "",
+      "assignee": "strfl89",
+      "services": [{"name": "ICMP", "impact": "major"}, {"name": "Uptime", "impact": "minor"}]
+    },        {
       "id": "hau-ntp01",
       "display_name": "hau-ntp01",
       "group": "standalone",
@@ -84,7 +98,7 @@
       "services": [{"name": "NTP: Service status", "impact": "critical"}]
     }      ],
   "groups": [
-                                                                                                                                                                                                                                          {
+                                                                                                                                                                                                                                                                          {
       "id": "standalone",
       "name": "Standalone"
     },        {
@@ -95,7 +109,7 @@
       "name": "Docker"
     }      ],
   "display_groups": [
-                                                                                                                                                                                                                                                                                        {
+                                                                                                                                                                                                                                                                                                                        {
       "id": "infra_global",
       "name": "Infrastructure - Global"
     },            {
