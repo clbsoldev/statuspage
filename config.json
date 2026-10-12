@@ -3,7 +3,7 @@
     "columns": 2,
     "refresh_interval_ms": 60000
   },
-  "display_order": ["standalone", "docker", "proxmox"],
+  "display_order": ["standalone", "docker", "Global Docker Hosts", "proxmox"],
   "hosts": [
                                                                                                                                                   {
       "id": "n8n",
@@ -64,17 +64,17 @@
     },        {
       "id": "oci-fra-app01",
       "display_name": "oci-fra-app01",
-      "group": "Docker Hosts",
+      "group": "Global Docker Hosts",
       "display_group": "infra_global",
       "assignee": "strfl89",
-      "services": [{"name": "CPU Usage", "impact": "critical"}, {"name": "Docker", "impact": "critical"}, {"name": "GitHub Actions Runner", "impact": "major"}, {"name": "RAM Usage", "impact": "critical"}, {"name": "SSH", "impact": "major"}]
+      "services": [{"name": "CPU Usage", "impact": "critical"}, {"name": "Disk", "impact": "critical"}, {"name": "Docker", "impact": "critical"}, {"name": "GitHub Actions Runner", "impact": "major"}, {"name": "RAM Usage", "impact": "critical"}, {"name": "SSH", "impact": "major"}]
     },        {
       "id": "hau-app01",
       "display_name": "hau-app01",
       "group": "docker",
       "display_group": "infra_hau",
       "assignee": "strfl89",
-      "services": [{"name": "CPU Temperature", "impact": "critical"}, {"name": "CPU Usage", "impact": "critical"}, {"name": "Docker", "impact": "critical"}, {"name": "GitHub Actions Runner", "impact": "major"}, {"name": "RAM Usage", "impact": "critical"}, {"name": "SSH", "impact": "major"}]
+      "services": [{"name": "CPU Temperature", "impact": "critical"}, {"name": "CPU Usage", "impact": "critical"}, {"name": "Disk", "impact": "critical"}, {"name": "Docker", "impact": "critical"}, {"name": "GitHub Actions Runner", "impact": "major"}, {"name": "RAM Usage", "impact": "critical"}, {"name": "SSH", "impact": "major"}]
     },        {
       "id": "hau-apt01",
       "display_name": "apt-cacher-ng",
@@ -105,8 +105,8 @@
       "id": "proxmox",
       "name": "Proxmox"
     },        {
-      "id": "Docker Hosts",
-      "name": "Docker Hosts"
+      "id": "Global Docker Hosts",
+      "name": "Global Docker Hosts"
     },        {
       "id": "docker",
       "name": "Docker"
