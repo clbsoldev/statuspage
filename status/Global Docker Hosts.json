@@ -1,5 +1,5 @@
 {
-  "id": "Docker Hosts",
+  "id": "Global Docker Hosts",
   "entries": {
     "oci-fra-app01:Host": {
       "host": "oci-fra-app01",
@@ -11,6 +11,13 @@
     "oci-fra-app01:CPU Usage": {
       "host": "oci-fra-app01",
       "service": "CPU Usage",
+      "status": "pending",
+      "output": "Waiting for data...",
+      "last_update": null
+    },
+    "oci-fra-app01:Disk": {
+      "host": "oci-fra-app01",
+      "service": "Disk",
       "status": "pending",
       "output": "Waiting for data...",
       "last_update": null
@@ -45,6 +52,6 @@
     }
   },
   "overall_status": "pending",
-  "display_name": "Docker Hosts",
+  "display_name": "Global Docker Hosts",
   "is_group": true
 }

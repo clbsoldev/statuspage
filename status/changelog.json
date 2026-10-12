@@ -1,5 +1,15 @@
 [
   {
+    "date": "2026-10-12T11:08:09Z",
+    "version": "Infrastructure Update",
+    "change_id": "CH26001012-1",
+    "title": "Automated Infrastructure Update",
+    "changes": [
+      "New host/group added: oci-fra-app01 (Global Docker Hosts)",
+      "Host or group removed: Docker Hosts"
+    ]
+  },
+  {
     "date": "2026-10-11T22:16:00Z",
     "version": "Infrastructure Update",
     "change_id": "CH26001011-2",
