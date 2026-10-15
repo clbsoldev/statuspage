@@ -33,8 +33,8 @@
       "host": "n8n",
       "service": "Workflows",
       "status": "OK",
-      "output": "OK: n8n Workflows: 1 Successful, 0 Queued, 0 Failed in last 15 min",
-      "last_update": "2026-10-15T10:18:09.487572Z"
+      "output": "n8n: Workflows execution failures are high",
+      "last_update": "2026-10-15T11:06:42.749557Z"
     }
   },
   "overall_status": "operational",
