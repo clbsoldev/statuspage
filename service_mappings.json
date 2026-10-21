@@ -5,6 +5,7 @@
     "CPU+utilization": "CPU Usage",
     "Docker": "Docker",
     "expires on": "SSL Certificate",
+    "Get stub status page": "Nginx Service",
     "memory+utilization": "RAM Usage",
     "n8n+Health": "Health",
     "n8n+Workflows": "Workflows",
