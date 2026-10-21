@@ -5,15 +5,16 @@
       "service": "Health",
       "start": "2026-10-21T19:33:46.251204Z",
       "reason": "DSM Update"
-    },
+    }
+  ],
+  "past": [
     {
       "host": "n8n",
       "service": "Host",
       "start": "2026-10-21T19:34:23.597050Z",
-      "reason": "DSM Update"
-    }
-  ],
-  "past": [
+      "reason": "DSM Update",
+      "end": "2026-10-21T21:34:09.236936Z"
+    },
     {
       "host": "n8n",
       "service": "HTTPS",
