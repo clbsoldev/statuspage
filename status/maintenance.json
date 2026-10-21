@@ -8,18 +8,19 @@
     },
     {
       "host": "n8n",
-      "service": "HTTPS",
-      "start": "2026-10-21T19:33:57.882434Z",
-      "reason": "DSM Update"
-    },
-    {
-      "host": "n8n",
       "service": "Host",
       "start": "2026-10-21T19:34:23.597050Z",
       "reason": "DSM Update"
     }
   ],
   "past": [
+    {
+      "host": "n8n",
+      "service": "HTTPS",
+      "start": "2026-10-21T19:33:57.882434Z",
+      "reason": "DSM Update",
+      "end": "2026-10-21T21:33:20.240397Z"
+    },
     {
       "host": "vps-mon01",
       "service": "Uptime",

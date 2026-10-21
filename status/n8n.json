@@ -18,9 +18,9 @@
     "n8n:HTTPS": {
       "host": "n8n",
       "service": "HTTPS",
-      "status": "MAINTENANCE",
-      "output": "HTTP OK: HTTP/1.1 200 OK - 2493 bytes in 0.244 second response time",
-      "last_update": "2026-10-21T19:33:57.882664Z"
+      "status": "UPDATING",
+      "output": "HTTP OK: HTTP/1.1 200 OK - 2493 bytes in 0.246 second response time",
+      "last_update": "2026-10-21T21:33:20.240634Z"
     },
     "n8n:SSL Certificate": {
       "host": "n8n",
