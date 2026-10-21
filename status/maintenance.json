@@ -1,5 +1,12 @@
 {
-  "active": [],
+  "active": [
+    {
+      "host": "n8n",
+      "service": "Health",
+      "start": "2026-10-21T19:33:46.251204Z",
+      "reason": "DSM Update"
+    }
+  ],
   "past": [
     {
       "host": "vps-mon01",
