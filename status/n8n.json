@@ -4,9 +4,9 @@
     "n8n:Host": {
       "host": "n8n",
       "service": "Host",
-      "status": "pending",
-      "output": "Warte auf Daten...",
-      "last_update": null
+      "status": "MAINTENANCE",
+      "output": "Heartbeat OK via HTTP",
+      "last_update": "2026-10-21T19:34:23.597337Z"
     },
     "n8n:Health": {
       "host": "n8n",
