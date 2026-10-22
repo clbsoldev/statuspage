@@ -4,9 +4,9 @@
     "n8n:Host": {
       "host": "n8n",
       "service": "Host",
-      "status": "DOWN",
-      "output": "UNKNOWN",
-      "last_update": "2026-10-21T21:35:10.110708Z"
+      "status": "UP",
+      "output": "Heartbeat OK via HTTP",
+      "last_update": "2026-10-22T11:45:17.645321Z"
     },
     "n8n:Health": {
       "host": "n8n",
@@ -37,7 +37,7 @@
       "last_update": "2026-10-15T11:06:42.749557Z"
     }
   },
-  "overall_status": "critical",
+  "overall_status": "operational",
   "display_name": "n8n",
   "is_group": false
 }
