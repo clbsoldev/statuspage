@@ -15,9 +15,9 @@
       "output": "OCSP - RPI TEMP OK: Temperature 50.46 degrees c",
       "last_update": "2026-02-04T07:05:59.141491Z"
     },
-    "ansible:GitHub Runner": {
+    "ansible:GitHub Actions Runner": {
       "host": "ansible",
-      "service": "GitHub Runner",
+      "service": "GitHub Actions Runner",
       "status": "OK",
       "output": "OCSP - OK: Service github-runner.ansible is running!",
       "last_update": "2026-03-10T20:00:37.436433Z"
@@ -25,9 +25,9 @@
     "ansible:SSH": {
       "host": "ansible",
       "service": "SSH",
-      "status": "pending",
-      "output": "Warte auf Daten...",
-      "last_update": null
+      "status": "OK",
+      "output": "SSH OK",
+      "last_update": "2026-10-21T22:35:51.478998Z"
     }
   },
   "overall_status": "operational",

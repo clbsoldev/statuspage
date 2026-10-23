@@ -8,9 +8,9 @@
       "output": "Heartbeat OK from MGMT-Pi-Home",
       "last_update": "2026-02-05T21:17:40.935234Z"
     },
-    "vps-mon01:GitHub Runner": {
+    "vps-mon01:GitHub Actions Runner": {
       "host": "vps-mon01",
-      "service": "GitHub Runner",
+      "service": "GitHub Actions Runner",
       "status": "OK",
       "output": "OK: Service actions.runner.strunk-media.vps-mon01_@_Strato is running!",
       "last_update": "2026-02-06T19:06:37.847757Z"
@@ -25,9 +25,9 @@
     "vps-mon01:HTTP": {
       "host": "vps-mon01",
       "service": "HTTP",
-      "status": "pending",
-      "output": "Warte auf Daten...",
-      "last_update": null
+      "status": "OK",
+      "output": "HTTP 200 OK",
+      "last_update": "2026-10-21T22:35:28.491484Z"
     },
     "vps-mon01:SSH": {
       "host": "vps-mon01",
