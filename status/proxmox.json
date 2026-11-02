@@ -32,9 +32,9 @@
     "hau-hyp01:Host": {
       "host": "hau-hyp01",
       "service": "Host",
-      "status": "CRITICAL",
+      "status": "OK",
       "output": "Linux: Zabbix agent is not available (or nodata for 30m)",
-      "last_update": "2026-10-02T20:39:34.823443Z"
+      "last_update": "2026-11-02T08:24:53.848040Z"
     },
     "hau-hyp01:CPU Usage": {
       "host": "hau-hyp01",
