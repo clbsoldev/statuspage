@@ -25,9 +25,9 @@
     "oci-fra-app01:Docker": {
       "host": "oci-fra-app01",
       "service": "Docker",
-      "status": "pending",
-      "output": "Waiting for data...",
-      "last_update": null
+      "status": "OK",
+      "output": "Docker: Service is down",
+      "last_update": "2026-11-02T17:27:30.125800Z"
     },
     "oci-fra-app01:GitHub Actions Runner": {
       "host": "oci-fra-app01",
@@ -51,7 +51,7 @@
       "last_update": null
     }
   },
-  "overall_status": "pending",
+  "overall_status": "operational",
   "display_name": "Global Docker Hosts",
   "is_group": true
 }
