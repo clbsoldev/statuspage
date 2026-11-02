@@ -25,9 +25,9 @@
     "hau-hyp02:SSH": {
       "host": "hau-hyp02",
       "service": "SSH",
-      "status": "CRITICAL",
+      "status": "OK",
       "output": "SSH service is down on hau-hyp02",
-      "last_update": "2026-10-02T20:11:51.358376Z"
+      "last_update": "2026-11-02T08:24:23.672161Z"
     },
     "hau-hyp01:Host": {
       "host": "hau-hyp01",
