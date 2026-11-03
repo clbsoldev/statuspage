@@ -46,12 +46,12 @@
     "vps-mon01:Uptime": {
       "host": "vps-mon01",
       "service": "Uptime",
-      "status": "OK",
-      "output": "OK: Linux vps-mon01 6.12.115+deb13.1-cloud-amd64 - up  19:21:17 up 1 day, 3 min,  0 users,  load average: 0.04, 0.06, 0.05",
-      "last_update": "2026-11-03T18:21:56.693161Z"
+      "status": "WARNING",
+      "output": "WARNING: Linux vps-mon01 6.12.115+deb13.1-cloud-amd64 - up 1 days 1 hours 6 minutes",
+      "last_update": "2026-11-03T19:24:59.267591Z"
     }
   },
-  "overall_status": "operational",
+  "overall_status": "impaired",
   "display_name": "Monitoring Server",
   "is_group": false
 }
