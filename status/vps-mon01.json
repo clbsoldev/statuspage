@@ -18,9 +18,9 @@
     "vps-mon01:Heartbeat": {
       "host": "vps-mon01",
       "service": "Heartbeat",
-      "status": "CRITICAL",
+      "status": "OK",
       "output": "Heartbeat: no check-in for 5m",
-      "last_update": "2026-11-04T15:16:28.469125Z"
+      "last_update": "2026-11-04T15:20:37.585162Z"
     },
     "vps-mon01:HTTP": {
       "host": "vps-mon01",
@@ -51,7 +51,7 @@
       "last_update": "2026-11-03T19:24:59.267591Z"
     }
   },
-  "overall_status": "critical",
+  "overall_status": "impaired",
   "display_name": "Monitoring Server",
   "is_group": false
 }
