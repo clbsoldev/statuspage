@@ -11,12 +11,12 @@
     "hau-ntp01:NTP: Service status": {
       "host": "hau-ntp01",
       "service": "NTP: Service status",
-      "status": "OK",
+      "status": "CRITICAL",
       "output": "NTP: Service is offline or not synchronized",
-      "last_update": "2026-11-05T21:58:26.402478Z"
+      "last_update": "2026-11-07T02:22:44.561643Z"
     }
   },
-  "overall_status": "operational",
+  "overall_status": "critical",
   "display_name": "hau-ntp01",
   "is_group": false
 }
