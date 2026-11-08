@@ -53,9 +53,9 @@
     "hau-hyp01:SSH": {
       "host": "hau-hyp01",
       "service": "SSH",
-      "status": "OK",
+      "status": "CRITICAL",
       "output": "SSH service is down on hau-hyp01",
-      "last_update": "2026-11-02T08:22:50.911716Z"
+      "last_update": "2026-11-08T00:12:54.922826Z"
     },
     "hau-hyp03:Host": {
       "host": "hau-hyp03",
@@ -86,7 +86,7 @@
       "last_update": "2026-11-02T08:25:56.837269Z"
     }
   },
-  "overall_status": "operational",
+  "overall_status": "impaired",
   "display_name": "Proxmox",
   "is_group": true
 }
