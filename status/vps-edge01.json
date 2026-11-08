@@ -4,9 +4,9 @@
     "vps-edge01:Host": {
       "host": "vps-edge01",
       "service": "Host",
-      "status": "CRITICAL",
+      "status": "OK",
       "output": "Linux: Zabbix agent is not available (for 5m)",
-      "last_update": "2026-11-08T20:29:27.596364Z"
+      "last_update": "2026-11-08T21:16:25.217024Z"
     },
     "vps-edge01:HTTPS": {
       "host": "vps-edge01",
@@ -51,7 +51,7 @@
       "last_update": null
     }
   },
-  "overall_status": "critical",
+  "overall_status": "operational",
   "display_name": "Reverse Proxy",
   "is_group": false
 }
