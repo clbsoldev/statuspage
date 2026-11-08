@@ -18,9 +18,9 @@
     "vps-edge01:Nginx Service": {
       "host": "vps-edge01",
       "service": "Nginx Service",
-      "status": "CRITICAL",
+      "status": "OK",
       "output": "Nginx: Failed to fetch stub status page (or no data for 30m)",
-      "last_update": "2026-11-08T20:23:24.462547Z"
+      "last_update": "2026-11-08T20:23:55.503740Z"
     },
     "vps-edge01:Nginx Statistics": {
       "host": "vps-edge01",
@@ -51,7 +51,7 @@
       "last_update": null
     }
   },
-  "overall_status": "critical",
+  "overall_status": "operational",
   "display_name": "Reverse Proxy",
   "is_group": false
 }
