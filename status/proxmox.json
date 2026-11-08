@@ -5,8 +5,8 @@
       "host": "hau-hyp02",
       "service": "Host",
       "status": "CRITICAL",
-      "output": "Linux: Active checks are not available",
-      "last_update": "2026-11-08T00:16:37.818089Z"
+      "output": "Linux: Zabbix agent is not available (or nodata for 30m)",
+      "last_update": "2026-11-08T00:40:27.317334Z"
     },
     "hau-hyp02:CPU Usage": {
       "host": "hau-hyp02",
