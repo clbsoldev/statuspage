@@ -5,8 +5,8 @@
       "host": "hau-app01",
       "service": "Host",
       "status": "OK",
-      "output": "Linux: Active checks are not available",
-      "last_update": "2026-09-29T07:32:49.973130Z"
+      "output": "Linux: Zabbix agent is not available (or nodata for 30m)",
+      "last_update": "2026-11-10T12:41:40.687359Z"
     },
     "hau-app01:CPU Temperature": {
       "host": "hau-app01",
