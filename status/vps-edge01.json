@@ -18,9 +18,9 @@
     "vps-edge01:Nginx Service": {
       "host": "vps-edge01",
       "service": "Nginx Service",
-      "status": "CRITICAL",
+      "status": "OK",
       "output": "Nginx: Service is down",
-      "last_update": "2026-11-17T06:27:58.521531Z"
+      "last_update": "2026-11-17T09:04:01.098563Z"
     },
     "vps-edge01:Nginx Statistics": {
       "host": "vps-edge01",
