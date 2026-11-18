@@ -18,9 +18,9 @@
     "vps-edge01:Nginx Service": {
       "host": "vps-edge01",
       "service": "Nginx Service",
-      "status": "OK",
+      "status": "CRITICAL",
       "output": "Nginx: Service is down",
-      "last_update": "2026-11-17T09:04:01.098563Z"
+      "last_update": "2026-11-18T22:01:08.657366Z"
     },
     "vps-edge01:Nginx Statistics": {
       "host": "vps-edge01",
@@ -51,7 +51,7 @@
       "last_update": null
     }
   },
-  "overall_status": "operational",
+  "overall_status": "critical",
   "display_name": "Reverse Proxy",
   "is_group": false
 }
