@@ -11,12 +11,12 @@
     "hau-apt01:HTTP": {
       "host": "hau-apt01",
       "service": "HTTP",
-      "status": "CRITICAL",
+      "status": "OK",
       "output": "Apt-Cacher-NG: Service is down",
-      "last_update": "2026-11-20T21:32:00.323190Z"
+      "last_update": "2026-11-20T22:31:59.537302Z"
     }
   },
-  "overall_status": "critical",
+  "overall_status": "operational",
   "display_name": "apt-cacher-ng",
   "is_group": false
 }
