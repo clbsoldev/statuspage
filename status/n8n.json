@@ -11,9 +11,9 @@
     "n8n:Health": {
       "host": "n8n",
       "service": "Health",
-      "status": "CRITICAL",
+      "status": "OK",
       "output": "n8n: Health-Check liefert seit 15m keine Daten (Instance evtl. nicht erreichbar)",
-      "last_update": "2026-11-22T05:34:24.370203Z"
+      "last_update": "2026-11-22T06:33:48.205138Z"
     },
     "n8n:HTTPS": {
       "host": "n8n",
@@ -37,7 +37,7 @@
       "last_update": "2026-11-05T18:55:48.785433Z"
     }
   },
-  "overall_status": "critical",
+  "overall_status": "operational",
   "display_name": "n8n",
   "is_group": false
 }
